@@ -11,7 +11,7 @@ students = {
     "S2": ["Math", "CS", "Art", "Physics"],
     "S3": ["Physics", "Art"],
     "S4": ["Math", "Physics"],
-    "S5": ["CS", "Music"]
+    "S5": ["CS", "Music", "Art"]
 }
 
 blocks = ["A", "B", "C", "D"]

@@ -30,8 +30,8 @@ for i in range(len(df)):
 
     # Check if course is an alternate (Column index 10 is the 11th column)
     alternate = False
-    if len(row) > 10:
-        if str(row[10]).strip().upper() == "Y":
+    if len(row) > 11:
+        if str(row[11]).strip().upper() == "Y":
             alternate = True
 
     # Only append if we have successfully mapped a student to this course

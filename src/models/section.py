@@ -28,4 +28,4 @@ class Section:
             raise ValueError("course_code cannot be empty")
 
     def __str__(self):
-        return f"{self.id} ({self.course_code}) → slot {self.time_slot}"
+        return f"{self.id} ({self.course_code}) -> slot {self.time_slot}"

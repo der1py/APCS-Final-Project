@@ -9,10 +9,10 @@ from models.rules import Rules
 from models.student import Student
 
 
-STUDENT_DATA_PATH = Path(__file__).resolve().parent / "data cleaners" / "student_requests_cleaned.csv"
-COURSE_DATA_PATH = Path(__file__).resolve().parent / "data cleaners" / "course_sections_cleaned.csv"
-SEQUENCING_DATA_PATH = Path(__file__).resolve().parent / "data cleaners" / "course_sequencing_cleaned.csv"
-BLOCKING_DATA_PATH = Path(__file__).resolve().parent / "data cleaners" / "course_blocking_cleaned.csv"
+STUDENT_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "student_requests_cleaned.csv"
+COURSE_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_sections_cleaned.csv"
+SEQUENCING_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_sequencing_cleaned.csv"
+BLOCKING_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_blocking_cleaned.csv"
 
 
 def load_students(csv_path: Path | None = None) -> List[Student]:

@@ -23,7 +23,7 @@ df_cleaned["Sections"] = (
 )
 
 # Save to a perfectly cleaned CSV
-df_cleaned.to_csv("data cleaners/course_sections_cleaned.csv", index=False)
+df_cleaned.to_csv("cleaned data/course_sections_cleaned.csv", index=False)
 
 print(
     f"Success! Cleaned file saved with {len(df_cleaned)} valid course entries."

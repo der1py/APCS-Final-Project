@@ -2,13 +2,13 @@ from ortools.sat.python import cp_model
 from collections import defaultdict
 from itertools import combinations
 
-# -------------------------
-# Input Data
-# -------------------------
+# =====================================================
+# INPUT DATA
+# =====================================================
 
 students = {
     "S1": ["Math", "Physics", "Music"],
-    "S2": ["Math", "CS", "Art", "Physics"],
+    "S2": ["Math", "CS"],
     "S3": ["Physics", "Art"],
     "S4": ["Math", "Physics"],
     "S5": ["CS", "Music"]
@@ -16,23 +16,39 @@ students = {
 
 blocks = ["A", "B", "C", "D"]
 
-# -------------------------
-# Build course list
-# -------------------------
+# =====================================================
+# NEW: NUMBER OF SECTIONS PER COURSE
+# =====================================================
 
-courses = set()
+course_sections = {
+    "Math": 3,
+    "Physics": 2,
+    "Music": 1,
+    "CS": 1,
+    "Art": 1
+}
 
-for course_list in students.values():
-    for c in course_list:
-        courses.add(c)
+# =====================================================
+# NEW: GENERATE SECTION NAMES
+# =====================================================
 
-courses = list(courses)
+sections = []
 
-# -------------------------
-# Build conflict weights
-# -------------------------
+course_to_sections = defaultdict(list)
 
-# conflict[(c1,c2)] = number of shared students
+for course, count in course_sections.items():
+
+    for i in range(1, count + 1):
+
+        section_name = f"{course}_{i}"
+
+        sections.append(section_name)
+
+        course_to_sections[course].append(section_name)
+
+# =====================================================
+# BUILD CONFLICT WEIGHTS
+# =====================================================
 
 conflict = defaultdict(int)
 
@@ -44,107 +60,146 @@ for course_list in students.values():
 
         conflict[pair] += 1
 
-# -------------------------
-# CP-SAT Model
-# -------------------------
+# =====================================================
+# CP-SAT MODEL
+# =====================================================
 
 model = cp_model.CpModel()
 
-# x[(course, block)] = 1 if course assigned to block
+# =====================================================
+# NEW:
+# x[(section, block)]
+# instead of x[(course, block)]
+# =====================================================
 
 x = {}
 
-for c in courses:
+for s in sections:
+
     for b in blocks:
-        x[(c, b)] = model.NewBoolVar(f"{c}_{b}")
 
-# -------------------------
-# Constraint:
-# each course exactly one block
-# -------------------------
+        x[(s, b)] = model.NewBoolVar(f"{s}_{b}")
 
-for c in courses:
+# =====================================================
+# CONSTRAINT:
+# EACH SECTION EXACTLY ONE BLOCK
+# =====================================================
+
+for s in sections:
 
     model.Add(
-        sum(x[(c, b)] for b in blocks) == 1
+
+        sum(x[(s, b)] for b in blocks) == 1
+
     )
 
-# -------------------------
-# Conflict variables
-# -------------------------
+# =====================================================
+# NEW:
+# SAME COURSE SECTIONS CANNOT SHARE BLOCK
+# =====================================================
+
+for course, sec_list in course_to_sections.items():
+
+    for b in blocks:
+
+        model.Add(
+
+            sum(x[(s, b)] for s in sec_list) <= 1
+
+        )
+
+# =====================================================
+# CONFLICT VARIABLES
+# =====================================================
 
 same_block = {}
 
 for (c1, c2), weight in conflict.items():
 
-    for b in blocks:
+    sec1_list = course_to_sections[c1]
+    sec2_list = course_to_sections[c2]
 
-        v = model.NewBoolVar(f"same_{c1}_{c2}_{b}")
+    for s1 in sec1_list:
 
-        same_block[(c1, c2, b)] = v
+        for s2 in sec2_list:
 
-        # v = 1 iff both courses in same block
+            for b in blocks:
 
-        model.AddBoolAnd([
-            x[(c1, b)],
-            x[(c2, b)]
-        ]).OnlyEnforceIf(v)
+                v = model.NewBoolVar(
+                    f"same_{s1}_{s2}_{b}"
+                )
 
-        model.AddImplication(v, x[(c1, b)])
-        model.AddImplication(v, x[(c2, b)])
+                same_block[(s1, s2, b)] = v
 
-        model.AddBoolOr([
-            x[(c1, b)].Not(),
-            x[(c2, b)].Not(),
-            v
-        ])
+                # v <= x1
+                model.Add(
+                    v <= x[(s1, b)]
+                )
 
-# -------------------------
-# Objective:
-# minimize student conflicts
-# -------------------------
+                # v <= x2
+                model.Add(
+                    v <= x[(s2, b)]
+                )
+
+                # v >= x1 + x2 - 1
+                model.Add(
+                    v >=
+                    x[(s1, b)] +
+                    x[(s2, b)] - 1
+                )
+
+# =====================================================
+# OBJECTIVE:
+# MINIMIZE CONFLICTS
+# =====================================================
 
 model.Minimize(
 
     sum(
-        weight * same_block[(c1, c2, b)]
 
-        for (c1, c2), weight in conflict.items()
+        conflict[(c1, c2)] *
+
+        same_block[(s1, s2, b)]
+
+        for (c1, c2) in conflict
+
+        for s1 in course_to_sections[c1]
+
+        for s2 in course_to_sections[c2]
 
         for b in blocks
+
     )
 
 )
 
-# -------------------------
-# Solve
-# -------------------------
+# =====================================================
+# SOLVE
+# =====================================================
 
 solver = cp_model.CpSolver()
 
 status = solver.Solve(model)
 
-# -------------------------
-# Output
-# -------------------------
+# =====================================================
+# OUTPUT
+# =====================================================
 
 if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
 
-    print("\nCourse Schedule:\n")
+    print("\nSECTION SCHEDULE:\n")
 
-    for c in courses:
+    for s in sections:
 
         for b in blocks:
 
-            if solver.Value(x[(c, b)]):
+            if solver.Value(x[(s, b)]):
 
-                print(f"{c:10} -> Block {b}")
+                print(f"{s:12} -> Block {b}")
 
     print("\nTotal Conflict Cost:",
           solver.ObjectiveValue())
 
 else:
-    print("No solution found.")
 
-def score_difficulty(enrollment, slot):
-    return enrollment / slot
+    print("No solution found.")

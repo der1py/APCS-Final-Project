@@ -8,7 +8,7 @@ class Section:
     Represents a scheduled instance of a course in the master timetable.
     """
 
-    id: str
+    id: str # purely for internal use to identify sections
     course_code: str
 
     # 0–7 encoding for (1A–2D)
@@ -17,9 +17,10 @@ class Section:
     teacher_id: Optional[str] = None
     room_id: Optional[str] = None
 
+    # TODO -1 is some placeholder shit, maybe clean up later
     def __post_init__(self):
-        if not (0 <= self.time_slot <= 7):
-            raise ValueError("time_slot must be in range 0–7")
+        if not (-1 <= self.time_slot <= 7):
+            raise ValueError("time_slot must be in range -1–7")
 
         if not self.id:
             raise ValueError("Section id cannot be empty")

@@ -4,52 +4,73 @@ from itertools import combinations
 
 from models.course import Course
 from models.student import Student
+from models.section import Section
 from models.rules import Rules
 
 # =====================================================
 # INPUT DATA
 # =====================================================
 
-students = {
-    "S1": ["Math", "Physics", "Music"],
-    "S2": ["Math", "CS"],
-    "S3": ["Physics", "Art"],
-    "S4": ["Math", "Physics"],
-    "S5": ["CS", "Music"]
-}
+students = [
+    Student(
+        id=1,
+        main_courses=["Math", "Physics", "Music"],
+        alt_courses=[]
+    ),
+    Student(
+        id=2,
+        main_courses=["Math", "CS"],
+        alt_courses=[]
+    ),
+    Student(
+        id=3,
+        main_courses=["Physics", "Art"],
+        alt_courses=[]
+    ),
+    Student(
+        id=4,
+        main_courses=["Math", "Physics"],
+        alt_courses=[]
+    ),
+    Student(
+        id=5,
+        main_courses=["CS", "Music"],
+        alt_courses=[]
+    )
+]
 
-blocks = ["A", "B", "C", "D"]
+blocks = list(range(8))
 
 # =====================================================
 # COURSE SECTIONS
 # =====================================================
 
-course_sections = {
-    "Math": 3,
-    "Physics": 2,
-    "Music": 1,
-    "CS": 1,
-    "Art": 1
-}
+courses = [
+    Course(code="MATH", name="Math", num_sections=3),
+    Course(code="PHYS", name="Physics", num_sections=2),
+    Course(code="MUSIC", name="Music", num_sections=1),
+    Course(code="CS", name="CS", num_sections=1),
+    Course(code="ART", name="Art", num_sections=1)
+]
 
 # =====================================================
 # NEW:
-# SECTION CAPACITY
+# SECTION CAPACITY (ignore for milstone 1)
 # =====================================================
 
 section_capacity = {
-    "Math_1": 2,
-    "Math_2": 2,
-    "Math_3": 2,
+    "Math_1": 2000,
+    "Math_2": 2000,
+    "Math_3": 2000,
 
-    "Physics_1": 2,
-    "Physics_2": 2,
+    "Physics_1": 2000,
+    "Physics_2": 2000,
 
-    "Music_1": 3,
+    "Music_1": 3000,
 
-    "CS_1": 2,
+    "CS_1": 2000,
 
-    "Art_1": 2
+    "Art_1": 2000
 }
 
 # =====================================================
@@ -57,18 +78,22 @@ section_capacity = {
 # =====================================================
 
 sections = []
-
 course_to_sections = defaultdict(list)
 
-for course, count in course_sections.items():
+for course in courses:
 
-    for i in range(1, count + 1):
+    for i in range(1, course.num_sections + 1):
 
-        sec = f"{course}_{i}"
+        sec_id = f"{course.code}_{i}"
 
-        sections.append(sec)
+        section = Section(
+            id=sec_id,
+            course_code=course.code,
+            time_slot=-1  # CP-SAT will fill this later
+        )
 
-        course_to_sections[course].append(sec)
+        sections.append(section)
+        course_to_sections[course.code].append(section)
 
 # =====================================================
 # BUILD CONFLICT WEIGHTS
@@ -76,7 +101,8 @@ for course, count in course_sections.items():
 
 conflict = defaultdict(int)
 
-for course_list in students.values():
+for student in students:
+    course_list = student.main_courses
 
     for c1, c2 in combinations(course_list, 2):
 
@@ -221,6 +247,37 @@ if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
 else:
 
     print("No solution found.")
+    
+# =====================================================
+# EXPORT MASTER TIMETABLE TO CSV
+# =====================================================
+
+import csv
+
+# build master timetable: block -> sections
+master_timetable = {b: [] for b in blocks}
+
+for sec, block in section_to_block.items():
+    master_timetable[block].append(sec)
+
+# write CSV
+with open("master_timetable.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+
+    # header row
+    writer.writerow([f"Block {b}" for b in blocks])
+
+    # max height across columns
+    max_rows = max(len(master_timetable[b]) for b in blocks)
+
+    for i in range(max_rows):
+        row = []
+        for b in blocks:
+            if i < len(master_timetable[b]):
+                row.append(master_timetable[b][i])
+            else:
+                row.append("")
+        writer.writerow(row)
 
 # =====================================================
 # NEW:
@@ -236,7 +293,11 @@ section_enrollment = defaultdict(int)
 
 def generate_student_schedule(student_name):
 
-    requested_courses = students[student_name]
+    requested_courses = next (
+        student.main_courses
+        for student in students
+        if student.id == student_name
+    )
 
     chosen = {}
 
@@ -246,7 +307,7 @@ def generate_student_schedule(student_name):
 
         assigned = False
 
-        possible_sections = course_to_sections[course]
+        possible_sections = course_to_sections[course.code]
 
         # sort by current enrollment
         possible_sections.sort(
@@ -304,9 +365,9 @@ all_schedules = {}
 
 for student in students:
 
-    sched = generate_student_schedule(student)
+    sched = generate_student_schedule(student.id)
 
-    all_schedules[student] = sched
+    all_schedules[student.id] = sched
 
 # =====================================================
 # PRINT TIMETABLES

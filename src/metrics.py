@@ -1,3 +1,47 @@
+def calculate_request_completion(students):
+    total_requests = 0
+    placed_requests = 0
+
+    for student in students:
+        total_requests += len(student.requests)
+
+        for course in student.requests:
+            if course in student.schedule:
+                placed_requests += 1
+
+    return (placed_requests / total_requests) * 100
+
+def calculate_full_schedules(students):
+    successful_students = 0
+
+    for student in students:
+        placed = 0
+
+        for course in student.requests:
+            if course in student.schedule:
+                placed += 1
+
+        if placed == 8:
+            successful_students += 1
+
+    return (successful_students / len(students)) * 100
+
+def calculate_half_full_schedules(students):
+    successful_students = 0
+
+    for student in students:
+        placed = 0
+
+        for course in student.requests:
+            if course in student.schedule:
+                placed += 1
+
+        if placed >= 4:
+            successful_students += 1
+
+    return (successful_students / len(students)) * 100
+
+# Optimization score calculations
 def calculate_request_score(all_schedules, students):
 
     score = 0
@@ -155,24 +199,24 @@ def calculate_optimization_score(
         all_schedules
     )
 
-    score += calculate_overfilled_penalty(
-        sections,
-        section_enrollment,
-        section_capacity
-    )
+    # score += calculate_overfilled_penalty(
+    #     sections,
+    #     section_enrollment,
+    #     section_capacity
+    # )
 
-    score += calculate_room_conflicts(
-        sections,
-        section_to_room,
-        section_to_block
-    )
+    # score += calculate_room_conflicts(
+    #     sections,
+    #     section_to_room,
+    #     section_to_block
+    # )
 
-    score += calculate_invalid_room_penalty(
-        sections,
-        section_to_room,
-        section_to_course,
-        course_to_valid_rooms
-    )
+    # score += calculate_invalid_room_penalty(
+    #     sections,
+    #     section_to_room,
+    #     section_to_course,
+    #     course_to_valid_rooms
+    # )
 
     score += calculate_balanced_blocks(
         section_to_block

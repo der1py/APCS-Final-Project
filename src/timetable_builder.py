@@ -290,7 +290,7 @@ section_enrollment = defaultdict(int)
 # NEW:
 # GENERATE STUDENT TIMETABLE
 # =====================================================
-
+unplaced_courses = {}
 def generate_student_schedule(student_name):
 
     requested_courses = next (
@@ -302,6 +302,9 @@ def generate_student_schedule(student_name):
     chosen = {}
 
     used_blocks = set()
+
+        # initialize student list
+    unplaced_courses[student_name] = []
 
     for course in requested_courses:
 
@@ -345,7 +348,7 @@ def generate_student_schedule(student_name):
             break
 
         if not assigned:
-
+            unplaced_courses[student_name].append(course)
             print(
                 f"\nCould not place "
                 f"{student_name} into {course}"

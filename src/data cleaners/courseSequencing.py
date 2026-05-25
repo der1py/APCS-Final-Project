@@ -38,7 +38,7 @@ for rule in rules:
 sequencing_df = pd.DataFrame(cleaned_pairs)
 
 # Save the updated data directly to your working folder
-sequencing_df.to_csv("data cleaners/course_sequencing_cleaned.csv", index=False)
+sequencing_df.to_csv("cleaned data/course_sequencing_cleaned.csv", index=False)
 
 print(
     f"Successfully processed {len(sequencing_df)} individual sequence constraints!"

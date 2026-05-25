@@ -38,7 +38,7 @@ for rule in rules:
 blocking_df = pd.DataFrame(cleaned_blocking_pairs)
 
 # Save to a new structured CSV file
-blocking_df.to_csv("data cleaners/course_blocking_cleaned.csv", index=False)
+blocking_df.to_csv("cleaned data/course_blocking_cleaned.csv", index=False)
 
 print(
     f"Successfully flattened and generated {len(blocking_df)} constraint records!"

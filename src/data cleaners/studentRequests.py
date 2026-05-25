@@ -50,7 +50,7 @@ for i in range(len(df)):
 cleaned_df = pd.DataFrame(cleaned_data)
 
 # Save cleaned CSV
-cleaned_df.to_csv("data cleaners/student_requests_cleaned.csv", index=False)
+cleaned_df.to_csv("cleaned data/student_requests_cleaned.csv", index=False)
 
 print(
     f"Cleaned file saved successfully! Processed {len(cleaned_df)} course requests."

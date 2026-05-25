@@ -15,7 +15,7 @@ class Rules:
 
     split_pairs: Set[Tuple[str, str]]
     """
-    Courses that must be scheduled in a linked/split manner.
+    Course code of courses that must be scheduled in a linked/split manner.
     Example: ("BIO11A", "BIO11B")
     """
 

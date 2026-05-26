@@ -1,3 +1,5 @@
+import sys
+
 from ortools.sat.python import cp_model
 from collections import defaultdict
 from itertools import combinations
@@ -9,6 +11,19 @@ from models.section import Section
 
 from data_loader import load_students, load_courses, load_rules
 
+import os
+from datetime import datetime
+
+# =====================================================
+# log any issues
+# =====================================================
+
+LOG_FILE = "invalid_data.log"
+
+def log_issue(msg: str):
+    print(msg)
+    with open(LOG_FILE, "a") as f:
+        f.write(f"[{datetime.now()}] {msg}\n")
 
 # =====================================================
 # INPUT DATA
@@ -19,6 +34,54 @@ students = load_students()
 blocks = list(range(8))
 
 courses = load_courses()
+
+# =====================================================
+# DATA VALIDATION
+# =====================================================
+
+valid_courses = {}
+invalid_courses = set()
+
+for c in courses:
+    if not hasattr(c, "code") or not hasattr(c, "num_sections"):
+        log_issue(f"INVALID COURSE OBJECT: {c}")
+        continue
+
+    if c.num_sections <= 0:
+        log_issue(f"COURSE HAS ZERO SECTIONS: {c.code}")
+        invalid_courses.add(c.code)
+        continue
+
+    valid_courses[c.code] = c
+
+
+# FILTER STUDENTS
+valid_students = []
+
+for s in students:
+
+    if not hasattr(s, "main_courses"):
+        log_issue(f"INVALID STUDENT OBJECT: {s}")
+        continue
+
+    cleaned_courses = []
+
+    for c in s.main_courses:
+        if c not in valid_courses:
+            log_issue(f"{s.id}: INVALID COURSE REQUEST -> {c}")
+            continue
+        cleaned_courses.append(c)
+
+    if not cleaned_courses:
+        log_issue(f"{s.id}: HAS NO VALID COURSES AFTER CLEANING")
+        continue
+
+    s.main_courses = cleaned_courses
+    valid_students.append(s)
+
+
+students = valid_students
+courses = list(valid_courses.values())
 
 
 # =====================================================
@@ -100,46 +163,48 @@ for s in sections:
 # SAME COURSE SECTIONS CANNOT SHARE BLOCK
 # =====================================================
 
-for course, sec_list in course_to_sections.items():
-    for b in blocks:
-        model.Add(sum(x[(s.id, b)] for s in sec_list) <= 1)
+# TODO this is literally bullshit, 2 teachers can teach the same class in same block
+# for course, sec_list in course_to_sections.items():
+#     for b in blocks:
+#         model.Add(sum(x[(s.id, b)] for s in sec_list) <= 1)
 
 
 # =====================================================
 # CONFLICT VARIABLES
 # =====================================================
+# TODO disabled for now, see if we need later
 
-same_block = {}
+# same_block = {}
 
-for (c1, c2), weight in conflict.items():
+# for (c1, c2), weight in conflict.items():
 
-    for s1 in course_to_sections[c1]:
-        for s2 in course_to_sections[c2]:
-            for b in blocks:
+#     for s1 in course_to_sections[c1]:
+#         for s2 in course_to_sections[c2]:
+#             for b in blocks:
 
-                v = model.NewBoolVar(f"same_{s1.id}_{s2.id}_{b}")
-                same_block[(s1.id, s2.id, b)] = v
+#                 v = model.NewBoolVar(f"same_{s1.id}_{s2.id}_{b}")
+#                 same_block[(s1.id, s2.id, b)] = v
 
-                model.Add(v <= x[(s1.id, b)])
-                model.Add(v <= x[(s2.id, b)])
-                model.Add(v >= x[(s1.id, b)] + x[(s2.id, b)] - 1)
+#                 model.Add(v <= x[(s1.id, b)])
+#                 model.Add(v <= x[(s2.id, b)])
+#                 model.Add(v >= x[(s1.id, b)] + x[(s2.id, b)] - 1)
 
 
 # =====================================================
 # OBJECTIVE
 # =====================================================
 
-model.Minimize(
-    sum(
-        conflict[(c1, c2)] *
-        same_block[(s1.id, s2.id, b)]
+# model.Minimize(
+#     sum(
+#         conflict[(c1, c2)] *
+#         same_block[(s1.id, s2.id, b)]
 
-        for (c1, c2) in conflict
-        for s1 in course_to_sections[c1]
-        for s2 in course_to_sections[c2]
-        for b in blocks
-    )
-)
+#         for (c1, c2) in conflict
+#         for s1 in course_to_sections[c1]
+#         for s2 in course_to_sections[c2]
+#         for b in blocks
+#     )
+# )
 
 
 # =====================================================
@@ -171,6 +236,7 @@ if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
 
 else:
     print("No solution found.")
+    sys.exit() # <-- THIS STOPS THE SCRIPT FROM CRASHING LATER
 
 
 # =====================================================
@@ -229,9 +295,10 @@ def generate_student_schedule(student_id):
 
             if block in used_blocks:
                 continue
-
-            if section_enrollment[sec.id] >= section_capacity[sec.id]:
-                continue
+            
+            # TODO skip for now
+            # if section_enrollment[sec.id] >= section_capacity[sec.id]:
+            #     continue
 
             chosen[course_code] = (sec, block)
 
@@ -292,5 +359,6 @@ for sec in sections:
         f"{sec.id:12}"
         f"{section_enrollment[sec.id]}"
         f"/"
-        f"{section_capacity[sec.id]}"
+        # f"{section_capacity[sec.id]}"
+        f"unlimited"
     )

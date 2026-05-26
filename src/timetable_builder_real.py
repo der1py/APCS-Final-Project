@@ -353,7 +353,7 @@ with open("student_schedules.csv", "w", newline="") as f:
 
     for student in students:
         schedule = all_schedules.get(student.id, {})
-        row = [student.id] + ["" for _ in blocks]
+        row = [student.id] + ["unassigned" for _ in blocks]
 
         for course, (_, block) in schedule.items():
             if 0 <= block < len(blocks):

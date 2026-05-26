@@ -9,8 +9,6 @@ from data_loader import load_students, load_courses
 
 students = load_students()
 
-blocks = list(range(8))
-
 courses = load_courses()
 
 # =====================================================

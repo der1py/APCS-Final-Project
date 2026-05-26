@@ -288,7 +288,7 @@ with open("master_timetable.csv", "w", newline="") as f:
 
 section_enrollment = defaultdict(int)
 
-sys.exit(); # TODO skip student tt for now. maybe do in separte file?
+# sys.exit(); # TODO skip student tt for now. maybe do in separte file?
 
 
 def generate_student_schedule(student_id):
@@ -341,6 +341,25 @@ all_schedules = {}
 
 for student in students:
     all_schedules[student.id] = generate_student_schedule(student.id)
+
+
+# =====================================================
+# EXPORT STUDENT SCHEDULES
+# =====================================================
+
+with open("student_schedules.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Student"] + [f"Block {b}" for b in blocks])
+
+    for student in students:
+        schedule = all_schedules.get(student.id, {})
+        row = [student.id] + ["" for _ in blocks]
+
+        for course, (_, block) in schedule.items():
+            if 0 <= block < len(blocks):
+                row[block + 1] = course
+
+        writer.writerow(row)
 
 
 # =====================================================

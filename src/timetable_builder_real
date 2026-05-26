@@ -193,22 +193,21 @@ for b in blocks:
 # =====================================================
 # CONFLICT VARIABLES
 # =====================================================
-# TODO disabled for now, see if we need later
 
-# same_block = {}
+same_block = {}
 
-# for (c1, c2), weight in conflict.items():
+for (c1, c2), weight in conflict.items():
 
-#     for s1 in course_to_sections[c1]:
-#         for s2 in course_to_sections[c2]:
-#             for b in blocks:
+    for s1 in course_to_sections[c1]:
+        for s2 in course_to_sections[c2]:
+            for b in blocks:
 
-#                 v = model.NewBoolVar(f"same_{s1.id}_{s2.id}_{b}")
-#                 same_block[(s1.id, s2.id, b)] = v
+                v = model.NewBoolVar(f"same_{s1.id}_{s2.id}_{b}")
+                same_block[(s1.id, s2.id, b)] = v
 
-#                 model.Add(v <= x[(s1.id, b)])
-#                 model.Add(v <= x[(s2.id, b)])
-#                 model.Add(v >= x[(s1.id, b)] + x[(s2.id, b)] - 1)
+                model.Add(v <= x[(s1.id, b)])
+                model.Add(v <= x[(s2.id, b)])
+                model.Add(v >= x[(s1.id, b)] + x[(s2.id, b)] - 1)
 
 
 # =====================================================

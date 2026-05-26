@@ -288,7 +288,7 @@ with open("master_timetable.csv", "w", newline="") as f:
 
 section_enrollment = defaultdict(int)
 
-sys.exit(); # skip student tt for now. maybe do in separte file?
+sys.exit(); # TODO skip student tt for now. maybe do in separte file?
 
 
 def generate_student_schedule(student_id):

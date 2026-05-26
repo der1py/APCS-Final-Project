@@ -1,39 +1,71 @@
-def calculate_request_completion(students):
+from collections import Counter
+
+
+# =====================================================
+# REQUEST COMPLETION %
+# =====================================================
+
+def calculate_request_completion(students, all_schedules):
+
     total_requests = 0
     placed_requests = 0
 
     for student in students:
-        total_requests += len(student.requests)
 
-        for course in student.requests:
-            if course in student.schedule:
+        total_requests += len(student.main_courses)
+
+        sched = all_schedules.get(student.id, {})
+
+        for course in student.main_courses:
+
+            if course in sched:
                 placed_requests += 1
 
     return (placed_requests / total_requests) * 100
 
-def calculate_full_schedules(students):
+
+# =====================================================
+# FULL TIMETABLE %
+# =====================================================
+
+def calculate_full_schedules(students, all_schedules):
+
     successful_students = 0
 
     for student in students:
+
+        sched = all_schedules.get(student.id, {})
+
         placed = 0
 
-        for course in student.requests:
-            if course in student.schedule:
+        for course in student.main_courses:
+
+            if course in sched:
                 placed += 1
 
-        if placed == 8:
+        if placed == len(student.main_courses):
             successful_students += 1
 
     return (successful_students / len(students)) * 100
 
-def calculate_half_full_schedules(students):
+
+# =====================================================
+# HALF FULL TIMETABLE %
+# =====================================================
+
+def calculate_half_full_schedules(students, all_schedules):
+
     successful_students = 0
 
     for student in students:
+
+        sched = all_schedules.get(student.id, {})
+
         placed = 0
 
-        for course in student.requests:
-            if course in student.schedule:
+        for course in student.main_courses:
+
+            if course in sched:
                 placed += 1
 
         if placed >= 4:
@@ -41,118 +73,106 @@ def calculate_half_full_schedules(students):
 
     return (successful_students / len(students)) * 100
 
-# Optimization score calculations
+
+# =====================================================
+# REQUEST SCORE
+# +10 per placed course
+# =====================================================
+
 def calculate_request_score(all_schedules, students):
 
     score = 0
 
-    for student, requests in students.items():
+    for student in students:
 
-        scheduled_courses = all_schedules[student]
+        sched = all_schedules.get(student.id, {})
 
-        for course in requests:
+        for course in student.main_courses:
 
-            if course in scheduled_courses:
+            if course in sched:
                 score += 10
 
     return score
+
+
+# =====================================================
+# FULL TIMETABLE SCORE
+# +50 if student gets complete timetable
+# =====================================================
 
 def calculate_full_timetable_score(all_schedules, students):
 
     score = 0
 
-    for student, requests in students.items():
+    for student in students:
 
-        scheduled_courses = all_schedules[student]
+        sched = all_schedules.get(student.id, {})
 
         placed = 0
 
-        for course in requests:
+        for course in student.main_courses:
 
-            if course in scheduled_courses:
+            if course in sched:
                 placed += 1
 
-        if placed == 8:
+        if placed == len(student.main_courses):
             score += 50
 
     return score
+
+
+# =====================================================
+# STUDENT CONFLICT PENALTY
+# -1000 for duplicate block
+# =====================================================
 
 def calculate_student_conflicts(all_schedules):
 
     penalty = 0
 
-    for student, sched in all_schedules.items():
+    for student_id, sched in all_schedules.items():
 
         used_blocks = set()
 
         for course, (sec, block) in sched.items():
 
             if block in used_blocks:
-
                 penalty -= 1000
-
             else:
                 used_blocks.add(block)
 
     return penalty
 
-def calculate_overfilled_penalty(sections,
-                                 section_enrollment,
-                                 section_capacity):
+
+# =====================================================
+# OVERFILLED SECTION PENALTY
+# =====================================================
+
+def calculate_overfilled_penalty(
+    sections,
+    section_enrollment,
+    section_capacity
+):
 
     penalty = 0
 
     for sec in sections:
 
-        if section_enrollment[sec] > section_capacity[sec]:
+        sec_id = sec.id
 
+        if sec_id not in section_capacity:
+            continue
+
+        if section_enrollment[sec_id] > section_capacity[sec_id]:
             penalty -= 1000
 
     return penalty
 
-def calculate_room_conflicts(sections,
-                             section_to_room,
-                             section_to_block):
 
-    penalty = 0
-
-    used = {}
-
-    for sec in sections:
-
-        room = section_to_room[sec]
-        block = section_to_block[sec]
-
-        key = (room, block)
-
-        if key in used:
-
-            penalty -= 1000
-
-        else:
-            used[key] = sec
-
-    return penalty
-
-def calculate_invalid_room_penalty(sections,
-                                section_to_room,
-                                section_to_course,
-                                course_to_valid_rooms):
-
-    penalty = 0
-
-    for sec in sections:
-
-        course = section_to_course[sec]
-        room = section_to_room[sec]
-
-        if room not in course_to_valid_rooms[course]:
-
-            penalty -= 500
-
-    return penalty
-
-from collections import Counter
+# =====================================================
+# BALANCED BLOCKS SCORE
+# +1 for each balanced block
+# =====================================================
 
 def calculate_balanced_blocks(section_to_block):
 
@@ -171,16 +191,18 @@ def calculate_balanced_blocks(section_to_block):
 
     return score
 
+
+# =====================================================
+# TOTAL OPTIMIZATION SCORE
+# =====================================================
+
 def calculate_optimization_score(
-    all_schedules,
     students,
+    all_schedules,
     sections,
     section_enrollment,
     section_capacity,
-    section_to_room,
-    section_to_block,
-    section_to_course,
-    course_to_valid_rooms
+    section_to_block
 ):
 
     score = 0
@@ -199,24 +221,11 @@ def calculate_optimization_score(
         all_schedules
     )
 
-    # score += calculate_overfilled_penalty(
-    #     sections,
-    #     section_enrollment,
-    #     section_capacity
-    # )
-
-    # score += calculate_room_conflicts(
-    #     sections,
-    #     section_to_room,
-    #     section_to_block
-    # )
-
-    # score += calculate_invalid_room_penalty(
-    #     sections,
-    #     section_to_room,
-    #     section_to_course,
-    #     course_to_valid_rooms
-    # )
+    score += calculate_overfilled_penalty(
+        sections,
+        section_enrollment,
+        section_capacity
+    )
 
     score += calculate_balanced_blocks(
         section_to_block

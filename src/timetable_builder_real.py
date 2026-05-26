@@ -403,3 +403,47 @@ for sec in sections:
         # f"{section_capacity[sec.id]}"
         f"unlimited"
     )
+
+from metrics import *
+
+optimization_score = calculate_optimization_score(
+    students,
+    all_schedules,
+    sections,
+    section_enrollment,
+    section_capacity,
+    section_to_block
+)
+
+print("\n========================")
+print("METRICS")
+print("========================")
+
+print(
+    "Request Completion:",
+    round(calculate_request_completion(
+        students,
+        all_schedules
+    ), 2),
+    "%"
+)
+
+print(
+    "Full Timetables:",
+    round(calculate_full_schedules(
+        students,
+        all_schedules
+    ), 2),
+    "%"
+)
+
+print(
+    "Half Full Timetables:",
+    round(calculate_half_full_schedules(
+        students,
+        all_schedules
+    ), 2),
+    "%"
+)
+
+print("Optimization Score:", optimization_score)

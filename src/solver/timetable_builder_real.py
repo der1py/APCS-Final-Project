@@ -401,7 +401,7 @@ for sec in sections:
         f"unlimited"
     )
 
-from metrics import calculate_optimization_score, calculate_request_completion, calculate_full_schedules, calculate_half_full_schedules
+from metrics import *
 
 optimization_score = calculate_optimization_score(
     students,

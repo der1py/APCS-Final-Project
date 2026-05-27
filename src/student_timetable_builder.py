@@ -1,1 +1,0 @@
-print("have fun blud")

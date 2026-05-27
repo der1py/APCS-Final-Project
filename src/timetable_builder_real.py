@@ -83,6 +83,7 @@ for s in students:
 students = valid_students
 courses = list(valid_courses.values())
 
+course_name_map = {course.code: course.name for course in courses}
 
 # =====================================================
 # SECTION CAPACITY
@@ -263,7 +264,9 @@ else:
 master_timetable = {b: [] for b in blocks}
 
 for sec_id, block in section_to_block.items():
-    master_timetable[block].append(sec_id)
+    course_code = section_by_id[sec_id].course_code
+    course_name = course_name_map.get(course_code, course_code)
+    master_timetable[block].append(course_name)
 
 with open("master_timetable.csv", "w", newline="") as f:
     writer = csv.writer(f)
@@ -357,7 +360,7 @@ with open("student_schedules.csv", "w", newline="") as f:
 
         for course, (_, block) in schedule.items():
             if 0 <= block < len(blocks):
-                row[block + 1] = course
+                row[block + 1] = course_name_map.get(course, course)
 
         writer.writerow(row)
 

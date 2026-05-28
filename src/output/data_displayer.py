@@ -1,7 +1,7 @@
 from models.course import Course
 from models.rules import Rules
 from models.student import Student
-from data_loader import load_students, load_courses
+from data.data_loader import load_students, load_courses
 
 # =====================================================
 # INPUT DATA

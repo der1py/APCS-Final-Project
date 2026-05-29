@@ -188,7 +188,7 @@ def build_master_timetable(students, courses):
 
                     section_to_block[s.id] = b
                     print(f"{s.id:12} -> Block {b}")
-                    s.timeslot = b 
+                    s.time_slot = b
 
         print("\nTotal Conflict Cost:", solver.ObjectiveValue())
 

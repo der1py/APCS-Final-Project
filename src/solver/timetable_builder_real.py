@@ -9,7 +9,7 @@ from models.course import Course
 from models.student import Student
 from models.section import Section
 
-from data_loader import load_students, load_courses, load_rules
+from data.data_loader import load_students, load_courses, load_rules
 
 import os
 from datetime import datetime
@@ -401,7 +401,7 @@ for sec in sections:
         f"unlimited"
     )
 
-from metrics import *
+from output.output_scripts.metrics import *
 
 optimization_score = calculate_optimization_score(
     students,

@@ -1,11 +1,8 @@
-from data_loader import load_students, load_courses
-
-from master_timetable_builder import build_master_timetable
-
-from student_scheduler import generate_all_student_schedules
-
-
-from metrics import calculate_request_completion
+from data.data_loader import load_students, load_courses
+from solver.master_timetable_builder import build_master_timetable
+from solver.student_timetable_builder import generate_all_student_schedules
+from output.output_scripts.metrics import calculate_request_completion
+from output.output_scripts.export import export_all
 
 students = load_students()
 
@@ -40,4 +37,12 @@ print(
         students,
         all_schedules
     )
+)
+
+export_all(
+    students=students,
+    section_to_block=master_timetable.section_to_block,
+    blocks=(range(8)),
+    master_timetable=master_timetable,
+    all_schedules=all_schedules
 )

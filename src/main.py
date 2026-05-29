@@ -7,11 +7,16 @@ from validator import validate_courses, validate_students
 
 from output.output_scripts.metrics import calculate_request_completion
 from output.output_scripts.export import export_all
+=======
 
+from solver.master_timetable_builder import build_master_timetable
 
-# =====================================================
-# LOAD DATA
-# =====================================================
+from solver.student_timetable_builderr import generate_all_student_schedules
+
+from validator import validate_courses, validate_students
+
+from output.metrics import calculate_request_completion
+>>>>>>> c5c4dd9daab7fb8fbc5850cc30e827b9dd1e57e7
 
 students = load_students()
 courses = load_courses()

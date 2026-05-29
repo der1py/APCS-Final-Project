@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
 
@@ -77,6 +78,29 @@ def load_courses(csv_path: Path | None = None) -> List[Course]:
             )
 
     return courses
+
+
+def load_simultaneous_blocking_rules(csv_path: Path | None = None) -> Dict[str, List[Tuple[str, str]]]:
+    """Load simultaneous blocking rules from the cleaned CSV."""
+    path = Path(csv_path) if csv_path is not None else BLOCKING_DATA_PATH
+
+    grouped: Dict[str, List[Tuple[str, str]]] = defaultdict(list)
+
+    with path.open("r", encoding="utf-8", newline="") as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            course_1 = (row.get("Course_1") or "").strip()
+            course_2 = (row.get("Course_2") or "").strip()
+            blocking_type = (row.get("Blocking_Type") or "").strip()
+
+            if not course_1 or not course_2 or not blocking_type:
+                continue
+
+            grouped[blocking_type].append((course_1, course_2))
+
+    return grouped
+
 
 def load_rules(
     sequencing_csv_path: Path | None = None,

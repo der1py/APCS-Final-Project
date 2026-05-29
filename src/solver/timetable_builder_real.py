@@ -401,7 +401,7 @@ for sec in sections:
         f"unlimited"
     )
 
-from output.output_scripts.metrics import *
+from metrics import *
 
 optimization_score = calculate_optimization_score(
     students,

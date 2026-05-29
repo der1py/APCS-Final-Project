@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 # note: dataclass just abstracts a lot of boilerplate stuff like init methods etc
 
 @dataclass
@@ -11,6 +11,13 @@ class Course:
     code: str
     name: str
     num_sections: int
+    
+    # TODO these are not documented in context and currently unused
+    total: int = 0
+    enrollment_max: int = 0
+
+    rooms: list[str] = field(default_factory=list)
+    linear: bool = False
 
     def __post_init__(self):
         # Basic validation (optional but useful)

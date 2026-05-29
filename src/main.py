@@ -72,7 +72,8 @@ export_all(
     section_to_block=master_timetable.section_to_block,
     blocks=list(range(8)),
     master_timetable=master_timetable,
-    all_schedules=all_schedules
+    all_schedules=all_schedules,
+    courses=courses
 )
 
 print("Export complete.")

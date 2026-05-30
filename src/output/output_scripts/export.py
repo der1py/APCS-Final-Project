@@ -38,6 +38,9 @@ def export_master_csv(section_to_block, blocks,
             else:
                 display = sec_id
 
+            if sec_obj is not None and sec_obj.room_id:
+                display = f"{display} (Room {sec_obj.room_id})"
+
             master_timetable_display[block].append(display)
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
@@ -85,9 +88,13 @@ def export_student_csv_code(students, all_schedules, blocks,
             for course, value in schedule.items():
                 section, block = value
 
+                display = course
+                if section is not None and section.room_id:
+                    display = f"{display} (Room {section.room_id})"
+
                 if block in blocks:
                     block_index = blocks.index(block)
-                    row[block_index + 1] = course
+                    row[block_index + 1] = display
 
             writer.writerow(row)
 
@@ -125,6 +132,8 @@ def export_student_csv(students, all_schedules, courses, blocks, output_path):
                 section, block = value
 
                 display = course_map.get(course_code, course_code)
+                if section is not None and section.room_id:
+                    display = f"{display} (Room {section.room_id})"
 
                 if block in blocks:
                     block_index = blocks.index(block)

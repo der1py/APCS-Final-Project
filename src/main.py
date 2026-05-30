@@ -40,6 +40,15 @@ master_timetable = build_master_timetable(
     courses
 )
 
+course_lookup = {
+    course.code: course
+    for course in courses
+}
+
+section_capacity = {
+    sec.id: course_lookup[sec.course_code].enrollment_max
+    for sec in master_timetable.sections
+}
 
 # =====================================================
 # STUDENT ASSIGNMENTS
@@ -47,7 +56,8 @@ master_timetable = build_master_timetable(
 
 all_schedules, section_enrollment = generate_all_student_schedules(
     students,
-    master_timetable
+    master_timetable,
+    section_capacity
 )
 
 

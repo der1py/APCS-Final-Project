@@ -84,7 +84,7 @@ def get_special_course_rooms(code, description):
     if "3D ANIMATION" in text or "MEDIA DESIGN" in text:
         return ["114"]
 
-    if "INFORMATION AND COMMUNICATION" in text:
+    if "INFORMATION" in text and "COMMUNICA" in text:
         return ["114", "203"]
 
     return None

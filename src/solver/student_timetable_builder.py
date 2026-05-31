@@ -1,3 +1,4 @@
+# This module builds the student timetables based on the master timetable.
 from collections import defaultdict
 from models.course import Course
 from models.student import Student

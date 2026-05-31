@@ -1,3 +1,4 @@
+# This module builds the master timetable using CP-SAT.
 import sys
 
 from dataclasses import dataclass
@@ -70,6 +71,17 @@ def build_master_timetable(students, courses):
         for s in sections
     }
 
+    course_lookup = {
+        c.code: c
+        for c in courses
+    }
+
+    all_rooms = sorted({
+        room
+        for c in courses
+        for room in c.rooms
+    })
+
     # =================================================
     # CONFLICT MATRIX
     # =================================================
@@ -94,13 +106,26 @@ def build_master_timetable(students, courses):
     model = cp_model.CpModel()
 
     x = {}
+    y = {}
 
     for s in sections:
 
+        # block variables
         for b in blocks:
 
             x[(s.id, b)] = model.NewBoolVar(
-                f"{s.id}_{b}"
+                f"block_{s.id}_{b}"
+            )
+
+        # room variables
+        course = course_lookup[
+            s.course_code
+        ]
+
+        for room in course.rooms:
+
+            y[(s.id, room)] = model.NewBoolVar(
+                f"room_{s.id}_{room}"
             )
 
     # =================================================
@@ -113,6 +138,26 @@ def build_master_timetable(students, courses):
             sum(x[(s.id, b)] for b in blocks) == 1
         )
 
+    # =================================================
+    # EACH SECTION EXACTLY ONE ROOM
+    # =================================================
+
+    for s in sections:
+
+        course = course_lookup[
+            s.course_code
+        ]
+
+        model.Add(
+
+            sum(
+                y[(s.id, room)]
+                for room in course.rooms
+            )
+
+            == 1
+        )
+
     # =====================================================
     # SAME COURSE SECTIONS CANNOT SHARE BLOCK
     # =====================================================
@@ -123,35 +168,107 @@ def build_master_timetable(students, courses):
     #         model.Add(sum(x[(s.id, b)] for s in sec_list) <= 1)
 
     # =================================================
-    # BALANCED BLOCKS
+    # ROOM CONSTRAINTS
     # =================================================
 
-    num_sections = len(sections)
+    print(
+        f"Sections: {len(sections)}"
+    )
 
-    num_blocks = len(blocks)
+    print(
+        f"Rooms: {len(all_rooms)}"
+    )
 
-    base = num_sections // num_blocks
+    print(
+        f"Max sections per block <= {len(all_rooms)}"
+    )
 
-    remainder = num_sections % num_blocks
+    for room in all_rooms:
 
-    block_counts = {}
+        room_sections = [
+
+            s
+
+            for s in sections
+
+            if room in course_lookup[
+                s.course_code
+            ].rooms
+
+        ]
+
+        for block in blocks:
+
+            room_block_vars = []
+
+            for s in room_sections:
+
+                v = model.NewBoolVar(
+                    f"use_{s.id}_{room}_{block}"
+                )
+
+                model.Add(
+                    v <= x[(s.id, block)]
+                )
+
+                model.Add(
+                    v <= y[(s.id, room)]
+                )
+
+                model.Add(
+                    v >=
+                    x[(s.id, block)]
+                    +
+                    y[(s.id, room)]
+                    - 1
+                )
+
+                room_block_vars.append(v)
+
+            model.Add(
+                sum(room_block_vars)
+                <= 1
+            )
+
+    # =================================================
+    # SOFT BLOCK BALANCE
+    # =================================================
+
+    target = len(sections) // len(blocks)
+
+    balance_penalties = []
 
     for b in blocks:
 
-        block_counts[b] = sum(
+        count = sum(
             x[(s.id, b)]
             for s in sections
         )
 
-    for b in blocks:
-
-        upper = base + (
-            1 if b < remainder else 0
+        diff = model.NewIntVar(
+            -len(sections),
+            len(sections),
+            f"balance_diff_{b}"
         )
 
-        model.Add(block_counts[b] <= upper)
+        deviation = model.NewIntVar(
+            0,
+            len(sections),
+            f"balance_dev_{b}"
+        )
 
-        model.Add(block_counts[b] >= base)
+        model.Add(
+            diff == count - target
+        )
+
+        model.AddAbsEquality(
+            deviation,
+            diff
+        )
+
+        balance_penalties.append(
+            deviation
+        )
 
     # =================================================
     # SIMULTANEOUS BLOCKING CONSTRAINTS
@@ -245,24 +362,37 @@ def build_master_timetable(students, courses):
     # OBJECTIVE
     # =================================================
 
+    conflict_cost = sum(
+
+        conflict[(c1, c2)]
+        *
+        same_block[(s1.id, s2.id, b)]
+
+        for (c1, c2) in conflict
+
+        if c1 in course_to_sections
+        and c2 in course_to_sections
+
+        for s1 in course_to_sections[c1]
+        for s2 in course_to_sections[c2]
+
+        if s1.course_code != s2.course_code
+
+        for b in blocks
+    )
+
+    BALANCE_WEIGHT = 100
+
     model.Minimize(
 
-        sum(
-            conflict[(c1, c2)] *
-            same_block[(s1.id, s2.id, b)]
+        conflict_cost
 
-            for (c1, c2) in conflict
+        +
 
-            if c1 in course_to_sections
-            and c2 in course_to_sections
+        BALANCE_WEIGHT
+        *
+        sum(balance_penalties)
 
-            for s1 in course_to_sections[c1]
-            for s2 in course_to_sections[c2]
-
-            if s1.course_code != s2.course_code
-
-            for b in blocks
-        )
     )
 
 
@@ -273,6 +403,7 @@ def build_master_timetable(students, courses):
     solver = cp_model.CpSolver()
 
     solver.parameters.max_time_in_seconds = 60
+    solver.parameters.num_search_workers = 8
 
     status = solver.Solve(model)
 
@@ -299,8 +430,21 @@ def build_master_timetable(students, courses):
 
                     s.time_slot = b
 
+                    for room in course_lookup[
+                        s.course_code
+                    ].rooms:
+
+                        if solver.Value(
+                            y[(s.id, room)]
+                        ):
+
+                            s.room_id = room
+                            break
+
                     print(
-                        f"{s.id:12} -> Block {b}"
+                        f"{s.id:15}"
+                        f" Block {s.time_slot}"
+                        f" Room {s.room_id}"
                     )
 
         print(

@@ -1,0 +1,3902 @@
+[
+    {
+        "code": "ACAL-12---",
+        "name": "AP CALCULUS AB 12 external cre",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "ACSC-2A---",
+        "name": "AP COMPUTER SCIENCE A 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "AELC-12---",
+        "name": "AP ENGLISH LITERATURE & COMPOS",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3",
+            "A-6",
+            "A-7"
+        ],
+        "linear": false
+    },
+    {
+        "code": "APHM-12---",
+        "name": "AP PHYSICS C (MECHANICS) 12 ex",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "ASTA-12---",
+        "name": "AP STATISTICS 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MAC--11---",
+        "name": "ACCOUNTING 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MACC-12---",
+        "name": "ACCOUNTING 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MACLV11---",
+        "name": "ACTIVE LIVING 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MACLV11FB-",
+        "name": "ACTIVE LIVING 11 Football",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MACLV11G--",
+        "name": "ACTIVE LIVING 11 Girls",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MACLV12---",
+        "name": "ACTIVE LIVING 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MACLV12G--",
+        "name": "ACTIVE LIVING 12 Girls",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MADD-09---",
+        "name": "ADST - Drafting 9",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "105"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MADEM10---",
+        "name": "ADST ? ENTREPRENEURSHIP AND MA",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MADER09---",
+        "name": "ADST - Electronics and Robotic",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MADER09--L",
+        "name": "ADST - Electronics and Robotic",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MADGE09---",
+        "name": "ADST 9 - General Explorations",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MADIT09---",
+        "name": "ADST-Information and Communica",
+        "num_sections": 0,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "114",
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MADT-09---",
+        "name": "ADST - Textiles 9",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "206"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MADW-09---",
+        "name": "ADST - Woodwork 9",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "101"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MATPH12---",
+        "name": "ANATOMY AND PHYSIOLOGY 12",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MBSP-11---",
+        "name": "INTRODUCTORY SPANISH 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCALC12---",
+        "name": "CALCULUS 12",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCH--11---",
+        "name": "CHEMISTRY 11",
+        "num_sections": 6,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCH--12---",
+        "name": "CHEMISTRY 12",
+        "num_sections": 6,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCLC-12---",
+        "name": "CAREER LIFE CONNECTIONS",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCLC-12--L",
+        "name": "CAREER LIFE CONNECTIONS Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MCLE-10---",
+        "name": "CAREER LIFE EDUCATION 10",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCLE-10--L",
+        "name": "CAREER LIFE EDUCATION 10 Linea",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MCMCC11--L",
+        "name": "CHORAL MUSIC 11: CONCERT CHOIR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MCMCC12--L",
+        "name": "CHORAL MUSIC 12: CONCERT CHOIR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MCMCL12---",
+        "name": "COMPARATIVE CULTURES 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCMPR11AI-",
+        "name": "COMPUTER PROGRAMMING 11 AI and",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCMPR12AI-",
+        "name": "COMPUTER PROGRAMMING 12 AI and",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCMPR12W--",
+        "name": "WEB DEVELOPMENT 12",
+        "num_sections": 0,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCMPS10---",
+        "name": "COMPOSITION 10",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCMPS10C--",
+        "name": "COMPOSITION 10 Challenge",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MCMPS11---",
+        "name": "COMPOSITION 11",
+        "num_sections": 9,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDCF-10---",
+        "name": "DANCE FOUNDATIONS 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDCF-11---",
+        "name": "DANCE FOUNDATIONS 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDCF-12---",
+        "name": "DANCE FOUNDATIONS 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDMD-12D--",
+        "name": "3D ANIMATION 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "114"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDNC-09C-L",
+        "name": "DANCE 9 Choreography Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MDNC-09F--",
+        "name": "DANCE 9 Foundations",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDNC-09H--",
+        "name": "DANCE 9 HIP HOP",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDNC-09M-L",
+        "name": "DANCE 9 Company: Platform 61 L",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MDNC-09PT-",
+        "name": "DANCE 9 Performance and Techni",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDNC-10--L",
+        "name": "DANCE 10: CHOREOGRAPHY Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MDNC-11--L",
+        "name": "DANCE 11: CHOREOGRAPHY Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MDNC-12--L",
+        "name": "DANCE 12: CHOREOGRAPHY Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MDNCM10--L",
+        "name": "DANCE COMPANY 10 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MDNCM11--L",
+        "name": "DANCE COMPANY 11 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MDNCM12--L",
+        "name": "DANCE COMPANY 12 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MDNCN11---",
+        "name": "DANCE CONDITIONING 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDNCN12---",
+        "name": "DANCE CONDITIONING 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDNTP10---",
+        "name": "DANCE TECHNIQUE AND PERFORMANC",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDNTP11---",
+        "name": "DANCE TECHNIQUE AND PERFORMANC",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDNTP12---",
+        "name": "DANCE TECHNIQUE AND PERFORMANC",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Studio"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDR--09---",
+        "name": "DRAMA 9",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "A-1"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDRM-10---",
+        "name": "DRAMA 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "A-1"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDRM-11---",
+        "name": "DRAMA 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "A-1"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MDRM-12---",
+        "name": "DRAMA 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "A-1"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MEC--12---",
+        "name": "ECONOMICS 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MECOM12---",
+        "name": "E-COMMERCE 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MEFLS10---",
+        "name": "EFP LITERARY STUDIES 10",
+        "num_sections": 0,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MEFWR10---",
+        "name": "EFP WRITING 10",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3",
+            "A-6",
+            "A-7"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MEN--09---",
+        "name": "ENGLISH LANGUAGE ARTS 9",
+        "num_sections": 6,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "116"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MEN--09C--",
+        "name": "ENGLISH LANGUAGE ARTS 9 CHALLE",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "116"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MEN--09E--",
+        "name": "ENGLISH 9 FOR ELL",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3",
+            "A-6",
+            "A-7"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MENFP12---",
+        "name": "ENGLISH FIRST PEOPLES 12",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3",
+            "A-6",
+            "A-7"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MENFP12--Y",
+        "name": "ENGLISH FIRST PEOPLES 12 Year",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3",
+            "A-6",
+            "A-7"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MENR-11---",
+        "name": "ENGINEERING 11",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MENR-12---",
+        "name": "ENGINEERING 12",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MENST12---",
+        "name": "ENGLISH STUDIES 12",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3",
+            "A-6",
+            "A-7"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MENST12C--",
+        "name": "ENGLISH STUDIES 12 CHALLENGE",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3",
+            "A-6",
+            "A-7"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MENT-12---",
+        "name": "ENTREPRENEURSHIP 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MEPSS11---",
+        "name": "EXPLORATIONS IN SOCIAL STUDIES",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "121",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MEVSC11---",
+        "name": "ENVIRONMENTAL SCIENCE 11",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MEVSC12C--",
+        "name": "ENVIRONMENTAL SCIENCE 12 - CLI",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFMP-10---",
+        "name": "FOUNDATIONS OF MATH AND PRE-CA",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFMP-10C--",
+        "name": "FOUNDATIONS OF MATH AND PRE-CA",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFMP-10H--",
+        "name": "FOUNDATIONS OF MATH AND PRE-CA",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFOM-11---",
+        "name": "FOUNDATIONS OF MATHEMATICS 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFOOD10---",
+        "name": "ADST ?  FOOD STUDIES 10",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "206"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFOOD11---",
+        "name": "FOOD STUDIES 11",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "206"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFOOD12---",
+        "name": "FOOD STUDIES 12",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "206"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFR--09---",
+        "name": "FRENCH 9",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFR--10---",
+        "name": "FRENCH 10",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFR--11---",
+        "name": "FRENCH 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MFR--12---",
+        "name": "FRENCH 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MGRPR11--L",
+        "name": "GRAPHIC PRODUCTION 11 LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MGRPR12--L",
+        "name": "GRAPHIC PRODUCTION 12 LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MIDS-0B---",
+        "name": "INDEPENDENT DIRECTED STUDIES 1",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MIDS-0C---",
+        "name": "INDEPENDENT DIRECTED STUDIES 1",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MIMCB11--L",
+        "name": "INSTRUMENTAL MUSIC 11:",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MIMCB12--L",
+        "name": "INSTRUMENTAL MUSIC 12: CONCERT",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MIMG-11---",
+        "name": "INSTRUMENTAL MUSIC 11: GUITAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MIMG-12---",
+        "name": "INSTRUMENTAL MUSIC 12: GUITAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MIMJB11--L",
+        "name": "INSTRUMENTAL MUSIC 11: JAZZ BA",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MIMJB12--L",
+        "name": "INSTRUMENTAL MUSIC 12: JAZZ BA",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MINST12---",
+        "name": "CONTEMPORARY INDIGENOUS STUDIE",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MINST12C--",
+        "name": "CONTEMPORARY INDIGENOUS STUDIE",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MLFSC11---",
+        "name": "LIFE SCIENCES 11",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MLST-12---",
+        "name": "LAW STUDIES 12",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MLTST10---",
+        "name": "LITERARY STUDIES 10",
+        "num_sections": 0,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MLTST10C--",
+        "name": "LITERARY STUDIES 10 Challenge",
+        "num_sections": 0,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MLTST11C--",
+        "name": "LITERARY STUDIES 11 Challenge",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MLTST12---",
+        "name": "LITERARY STUDIES 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMA--09---",
+        "name": "MATHEMATICS 9",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMA--09C--",
+        "name": "MATHEMATICS 9 CHALLENGE",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMA--09H--",
+        "name": "MATHEMATICS 9 HONOURS",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMACS11---",
+        "name": "COMPUTER SCIENCE 11",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "114",
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMACS12---",
+        "name": "COMPUTER SCIENCE 12",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMAP-11---",
+        "name": "MARKETING AND PROMOTION 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMEDD10---",
+        "name": "ADST ? MEDIA DESIGN 10",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "114"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMEDD11---",
+        "name": "MEDIA DESIGN 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "114"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMEDD12---",
+        "name": "MEDIA DESIGN 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "114"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMUCB10--L",
+        "name": "INSTRUMENTAL MUSIC: CONCERT BA",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MMUCC10--L",
+        "name": "CHORAL MUSIC: CONCERT CHOIR 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MMUGT10---",
+        "name": "INSTRUMENTAL MUSIC: GUITAR 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MMUJB10--L",
+        "name": "INSTRUMENTAL MUSIC: JAZZ BAND",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MMUOR10S-L",
+        "name": "INSTRUMENTAL MUSIC: ORCHESTRA",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MMUOR11S-L",
+        "name": "INSTRUMENTAL MUSIC: ORCHESTRA",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MMUOR12S-L",
+        "name": "INSTRUMENTAL MUSIC: ORCHESTRA",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MODED11---",
+        "name": "OUTDOOR EDUCATION 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MODED12---",
+        "name": "OUTDOOR EDUCATION 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPGEO12---",
+        "name": "PHYSICAL GEOGRAPHY 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "121",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPH--11---",
+        "name": "PHYSICS 11",
+        "num_sections": 6,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPH--12---",
+        "name": "PHYSICS 12",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPHE-09---",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPHE-09--L",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MPHE-09B--",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPHE-09FB-",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPHE-09G--",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPHE-09Y--",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPHED10---",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPHED10--L",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MPHED10B--",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPHED10FB-",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPHED10G--",
+        "name": "PHYSICAL AND HEALTH EDUCATION",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPREC11---",
+        "name": "PRE-CALCULUS 11",
+        "num_sections": 6,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPREC11H--",
+        "name": "PRE-CALCULUS 11 HONOURS",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPREC12---",
+        "name": "PRE-CALCULUS 12",
+        "num_sections": 6,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MPREC12H--",
+        "name": "PRE-CALCULUS 12 HONOURS",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSC--09---",
+        "name": "SCIENCE 9",
+        "num_sections": 6,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSC--09C--",
+        "name": "SCIENCE 9: CHALLENGE",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSC--10---",
+        "name": "SCIENCE 10",
+        "num_sections": 7,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSC--10C--",
+        "name": "SCIENCE 10: CHALLENGE",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "211",
+            "216",
+            "219",
+            "223",
+            "225",
+            "226",
+            "227"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSJ--12---",
+        "name": "SOCIAL JUSTICE 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "121",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSP--09---",
+        "name": "SPANISH 9",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSP--10---",
+        "name": "SPANISH 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSP--11---",
+        "name": "SPANISH 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSP--12---",
+        "name": "SPANISH 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSPLG10---",
+        "name": "SPOKEN LANGUAGE 10",
+        "num_sections": 0,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSPLG11---",
+        "name": "SPOKEN LANGUAGE 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSS--09---",
+        "name": "SOCIAL STUDIES 9",
+        "num_sections": 7,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "121",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSS--09C--",
+        "name": "SOCIAL STUDIES 9 CHALLENGE",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "121",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSS--10---",
+        "name": "SOCIAL STUDIES 10",
+        "num_sections": 8,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "121",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MSS--10C--",
+        "name": "SOCIAL STUDIES 10 CHALLENGE",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "121",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTAUT11---",
+        "name": "AUTOMOTIVE TECHNOLOGY 11",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "102"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTAUT12---",
+        "name": "AUTOMOTIVE TECHNOLOGY 12",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "102"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTDRF10---",
+        "name": "ADST ?  DRAFTING 10",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "105"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTDRF11---",
+        "name": "DRAFTING 11",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "105"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTDRF12---",
+        "name": "DRAFTING 12",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "105"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTEAD12---",
+        "name": "ENGINE AND DRIVETRAIN 12",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTEAR10---",
+        "name": "ADST ?  ELECTRONICS AND ROBOTI",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTEAR10--L",
+        "name": "ADST ?  ELECTRONICS AND ROBOTI",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MTEXP10---",
+        "name": "ADST-Technology Explorations 1",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTPOW10---",
+        "name": "ADST ?  POWER TECHNOLOGY 10",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "103"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTROB11---",
+        "name": "ROBOTICS 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTROB11--L",
+        "name": "ROBOTICS 11 LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MTROB12---",
+        "name": "ROBOTICS 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTROB12--L",
+        "name": "ROBOTICS 12 LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "104"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MTXT-10---",
+        "name": "TEXTILES 10",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "206"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTXT-11---",
+        "name": "TEXTILES 11",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "206"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MTXT-12---",
+        "name": "TEXTILES 12",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "206"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MVA--09---",
+        "name": "VISUAL ARTS 9",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "116"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MVAPH10---",
+        "name": "VISUAL ARTS: PHOTOGRAPHY 10",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "113"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MVAPH11---",
+        "name": "PHOTOGRAPHY 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "113"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MVAPH12---",
+        "name": "PHOTOGRAPHY 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "113"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MVAST10---",
+        "name": "VISUAL ARTS: ART STUDIO 10",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "116"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MVAST11---",
+        "name": "ART STUDIO 11",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "116"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MVAST12---",
+        "name": "ART STUDIO 12",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "116"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MWBDV10IT-",
+        "name": "Information and Communications",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "114",
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MWEX-2A---",
+        "name": "WORK EXPERIENCE 12A",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MWEX-2A--L",
+        "name": "WORK EXPERIENCE 12A LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MWEX-2B--L",
+        "name": "WORK EXPERIENCE 12B LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "MWH--12---",
+        "name": "20th CENTURY WORLD HISTORY 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "121",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MWPM-10---",
+        "name": "WORKPLACE MATHEMATICS 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MWPM-11---",
+        "name": "WORKPLACE MATHEMATICS 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "106",
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "210",
+            "212",
+            "214",
+            "220",
+            "221",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MWWK-10---",
+        "name": "ADST ?  WOODWORK 10",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "101"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MWWK-11---",
+        "name": "WOODWORK 11",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "101"
+        ],
+        "linear": false
+    },
+    {
+        "code": "MWWK-12---",
+        "name": "WOODWORK 12",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "101"
+        ],
+        "linear": false
+    },
+    {
+        "code": "PBB--2H",
+        "name": "CAMOSUN COL BUSINESS 12H",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "XBA--09C-L",
+        "name": "CONCERT BAND 9 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "XBA--09G--",
+        "name": "CONCERT BAND 9 - Guitar",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": false
+    },
+    {
+        "code": "XBA--09J-L",
+        "name": "JAZZ BAND 9 LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "XC---09--L",
+        "name": "CONCERT CHOIR 9 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "XLDCB09LS-",
+        "name": "LEARNING STRATEGIES 9 LD",
+        "num_sections": 17,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "XLDCB09LSL",
+        "name": "LEARNING STRATEGIES 9 LD LINEA",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "XLDCB09M--",
+        "name": "TECH ED 9: MECHANICS LD",
+        "num_sections": 2,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "XLDCB09S-L",
+        "name": "STRINGS 9 LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "119"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YCPA-0AX-L",
+        "name": "COMMUNITY LEADERSHIP 10 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YCPA-0AXE-",
+        "name": "COMMUNITY LEADERSHIP 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YCPA-1AX-L",
+        "name": "COMMUNITY LEADERSHIP 11 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YCPA-1AXE-",
+        "name": "COMMUNITY LEADERSHIP 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YCPA-2AX-L",
+        "name": "COMMUNITY LEADERSHIP 12 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YCPA-2AXE-",
+        "name": "COMMUNITY LEADERSHIP 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YED--0AX--",
+        "name": "LEARNING STRATEGIES 10",
+        "num_sections": 17,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YED--0AX-L",
+        "name": "LEARNING STRATEGIES 10 LINEAR",
+        "num_sections": 5,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YED--0BX-L",
+        "name": "PEER TUTORING 10 LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YED--1DX--",
+        "name": "LEARNING STRATEGIES 11",
+        "num_sections": 18,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YED--1DX-L",
+        "name": "LEARNING STRATEGIES 11",
+        "num_sections": 4,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YED--1EX-L",
+        "name": "PEER TUTORING 11 LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YED--2CX--",
+        "name": "LEARNING STRATEGIES 12",
+        "num_sections": 17,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YED--2CX-L",
+        "name": "LEARNING STRATEGIES 12 LINEAR",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YED--2DX-L",
+        "name": "PEER TUTORING 12 LINEAR",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YED--2FX-L",
+        "name": "SCHOLARSHIP PREPARATION 12 LIN",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YESFL0AX--",
+        "name": "BEGINNERS ELL 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YESFL1AX--",
+        "name": "Intermediate ELL 11",
+        "num_sections": 0,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YESFL1CX--",
+        "name": "ELL Academic Literacy 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YHRA-0AX--",
+        "name": "CROSS TRAINING 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YHRA-1AX--",
+        "name": "CROSS TRAINING 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YHRA-2AX--",
+        "name": "CROSS TRAINING 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "203"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YLAW-2CX--",
+        "name": "CRIMINOLOGY 12",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YLRA-0AX-L",
+        "name": "ATHLETIC LEADERSHIP 10 U16",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YLRA-1AX-L",
+        "name": "ATHLETIC LEADERSHIP 11 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YLRA-2AX-L",
+        "name": "ATHLETIC LEADERSHIP 12 Linear",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": true
+    },
+    {
+        "code": "YPA--0CX--",
+        "name": "YOGA FOR MINDFULNESS 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YPA--1CX--",
+        "name": "YOGA FOR MINDFULNESS 11",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YPA--2CX--",
+        "name": "YOGA FOR MINDFULNESS 12",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YPR--0BX--",
+        "name": "OUTDOOR EDUCATION 10",
+        "num_sections": 1,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "120",
+            "A-4",
+            "Gym"
+        ],
+        "linear": false
+    },
+    {
+        "code": "YPSYC1AX--",
+        "name": "PSYCHOLOGY 11",
+        "num_sections": 3,
+        "total": 0,
+        "enrollment_max": 0,
+        "rooms": [
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
+        ],
+        "linear": false
+    }
+]

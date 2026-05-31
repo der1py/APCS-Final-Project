@@ -1,5 +1,6 @@
 import csv
 import json
+import re
 from collections import defaultdict
 from dataclasses import asdict
 from pathlib import Path
@@ -45,6 +46,10 @@ def get_course_grade(code, description):
     return None
 
 
+def has_word(text, word):
+    return re.search(rf"\b{re.escape(word)}\b", text) is not None
+
+
 def is_computer_science_course(code, description):
     text = f"{code} {description}".upper()
 
@@ -69,7 +74,7 @@ def get_special_course_rooms(code, description):
     if "ELECTRONICS" in text or "ROBOTIC" in text:
         return ["104"]
 
-    if "PROGRAMMING" in text or "AI" in text:
+    if "PROGRAMMING" in text or has_word(text, "AI"):
         return ["203"]
 
     if is_computer_science_course(code, description):
@@ -121,7 +126,7 @@ def get_course_department(code, description):
     if "WOOD" in text or "CARPENTRY" in text:
         return "Woodwork"
 
-    if "AUTO" in text or "AUTOMOTIVE" in text:
+    if "AUTO" in text or "AUTOMOTIVE" in text or "DRIVETRAIN" in text:
         return "Automotive"
 
     if "POWER TECH" in text:
@@ -136,7 +141,7 @@ def get_course_department(code, description):
     if "FOOD" in text or "TEXTILE" in text or "HOME ECONOMICS" in text:
         return "Home Economics"
 
-    if "ART" in text or "CERAMICS" in text or "STUDIO" in text:
+    if has_word(text, "ART") or "CERAMICS" in text or "ART STUDIO" in text:
         return "Art"
 
     if "MATH" in text or "CALCULUS" in text or "PRE-CALCULUS" in text:
@@ -202,7 +207,6 @@ def load_courses_from_csv(course_csv=COURSE_CSV, room_csv=ROOM_CSV):
                 continue
 
             if code.upper().endswith("--L"):
-                # skip linked/split lab-style course codes from the master timetable
                 continue
 
             num_sections = int(sections_raw)

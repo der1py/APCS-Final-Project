@@ -255,17 +255,6 @@
         "linear": false
     },
     {
-        "code": "MADER09--L",
-        "name": "ADST - Electronics and Robotic",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "104"
-        ],
-        "linear": true
-    },
-    {
         "code": "MADGE09---",
         "name": "ADST 9 - General Explorations",
         "num_sections": 5,
@@ -445,28 +434,6 @@
         "linear": false
     },
     {
-        "code": "MCLC-12--L",
-        "name": "CAREER LIFE CONNECTIONS Linear",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "107",
-            "122",
-            "123",
-            "205A",
-            "205B",
-            "207A",
-            "207B",
-            "208",
-            "209",
-            "222",
-            "A-2",
-            "A-3"
-        ],
-        "linear": true
-    },
-    {
         "code": "MCLE-10---",
         "name": "CAREER LIFE EDUCATION 10",
         "num_sections": 5,
@@ -487,50 +454,6 @@
             "A-3"
         ],
         "linear": false
-    },
-    {
-        "code": "MCLE-10--L",
-        "name": "CAREER LIFE EDUCATION 10 Linea",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "107",
-            "122",
-            "123",
-            "205A",
-            "205B",
-            "207A",
-            "207B",
-            "208",
-            "209",
-            "222",
-            "A-2",
-            "A-3"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MCMCC11--L",
-        "name": "CHORAL MUSIC 11: CONCERT CHOIR",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MCMCC12--L",
-        "name": "CHORAL MUSIC 12: CONCERT CHOIR",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
     },
     {
         "code": "MCMCL12---",
@@ -753,72 +676,6 @@
         "linear": false
     },
     {
-        "code": "MDNC-10--L",
-        "name": "DANCE 10: CHOREOGRAPHY Linear",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "Studio"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MDNC-11--L",
-        "name": "DANCE 11: CHOREOGRAPHY Linear",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "Studio"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MDNC-12--L",
-        "name": "DANCE 12: CHOREOGRAPHY Linear",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "Studio"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MDNCM10--L",
-        "name": "DANCE COMPANY 10 Linear",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "Studio"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MDNCM11--L",
-        "name": "DANCE COMPANY 11 Linear",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "Studio"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MDNCM12--L",
-        "name": "DANCE COMPANY 12 Linear",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "Studio"
-        ],
-        "linear": true
-    },
-    {
         "code": "MDNCN11---",
         "name": "DANCE CONDITIONING 11",
         "num_sections": 1,
@@ -1014,7 +871,20 @@
         "total": 0,
         "enrollment_max": 0,
         "rooms": [
-            "116"
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3",
+            "A-6",
+            "A-7"
         ],
         "linear": false
     },
@@ -1025,7 +895,20 @@
         "total": 0,
         "enrollment_max": 0,
         "rooms": [
-            "116"
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3",
+            "A-6",
+            "A-7"
         ],
         "linear": false
     },
@@ -1484,50 +1367,6 @@
         "linear": false
     },
     {
-        "code": "MGRPR11--L",
-        "name": "GRAPHIC PRODUCTION 11 LINEAR",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "107",
-            "122",
-            "123",
-            "205A",
-            "205B",
-            "207A",
-            "207B",
-            "208",
-            "209",
-            "222",
-            "A-2",
-            "A-3"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MGRPR12--L",
-        "name": "GRAPHIC PRODUCTION 12 LINEAR",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "107",
-            "122",
-            "123",
-            "205A",
-            "205B",
-            "207A",
-            "207B",
-            "208",
-            "209",
-            "222",
-            "A-2",
-            "A-3"
-        ],
-        "linear": true
-    },
-    {
         "code": "MIDS-0B---",
         "name": "INDEPENDENT DIRECTED STUDIES 1",
         "num_sections": 1,
@@ -1572,28 +1411,6 @@
         "linear": false
     },
     {
-        "code": "MIMCB11--L",
-        "name": "INSTRUMENTAL MUSIC 11:",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MIMCB12--L",
-        "name": "INSTRUMENTAL MUSIC 12: CONCERT",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
-    },
-    {
         "code": "MIMG-11---",
         "name": "INSTRUMENTAL MUSIC 11: GUITAR",
         "num_sections": 1,
@@ -1614,28 +1431,6 @@
             "119"
         ],
         "linear": false
-    },
-    {
-        "code": "MIMJB11--L",
-        "name": "INSTRUMENTAL MUSIC 11: JAZZ BA",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MIMJB12--L",
-        "name": "INSTRUMENTAL MUSIC 12: JAZZ BA",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
     },
     {
         "code": "MINST12---",
@@ -1971,28 +1766,6 @@
         "linear": false
     },
     {
-        "code": "MMUCB10--L",
-        "name": "INSTRUMENTAL MUSIC: CONCERT BA",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MMUCC10--L",
-        "name": "CHORAL MUSIC: CONCERT CHOIR 10",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
-    },
-    {
         "code": "MMUGT10---",
         "name": "INSTRUMENTAL MUSIC: GUITAR 10",
         "num_sections": 1,
@@ -2002,17 +1775,6 @@
             "119"
         ],
         "linear": false
-    },
-    {
-        "code": "MMUJB10--L",
-        "name": "INSTRUMENTAL MUSIC: JAZZ BAND",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
     },
     {
         "code": "MMUOR10S-L",
@@ -2142,17 +1904,6 @@
         "linear": false
     },
     {
-        "code": "MPHE-09--L",
-        "name": "PHYSICAL AND HEALTH EDUCATION",
-        "num_sections": 2,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "Gym"
-        ],
-        "linear": true
-    },
-    {
         "code": "MPHE-09B--",
         "name": "PHYSICAL AND HEALTH EDUCATION",
         "num_sections": 4,
@@ -2206,17 +1957,6 @@
             "Gym"
         ],
         "linear": false
-    },
-    {
-        "code": "MPHED10--L",
-        "name": "PHYSICAL AND HEALTH EDUCATION",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "Gym"
-        ],
-        "linear": true
     },
     {
         "code": "MPHED10B--",
@@ -2740,7 +2480,7 @@
         "total": 0,
         "enrollment_max": 0,
         "rooms": [
-            "203"
+            "102"
         ],
         "linear": false
     },
@@ -2754,17 +2494,6 @@
             "104"
         ],
         "linear": false
-    },
-    {
-        "code": "MTEAR10--L",
-        "name": "ADST ?  ELECTRONICS AND ROBOTI",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "104"
-        ],
-        "linear": true
     },
     {
         "code": "MTEXP10---",
@@ -2811,17 +2540,6 @@
         "linear": false
     },
     {
-        "code": "MTROB11--L",
-        "name": "ROBOTICS 11 LINEAR",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "104"
-        ],
-        "linear": true
-    },
-    {
         "code": "MTROB12---",
         "name": "ROBOTICS 12",
         "num_sections": 2,
@@ -2831,17 +2549,6 @@
             "104"
         ],
         "linear": false
-    },
-    {
-        "code": "MTROB12--L",
-        "name": "ROBOTICS 12 LINEAR",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "104"
-        ],
-        "linear": true
     },
     {
         "code": "MTXT-10---",
@@ -2883,7 +2590,18 @@
         "total": 0,
         "enrollment_max": 0,
         "rooms": [
-            "116"
+            "107",
+            "122",
+            "123",
+            "205A",
+            "205B",
+            "207A",
+            "207B",
+            "208",
+            "209",
+            "222",
+            "A-2",
+            "A-3"
         ],
         "linear": false
     },
@@ -2986,50 +2704,6 @@
             "A-3"
         ],
         "linear": false
-    },
-    {
-        "code": "MWEX-2A--L",
-        "name": "WORK EXPERIENCE 12A LINEAR",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "107",
-            "122",
-            "123",
-            "205A",
-            "205B",
-            "207A",
-            "207B",
-            "208",
-            "209",
-            "222",
-            "A-2",
-            "A-3"
-        ],
-        "linear": true
-    },
-    {
-        "code": "MWEX-2B--L",
-        "name": "WORK EXPERIENCE 12B LINEAR",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "107",
-            "122",
-            "123",
-            "205A",
-            "205B",
-            "207A",
-            "207B",
-            "208",
-            "209",
-            "222",
-            "A-2",
-            "A-3"
-        ],
-        "linear": true
     },
     {
         "code": "MWH--12---",
@@ -3190,17 +2864,6 @@
     {
         "code": "XBA--09J-L",
         "name": "JAZZ BAND 9 LINEAR",
-        "num_sections": 1,
-        "total": 0,
-        "enrollment_max": 0,
-        "rooms": [
-            "119"
-        ],
-        "linear": true
-    },
-    {
-        "code": "XC---09--L",
-        "name": "CONCERT CHOIR 9 Linear",
         "num_sections": 1,
         "total": 0,
         "enrollment_max": 0,
@@ -3711,7 +3374,9 @@
         "total": 0,
         "enrollment_max": 0,
         "rooms": [
-            "203"
+            "120",
+            "A-4",
+            "Gym"
         ],
         "linear": false
     },
@@ -3722,7 +3387,9 @@
         "total": 0,
         "enrollment_max": 0,
         "rooms": [
-            "203"
+            "120",
+            "A-4",
+            "Gym"
         ],
         "linear": false
     },
@@ -3733,7 +3400,9 @@
         "total": 0,
         "enrollment_max": 0,
         "rooms": [
-            "203"
+            "120",
+            "A-4",
+            "Gym"
         ],
         "linear": false
     },

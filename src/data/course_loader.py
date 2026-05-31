@@ -108,10 +108,20 @@ def get_course_department(code, description):
     if "MUSIC" in text or "BAND" in text or "CHOIR" in text or "STRINGS" in text:
         return "Music"
 
+    if (
+        "SCIENCE" in text
+        or "PHYSICS" in text
+        or "CHEMISTRY" in text
+        or "BIOLOGY" in text
+        or "ANATOMY" in text
+        or "ENVIRONMENTAL" in text
+    ):
+        return "Science"
+
     if "WOOD" in text or "CARPENTRY" in text:
         return "Woodwork"
 
-    if "AUTO" in text or "MECHANICS" in text:
+    if "AUTO" in text or "AUTOMOTIVE" in text:
         return "Automotive"
 
     if "POWER TECH" in text:
@@ -128,16 +138,6 @@ def get_course_department(code, description):
 
     if "ART" in text or "CERAMICS" in text or "STUDIO" in text:
         return "Art"
-
-    if (
-        "SCIENCE" in text
-        or "PHYSICS" in text
-        or "CHEMISTRY" in text
-        or "BIOLOGY" in text
-        or "ANATOMY" in text
-        or "ENVIRONMENTAL" in text
-    ):
-        return "Science"
 
     if "MATH" in text or "CALCULUS" in text or "PRE-CALCULUS" in text:
         return "Mathematics"

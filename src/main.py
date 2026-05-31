@@ -2,7 +2,6 @@ from data.data_loader import load_students
 from data.course_loader import load_courses_from_csv
 
 from solver.master_timetable_builder import build_master_timetable
-from solver.room_assigner import assign_rooms
 from solver.student_timetable_builder import generate_all_student_schedules
 
 from validator import validate_courses, validate_students

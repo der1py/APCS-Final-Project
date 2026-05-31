@@ -1,4 +1,5 @@
-from data.data_loader import load_students, load_courses
+from data.data_loader import load_students
+from data.course_loader import load_courses_from_csv
 
 from solver.master_timetable_builder import build_master_timetable
 from solver.student_timetable_builder import generate_all_student_schedules
@@ -14,7 +15,7 @@ from output.output_scripts.export import export_all
 # =====================================================
 
 students = load_students()
-courses = load_courses()
+courses = load_courses_from_csv()
 
 
 # =====================================================

@@ -46,13 +46,11 @@ master_timetable = build_master_timetable(
     courses
 )
 
-# assign rooms to scheduled sections before student placement/export
+# TODO comment ts
 course_lookup = {
     course.code: course
     for course in courses
 }
-
-assign_rooms(master_timetable, course_lookup)
 
 section_capacity = {
     sec.id: course_lookup[sec.course_code].enrollment_max

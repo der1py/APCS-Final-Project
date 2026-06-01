@@ -1,5 +1,6 @@
 # This module builds the master timetable using CP-SAT.
 import sys
+import os
 
 from dataclasses import dataclass
 from collections import defaultdict
@@ -83,6 +84,79 @@ def build_master_timetable(students, courses):
     })
 
     # =================================================
+    # BUILD SIMULTANEOUS GROUPS (sections grouped into atomic room-units)
+    # Each section will belong to exactly one group; groups created from
+    # simultaneous blocking rules, then remaining sections become singleton
+    # groups so the room-constraint logic can be applied uniformly.
+    # =================================================
+
+    sim_groups = {}           # group_id -> set(section_id)
+    section_to_group = {}     # section_id -> group_id
+    group_counter = 0
+
+    for blocking_type, pairs in blocking_rules.items():
+
+        for c1, c2 in pairs:
+
+            if c1 not in course_to_sections:
+                continue
+
+            if c2 not in course_to_sections:
+                continue
+
+            sec_list_1 = course_to_sections[c1]
+            sec_list_2 = course_to_sections[c2]
+
+            min_len = min(
+                len(sec_list_1),
+                len(sec_list_2)
+            )
+
+            for i in range(min_len):
+
+                s1 = sec_list_1[i]
+                s2 = sec_list_2[i]
+
+                g1 = section_to_group.get(s1.id)
+                g2 = section_to_group.get(s2.id)
+
+                if g1 is None and g2 is None:
+                    gid = f"sim_{group_counter}"
+                    group_counter += 1
+                    sim_groups[gid] = {s1.id, s2.id}
+                    section_to_group[s1.id] = gid
+                    section_to_group[s2.id] = gid
+
+                elif g1 is not None and g2 is None:
+                    sim_groups[g1].add(s2.id)
+                    section_to_group[s2.id] = g1
+
+                elif g1 is None and g2 is not None:
+                    sim_groups[g2].add(s1.id)
+                    section_to_group[s1.id] = g2
+
+                elif g1 != g2:
+                    # merge groups g2 into g1
+                    for sid in sim_groups[g2]:
+                        sim_groups[g1].add(sid)
+                        section_to_group[sid] = g1
+                    del sim_groups[g2]
+
+    # any leftover sections become their own singleton groups
+    for s in sections:
+        if s.id not in section_to_group:
+            gid = f"sim_{group_counter}"
+            group_counter += 1
+            sim_groups[gid] = {s.id}
+            section_to_group[s.id] = gid
+
+    # convert to mapping of group -> list of Section objects
+    group_sections = {
+        gid: [section_by_id[sid] for sid in sids]
+        for gid, sids in sim_groups.items()
+    }
+
+    # =================================================
     # CONFLICT MATRIX
     # =================================================
 
@@ -106,7 +180,6 @@ def build_master_timetable(students, courses):
     model = cp_model.CpModel()
 
     x = {}
-    y = {}
 
     for s in sections:
 
@@ -117,16 +190,10 @@ def build_master_timetable(students, courses):
                 f"block_{s.id}_{b}"
             )
 
-        # room variables
+        # room choices will be modeled at the GROUP level later
         course = course_lookup[
             s.course_code
         ]
-
-        for room in course.rooms:
-
-            y[(s.id, room)] = model.NewBoolVar(
-                f"room_{s.id}_{room}"
-            )
 
     # =================================================
     # EACH SECTION EXACTLY ONE BLOCK
@@ -139,33 +206,9 @@ def build_master_timetable(students, courses):
         )
 
     # =================================================
-    # EACH SECTION EXACTLY ONE ROOM
+    # NOTE: per-section room choice is enforced at the GROUP level below
+    # to avoid redundant per-section room variables and constraints.
     # =================================================
-
-    for s in sections:
-
-        course = course_lookup[
-            s.course_code
-        ]
-
-        model.Add(
-
-            sum(
-                y[(s.id, room)]
-                for room in course.rooms
-            )
-
-            == 1
-        )
-
-    # =====================================================
-    # SAME COURSE SECTIONS CANNOT SHARE BLOCK
-    # =====================================================
-
-    # TODO this is literally bullshit, 2 teachers can teach the same class in same block
-    # for course, sec_list in course_to_sections.items():
-    #     for b in blocks:
-    #         model.Add(sum(x[(s.id, b)] for s in sec_list) <= 1)
 
     # =================================================
     # ROOM CONSTRAINTS
@@ -180,55 +223,87 @@ def build_master_timetable(students, courses):
     )
 
     print(
+        f"Groups: {len(group_sections)}"
+    )
+
+    print(
         f"Max sections per block <= {len(all_rooms)}"
     )
 
+    # =================================================
+    # ROOM CONSTRAINTS (group-based occupancy)
+    # For each simultaneous group we create group-room-block variables
+    # `g[(group_id, room, block)]` which indicate that the group
+    # occupies `room` in `block`. We link these to section-level
+    # assignments (x and y) and then ensure at most one group uses
+    # a room in any block.
+    # =================================================
+
+    # group-level block variables (mirror of x for group)
+    x_group = {}
+
+    # group-room-block occupancy will be modeled compactly later
+
+    for gid, s_list in group_sections.items():
+
+        # ensure group block var equals the first section's block var
+        s0 = s_list[0]
+
+        for b in blocks:
+            xg = model.NewBoolVar(f"x_group_{gid}_{b}")
+            x_group[(gid, b)] = xg
+            model.Add(xg == x[(s0.id, b)])
+
+        # enforce section-level synchronization: link every member to the
+        # group's block var so all sections share the same block (O(n)).
+        for s in s_list:
+            for b in blocks:
+                model.Add(x[(s.id, b)] == x_group[(gid, b)])
+
+    # build group->allowed rooms (intersection of allowed rooms)
+    group_allowed_rooms = {}
+
+    for gid, s_list in group_sections.items():
+
+        # compute allowed rooms as intersection of member course rooms
+        allowed = set(course_lookup[s_list[0].course_code].rooms)
+
+        for s in s_list[1:]:
+            allowed &= set(course_lookup[s.course_code].rooms)
+
+        group_allowed_rooms[gid] = sorted(allowed)
+
+        # nothing else needed here; room assignment is handled below
+
+    # Create compact group-room-block variables z[(gid,room,block)].
+    # z is true iff the group is scheduled in `block` AND occupies `room`.
+    # Link with: sum_rooms z[(gid,room,b)] == x_group[(gid,b)]
+    z = {}
+
+    for gid, s_list in group_sections.items():
+
+        rooms_for_group = group_allowed_rooms.get(gid, [])
+
+        for room in rooms_for_group:
+            for b in blocks:
+                z[(gid, room, b)] = model.NewBoolVar(f"z_{gid}_{room}_{b}")
+
+        # if group is assigned to block b, exactly one of the group's allowed
+        # rooms must be chosen for that block
+        for b in blocks:
+            room_vars = [z[(gid, room, b)] for room in rooms_for_group if (gid, room, b) in z]
+            if room_vars:
+                model.Add(sum(room_vars) == x_group[(gid, b)])
+
+    # Now ensure each room is used by at most one group per block
     for room in all_rooms:
-
-        room_sections = [
-
-            s
-
-            for s in sections
-
-            if room in course_lookup[
-                s.course_code
-            ].rooms
-
-        ]
-
         for block in blocks:
-
             room_block_vars = []
-
-            for s in room_sections:
-
-                v = model.NewBoolVar(
-                    f"use_{s.id}_{room}_{block}"
-                )
-
-                model.Add(
-                    v <= x[(s.id, block)]
-                )
-
-                model.Add(
-                    v <= y[(s.id, room)]
-                )
-
-                model.Add(
-                    v >=
-                    x[(s.id, block)]
-                    +
-                    y[(s.id, room)]
-                    - 1
-                )
-
-                room_block_vars.append(v)
-
-            model.Add(
-                sum(room_block_vars)
-                <= 1
-            )
+            for gid in group_sections:
+                if (gid, room, block) in z:
+                    room_block_vars.append(z[(gid, room, block)])
+            if room_block_vars:
+                model.Add(sum(room_block_vars) <= 1)
 
     # =================================================
     # SOFT BLOCK BALANCE
@@ -317,7 +392,8 @@ def build_master_timetable(students, courses):
     # =================================================
     # CONFLICT VARIABLES
     # =================================================
-
+    # TODO check if it works later
+    
     same_block = {}
 
     for (c1, c2), weight in conflict.items():
@@ -420,26 +496,29 @@ def build_master_timetable(students, courses):
 
         print("\nSECTION SCHEDULE:\n")
 
-        for s in sections:
+        # derive group-room assignments from z and assign to each section
+        group_room_for_block = {}
 
+        for gid in group_sections:
             for b in blocks:
+                for room in group_allowed_rooms.get(gid, []):
+                    if (gid, room, b) in z and solver.Value(z[(gid, room, b)]):
+                        group_room_for_block[(gid, b)] = room
+                        break
 
+        for s in sections:
+            for b in blocks:
                 if solver.Value(x[(s.id, b)]):
-
                     section_to_block[s.id] = b
-
                     s.time_slot = b
-
-                    for room in course_lookup[
-                        s.course_code
-                    ].rooms:
-
-                        if solver.Value(
-                            y[(s.id, room)]
-                        ):
-
-                            s.room_id = room
-                            break
+                    gid = section_to_group.get(s.id)
+                    assigned = group_room_for_block.get((gid, b))
+                    if assigned is None:
+                        # fallback: pick first allowed room for the group
+                        allowed = group_allowed_rooms.get(gid, [])
+                        s.room_id = allowed[0] if allowed else None
+                    else:
+                        s.room_id = assigned
 
                     print(
                         f"{s.id:15}"

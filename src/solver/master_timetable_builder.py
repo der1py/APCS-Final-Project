@@ -5,12 +5,14 @@ import os
 from dataclasses import dataclass
 from collections import defaultdict
 from itertools import combinations
+import math
 
 from ortools.sat.python import cp_model
 
 from models.section import Section
 
 from data.data_loader import load_simultaneous_blocking_rules
+import csv
 
 # =====================================================
 # MASTER TIMETABLE OBJECT
@@ -39,9 +41,52 @@ def build_master_timetable(students, courses):
     # SETUP
     # =================================================
 
-    blocks = list(range(8))
+    DEFAULT_BLOCKS = 8
 
     blocking_rules = load_simultaneous_blocking_rules()
+
+    # -------------------------------------------------
+    # Cancel low-enrollment sections before building the
+    # timetable sections. Use a stricter threshold so extra
+    # sections are removed earlier.
+    # -------------------------------------------------
+
+    LOW_ENROLLMENT_THRESHOLD = 0.5
+
+    course_lookup = {
+        c.code: c
+        for c in courses
+    }
+
+    requests_per_course = defaultdict(int)
+    for student in students:
+        for ccode in student.main_courses:
+            if ccode in course_lookup:
+                requests_per_course[ccode] += 1
+
+    adjusted = []
+    for c in courses:
+        max_per_section = getattr(c, 'enrollment_max', None)
+        if max_per_section is None or max_per_section <= 0:
+            continue
+
+        requested = requests_per_course.get(c.code, 0)
+        total_max = max_per_section * c.num_sections
+
+        if total_max > 0 and requested < LOW_ENROLLMENT_THRESHOLD * total_max:
+            # compute the largest number of sections such that
+            # requested >= threshold * (enrollment_max * new_num_sections)
+            new_ns = int(math.floor(requested / (LOW_ENROLLMENT_THRESHOLD * max_per_section)))
+            if requested > 0:
+                new_ns = max(1, new_ns)
+            if new_ns < c.num_sections:
+                adjusted.append((c.code, c.num_sections, new_ns, requested, max_per_section))
+                c.num_sections = new_ns
+
+    if adjusted:
+        print("Adjusted low-enrollment courses (code, old_ns, new_ns, requested, per_section_max):")
+        for rec in adjusted:
+            print(rec)
 
     sections = []
 
@@ -68,16 +113,29 @@ def build_master_timetable(students, courses):
         for s in sections
     }
 
-    course_lookup = {
-        c.code: c
-        for c in courses
-    }
-
-    all_rooms = sorted({
+    # collect rooms declared on courses
+    course_rooms = {
         room
         for c in courses
         for room in c.rooms
-    })
+    }
+
+    # also read staff room list to include any rooms not referenced by courses
+    staff_rooms = set()
+    try:
+        staff_csv = os.path.join(os.path.dirname(__file__), '..', 'data', 'cleaned data', 'Staff list with rooms.csv')
+        staff_csv = os.path.normpath(staff_csv)
+        with open(staff_csv, encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                num = row.get('Num')
+                if num:
+                    staff_rooms.add(num.strip())
+    except Exception:
+        # if staff file missing or unreadable, ignore and proceed with course rooms
+        staff_rooms = set()
+
+    all_rooms = sorted(course_rooms | staff_rooms)
 
     # Build simultaneous groups: sections grouped into atomic room-units.
     # Each section will belong to exactly one group; groups created from
@@ -90,12 +148,21 @@ def build_master_timetable(students, courses):
 
     for blocking_type, pairs in blocking_rules.items():
 
+        if blocking_type != "Simultaneous":
+            continue
+
         for c1, c2 in pairs:
 
+            # only consider pairs where both courses exist
             if c1 not in course_to_sections:
                 continue
 
             if c2 not in course_to_sections:
+                continue
+
+            course1 = course_lookup.get(c1)
+            course2 = course_lookup.get(c2)
+            if course1 is None or course2 is None:
                 continue
 
             sec_list_1 = course_to_sections[c1]
@@ -180,6 +247,8 @@ def build_master_timetable(students, courses):
         f"Max sections per block <= {len(all_rooms)}"
     )
 
+    blocks = list(range(DEFAULT_BLOCKS))
+
     # =================================================
     # MODEL CREATION
     # =================================================
@@ -247,6 +316,68 @@ def build_master_timetable(students, courses):
 
         group_allowed_rooms[gid] = sorted(allowed)
 
+    # diagnostics for group-room capacity constraints
+    zero_room_groups = [gid for gid, rooms in group_allowed_rooms.items() if not rooms]
+    room_count_list = [len(rooms) for rooms in group_allowed_rooms.values()]
+    singleton_room_groups = defaultdict(int)
+    for gid, rooms in group_allowed_rooms.items():
+        if len(rooms) == 1:
+            singleton_room_groups[rooms[0]] += 1
+
+    print("\nGROUP-ROOM CAPACITY DIAGNOSTICS:")
+    print(f"  Zero common-room groups: {len(zero_room_groups)}")
+    print(f"  Groups with 1 allowed room: {sum(1 for count in room_count_list if count == 1)}")
+    print(f"  Groups with <=2 allowed rooms: {sum(1 for count in room_count_list if count <= 2)}")
+    print(f"  Groups with <=3 allowed rooms: {sum(1 for count in room_count_list if count <= 3)}")
+    print(f"  Min allowed rooms per group: {min(room_count_list) if room_count_list else 0}")
+    print(f"  Median allowed rooms per group: {sorted(room_count_list)[len(room_count_list)//2] if room_count_list else 0}")
+    print(f"  Rooms with >8 singleton-only group assignments: {sum(1 for count in singleton_room_groups.values() if count > DEFAULT_BLOCKS)}")
+    if singleton_room_groups:
+        top_singleton_rooms = sorted(singleton_room_groups.items(), key=lambda item: item[1], reverse=True)[:10]
+        print("  Top singleton-only rooms:")
+        for room, count in top_singleton_rooms:
+            print(f"    {room}: {count}")
+
+    # identify staff rooms that were not referenced by any course
+    missing_staff_rooms = sorted(list(staff_rooms - course_rooms))
+    if missing_staff_rooms:
+        print("Missing staff rooms (not in course rooms):", missing_staff_rooms)
+
+    # If a group has no common allowed rooms, offer all available rooms as fallback.
+    # This ensures feasibility; solver will minimize cost of using non-preferred rooms.
+    for gid in list(group_allowed_rooms.keys()):
+        if not group_allowed_rooms[gid]:
+            # zero-room groups: allow ANY room in all_rooms (with penalty in objective)
+            group_allowed_rooms[gid] = all_rooms
+
+    # =================================================
+    # C3.5 - ROOM ASSIGNMENT PER SECTION (create y after group_allowed_rooms)
+    # =================================================
+
+    y = {}
+
+    for s in sections:
+
+        course = course_lookup[s.course_code]
+        gid = section_to_group.get(s.id)
+
+        # base allowed rooms from course, plus any group-level allowed rooms
+        # (this ensures that when we added missing staff rooms as group
+        # fallbacks, those rooms are also available at section-level)
+        allowed_rooms = set(course.rooms) | set(group_allowed_rooms.get(gid, []))
+
+        for room in sorted(allowed_rooms):
+            y[(s.id, room)] = model.NewBoolVar(
+                f"room_{s.id}_{room}"
+            )
+
+        model.Add(
+            sum(
+                y[(s.id, room)]
+                for room in sorted(allowed_rooms)
+            ) == 1
+        )
+
     # Create compact group-room-block variables z[(gid,room,block)].
     # z is true iff the group is scheduled in `block` AND occupies `room`.
     # Link with: sum_rooms z[(gid,room,b)] == x_group[(gid,b)]
@@ -267,15 +398,82 @@ def build_master_timetable(students, courses):
             if room_vars:
                 model.Add(sum(room_vars) == x_group[(gid, b)])
 
-    # ensure each room is used by at most one group per block
+        # if the group has a common room intersection, force every section in
+        # the group to use the group's chosen room.
+        if rooms_for_group:
+            for s in s_list:
+                # enforce y for each room the group may occupy
+                for room in rooms_for_group:
+                    # y exists because we created per-section allowed rooms
+                    model.Add(
+                        y[(s.id, room)] ==
+                        sum(z[(gid, room, b)] for b in blocks)
+                    )
+
+                # any section-level rooms not in the group's allowed set must be 0
+                for room in course_lookup[s.course_code].rooms:
+                    if room not in rooms_for_group:
+                        model.Add(y[(s.id, room)] == 0)
+
+    # ensure each room is used by at most one group or one section per block
+    # for overloaded rooms (singleton-only count > blocks), allow multiple groups but penalize in objective
+    room_block_overload = {}  # (room, block) -> IntVar for group count
+    
     for room in all_rooms:
         for block in blocks:
             room_block_vars = []
+
+            # group-level occupancy for groups with a common room
             for gid in group_sections:
                 if (gid, room, block) in z:
                     room_block_vars.append(z[(gid, room, block)])
+
+            # section-level occupancy for groups without a common room
+            for gid, s_list in group_sections.items():
+                if not group_allowed_rooms[gid]:
+                    for s in s_list:
+                        if room in course_lookup[s.course_code].rooms:
+                            v = model.NewBoolVar(
+                                f"use_{s.id}_{room}_{block}"
+                            )
+                            model.Add(v <= x[(s.id, block)])
+                            model.Add(v <= y[(s.id, room)])
+                            model.Add(
+                                v >=
+                                x[(s.id, block)] +
+                                y[(s.id, room)] - 1
+                            )
+                            room_block_vars.append(v)
+
             if room_block_vars:
-                model.Add(sum(room_block_vars) <= 1)
+
+                count_var = model.NewIntVar(
+                    0,
+                    len(group_sections),
+                    f"count_{room}_{block}"
+                )
+
+                model.Add(
+                    count_var ==
+                    sum(room_block_vars)
+                )
+                model.Add(count_var <= 2)  # hard constraint: no more than 2 groups/sections per room-block
+
+                overload = model.NewIntVar(
+                    0,
+                    len(group_sections),
+                    f"overload_{room}_{block}"
+                )
+
+                model.Add(
+                    overload >= count_var - 1
+                )
+
+                model.Add(
+                    overload >= 0
+                )
+
+                room_block_overload[(room, block)] = overload
 
     # =================================================
     # C4 - SIMULTANEOUS BLOCKING RULES
@@ -284,6 +482,9 @@ def build_master_timetable(students, courses):
     print("\nADDING SIMULTANEOUS BLOCKING RULES...\n")
 
     for blocking_type, pairs in blocking_rules.items():
+
+        if blocking_type != "Simultaneous":
+            continue
 
         print(f"Blocking Type: {blocking_type}")
 
@@ -295,6 +496,11 @@ def build_master_timetable(students, courses):
 
             if c2 not in course_to_sections:
                 print(f"Missing course: {c2}")
+                continue
+
+            course1 = course_lookup.get(c1)
+            course2 = course_lookup.get(c2)
+            if course1 is None or course2 is None:
                 continue
 
             sec_list_1 = course_to_sections[c1]
@@ -426,6 +632,14 @@ def build_master_timetable(students, courses):
     )
 
     BALANCE_WEIGHT = 100
+    ROOM_OVERLOAD_WEIGHT = 5000  # reduced to prioritize feasibility over perfect separation
+
+    # compute overload penalty: for each overloaded room-block, penalize based on group count > 1
+    room_overload_cost = (
+        ROOM_OVERLOAD_WEIGHT
+        *
+        sum(room_block_overload.values())
+    )
 
     model.Minimize(
 
@@ -437,6 +651,10 @@ def build_master_timetable(students, courses):
         *
         sum(balance_penalties)
 
+        +
+
+        room_overload_cost
+
     )
 
     # =================================================
@@ -445,10 +663,11 @@ def build_master_timetable(students, courses):
 
     solver = cp_model.CpSolver()
 
-    solver.parameters.max_time_in_seconds = 60
+    solver.parameters.max_time_in_seconds = 300
     solver.parameters.num_search_workers = 8
 
     status = solver.Solve(model)
+    print('SOLVER STATUS:', solver.StatusName(status))
 
     # =================================================
     # RESULTS

@@ -90,7 +90,8 @@ export_all(
     blocks=list(range(8)),
     master_timetable=master_timetable,
     all_schedules=all_schedules,
-    courses=courses
+    courses=courses,
+    section_enrollment=section_enrollment
 )
 
 print("Export complete.")

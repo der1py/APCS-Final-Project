@@ -10,7 +10,8 @@ from pathlib import Path
 def export_master_csv(section_to_block, blocks,
                       output_path="src/output/master_timetable.csv",
                       master_timetable=None,
-                      courses=None):
+                      courses=None,
+                      section_enrollment=None):
 
     blocks = list(blocks)
     master_timetable_display = {b: [] for b in blocks}
@@ -40,6 +41,12 @@ def export_master_csv(section_to_block, blocks,
 
             if sec_obj is not None and sec_obj.room_id:
                 display = f"{display} (Room {sec_obj.room_id})"
+
+            count = 0
+            if section_enrollment is not None:
+                count = section_enrollment.get(sec_id, 0)
+
+            display = f"{display} ({count} students)"
 
             master_timetable_display[block].append(display)
 
@@ -204,11 +211,18 @@ def export_all(students,
                blocks,
                master_timetable,
                all_schedules,
-               courses=None):
+               courses=None,
+               section_enrollment=None):
 
     blocks = list(blocks)
 
-    export_master_csv(section_to_block, blocks, master_timetable=master_timetable, courses=courses)
+    export_master_csv(
+        section_to_block,
+        blocks,
+        master_timetable=master_timetable,
+        courses=courses,
+        section_enrollment=section_enrollment,
+    )
     # legacy exporter (codes)
     export_student_csv_code(students, all_schedules, blocks)
 

@@ -19,10 +19,11 @@ def generate_student_schedule(student: Student, master_timetable: MasterTimetabl
         possible_sections = (master_timetable.course_to_sections[course_code])
 
         # Most filled first
+        # NOTE: least filled first to balance
         possible_sections = sorted(
             possible_sections,
-            key=lambda s: section_enrollment[s.id],
-            reverse=True
+            key=lambda s: section_enrollment[s.id]
+            # reverse=True
         )
 
         assigned = False

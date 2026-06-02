@@ -19,6 +19,8 @@ from data.data_loader import load_students
 from data.course_loader import load_courses_from_csv
 from validator import validate_courses, validate_students
 
+# NOTE: course enrollment max isnt actually used from data set
+# it is just default value of the object (30) for now
 
 # =====================================================
 # LOAD MASTER TIMETABLE FROM JSON

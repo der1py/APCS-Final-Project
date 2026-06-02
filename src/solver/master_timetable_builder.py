@@ -237,45 +237,45 @@ def build_master_timetable(students, courses):
     # build group->allowed rooms (intersection of allowed rooms)
     group_allowed_rooms = {}
 
-    for gid, s_list in group_sections.items():
+    # for gid, s_list in group_sections.items():
 
-        # compute allowed rooms as intersection of member course rooms
-        allowed = set(course_lookup[s_list[0].course_code].rooms)
+    #     # compute allowed rooms as intersection of member course rooms
+    #     allowed = set(course_lookup[s_list[0].course_code].rooms)
 
-        for s in s_list[1:]:
-            allowed &= set(course_lookup[s.course_code].rooms)
+    #     for s in s_list[1:]:
+    #         allowed &= set(course_lookup[s.course_code].rooms)
 
-        group_allowed_rooms[gid] = sorted(allowed)
+    #     group_allowed_rooms[gid] = sorted(allowed)
 
-    # Create compact group-room-block variables z[(gid,room,block)].
-    # z is true iff the group is scheduled in `block` AND occupies `room`.
-    # Link with: sum_rooms z[(gid,room,b)] == x_group[(gid,b)]
-    z = {}
+    # # Create compact group-room-block variables z[(gid,room,block)].
+    # # z is true iff the group is scheduled in `block` AND occupies `room`.
+    # # Link with: sum_rooms z[(gid,room,b)] == x_group[(gid,b)]
+    # z = {}
 
-    for gid, s_list in group_sections.items():
+    # for gid, s_list in group_sections.items():
 
-        rooms_for_group = group_allowed_rooms.get(gid, [])
+    #     rooms_for_group = group_allowed_rooms.get(gid, [])
 
-        for room in rooms_for_group:
-            for b in blocks:
-                z[(gid, room, b)] = model.NewBoolVar(f"z_{gid}_{room}_{b}")
+    #     for room in rooms_for_group:
+    #         for b in blocks:
+    #             z[(gid, room, b)] = model.NewBoolVar(f"z_{gid}_{room}_{b}")
 
-        # if group is assigned to block b, exactly one of the group's allowed
-        # rooms must be chosen for that block
-        for b in blocks:
-            room_vars = [z[(gid, room, b)] for room in rooms_for_group if (gid, room, b) in z]
-            if room_vars:
-                model.Add(sum(room_vars) == x_group[(gid, b)])
+    #     # if group is assigned to block b, exactly one of the group's allowed
+    #     # rooms must be chosen for that block
+    #     for b in blocks:
+    #         room_vars = [z[(gid, room, b)] for room in rooms_for_group if (gid, room, b) in z]
+    #         if room_vars:
+    #             model.Add(sum(room_vars) == x_group[(gid, b)])
 
-    # ensure each room is used by at most one group per block
-    for room in all_rooms:
-        for block in blocks:
-            room_block_vars = []
-            for gid in group_sections:
-                if (gid, room, block) in z:
-                    room_block_vars.append(z[(gid, room, block)])
-            if room_block_vars:
-                model.Add(sum(room_block_vars) <= 1)
+    # # ensure each room is used by at most one group per block
+    # for room in all_rooms:
+    #     for block in blocks:
+    #         room_block_vars = []
+    #         for gid in group_sections:
+    #             if (gid, room, block) in z:
+    #                 room_block_vars.append(z[(gid, room, block)])
+    #         if room_block_vars:
+    #             model.Add(sum(room_block_vars) <= 1)
 
     # =================================================
     # C4 - SIMULTANEOUS BLOCKING RULES

@@ -35,17 +35,13 @@ class MasterTimetable:
 
 def build_master_timetable(students, courses):
 
+    # =================================================
+    # SETUP
+    # =================================================
+
     blocks = list(range(8))
 
-    # =================================================
-    # LOAD SIMULTANEOUS BLOCKING RULES
-    # =================================================
-
     blocking_rules = load_simultaneous_blocking_rules()
-
-    # =================================================
-    # GENERATE SECTIONS
-    # =================================================
 
     sections = []
 
@@ -83,12 +79,10 @@ def build_master_timetable(students, courses):
         for room in c.rooms
     })
 
-    # =================================================
-    # BUILD SIMULTANEOUS GROUPS (sections grouped into atomic room-units)
+    # Build simultaneous groups: sections grouped into atomic room-units.
     # Each section will belong to exactly one group; groups created from
     # simultaneous blocking rules, then remaining sections become singleton
     # groups so the room-constraint logic can be applied uniformly.
-    # =================================================
 
     sim_groups = {}           # group_id -> set(section_id)
     section_to_group = {}     # section_id -> group_id
@@ -156,10 +150,7 @@ def build_master_timetable(students, courses):
         for gid, sids in sim_groups.items()
     }
 
-    # =================================================
-    # CONFLICT MATRIX
-    # =================================================
-
+    # Build conflict matrix
     conflict = defaultdict(int)
 
     for student in students:
@@ -172,47 +163,6 @@ def build_master_timetable(students, courses):
             pair = tuple(sorted((c1, c2)))
 
             conflict[pair] += 1
-
-    # =================================================
-    # CP-SAT MODEL
-    # =================================================
-
-    model = cp_model.CpModel()
-
-    x = {}
-
-    for s in sections:
-
-        # block variables
-        for b in blocks:
-
-            x[(s.id, b)] = model.NewBoolVar(
-                f"block_{s.id}_{b}"
-            )
-
-        # room choices will be modeled at the GROUP level later
-        course = course_lookup[
-            s.course_code
-        ]
-
-    # =================================================
-    # EACH SECTION EXACTLY ONE BLOCK
-    # =================================================
-
-    for s in sections:
-
-        model.Add(
-            sum(x[(s.id, b)] for b in blocks) == 1
-        )
-
-    # =================================================
-    # NOTE: per-section room choice is enforced at the GROUP level below
-    # to avoid redundant per-section room variables and constraints.
-    # =================================================
-
-    # =================================================
-    # ROOM CONSTRAINTS
-    # =================================================
 
     print(
         f"Sections: {len(sections)}"
@@ -231,18 +181,38 @@ def build_master_timetable(students, courses):
     )
 
     # =================================================
-    # ROOM CONSTRAINTS (group-based occupancy)
-    # For each simultaneous group we create group-room-block variables
-    # `g[(group_id, room, block)]` which indicate that the group
-    # occupies `room` in `block`. We link these to section-level
-    # assignments (x and y) and then ensure at most one group uses
-    # a room in any block.
+    # MODEL CREATION
+    # =================================================
+
+    model = cp_model.CpModel()
+
+    # =================================================
+    # C1 - SECTION ASSIGNMENT
+    # =================================================
+
+    x = {}
+
+    for s in sections:
+
+        # block variables
+        for b in blocks:
+
+            x[(s.id, b)] = model.NewBoolVar(
+                f"block_{s.id}_{b}"
+            )
+
+    for s in sections:
+
+        model.Add(
+            sum(x[(s.id, b)] for b in blocks) == 1
+        )
+
+    # =================================================
+    # C2 - GROUP SYNCHRONIZATION
     # =================================================
 
     # group-level block variables (mirror of x for group)
     x_group = {}
-
-    # group-room-block occupancy will be modeled compactly later
 
     for gid, s_list in group_sections.items():
 
@@ -260,6 +230,10 @@ def build_master_timetable(students, courses):
             for b in blocks:
                 model.Add(x[(s.id, b)] == x_group[(gid, b)])
 
+    # =================================================
+    # C3 - ROOM CONSTRAINTS
+    # =================================================
+
     # build group->allowed rooms (intersection of allowed rooms)
     group_allowed_rooms = {}
 
@@ -272,8 +246,6 @@ def build_master_timetable(students, courses):
             allowed &= set(course_lookup[s.course_code].rooms)
 
         group_allowed_rooms[gid] = sorted(allowed)
-
-        # nothing else needed here; room assignment is handled below
 
     # Create compact group-room-block variables z[(gid,room,block)].
     # z is true iff the group is scheduled in `block` AND occupies `room`.
@@ -295,7 +267,7 @@ def build_master_timetable(students, courses):
             if room_vars:
                 model.Add(sum(room_vars) == x_group[(gid, b)])
 
-    # Now ensure each room is used by at most one group per block
+    # ensure each room is used by at most one group per block
     for room in all_rooms:
         for block in blocks:
             room_block_vars = []
@@ -306,47 +278,7 @@ def build_master_timetable(students, courses):
                 model.Add(sum(room_block_vars) <= 1)
 
     # =================================================
-    # SOFT BLOCK BALANCE
-    # =================================================
-
-    target = len(sections) // len(blocks)
-
-    balance_penalties = []
-
-    for b in blocks:
-
-        count = sum(
-            x[(s.id, b)]
-            for s in sections
-        )
-
-        diff = model.NewIntVar(
-            -len(sections),
-            len(sections),
-            f"balance_diff_{b}"
-        )
-
-        deviation = model.NewIntVar(
-            0,
-            len(sections),
-            f"balance_dev_{b}"
-        )
-
-        model.Add(
-            diff == count - target
-        )
-
-        model.AddAbsEquality(
-            deviation,
-            diff
-        )
-
-        balance_penalties.append(
-            deviation
-        )
-
-    # =================================================
-    # SIMULTANEOUS BLOCKING CONSTRAINTS
+    # C4 - SIMULTANEOUS BLOCKING RULES
     # =================================================
 
     print("\nADDING SIMULTANEOUS BLOCKING RULES...\n")
@@ -368,10 +300,7 @@ def build_master_timetable(students, courses):
             sec_list_1 = course_to_sections[c1]
             sec_list_2 = course_to_sections[c2]
 
-            # =================================================
-            # FORCE SAME BLOCK
-            # =================================================
-
+            # force same block for matched sections
             min_len = min(
                 len(sec_list_1),
                 len(sec_list_2)
@@ -390,9 +319,8 @@ def build_master_timetable(students, courses):
                     )
 
     # =================================================
-    # CONFLICT VARIABLES
+    # C5 - CONFLICT CONSTRAINTS
     # =================================================
-    # TODO check if it works later
     
     same_block = {}
 
@@ -435,7 +363,47 @@ def build_master_timetable(students, courses):
                     )
 
     # =================================================
-    # OBJECTIVE
+    # C6 - BALANCE CONSTRAINTS
+    # =================================================
+
+    target = len(sections) // len(blocks)
+
+    balance_penalties = []
+
+    for b in blocks:
+
+        count = sum(
+            x[(s.id, b)]
+            for s in sections
+        )
+
+        diff = model.NewIntVar(
+            -len(sections),
+            len(sections),
+            f"balance_diff_{b}"
+        )
+
+        deviation = model.NewIntVar(
+            0,
+            len(sections),
+            f"balance_dev_{b}"
+        )
+
+        model.Add(
+            diff == count - target
+        )
+
+        model.AddAbsEquality(
+            deviation,
+            diff
+        )
+
+        balance_penalties.append(
+            deviation
+        )
+
+    # =================================================
+    # O1 - OBJECTIVE FUNCTION
     # =================================================
 
     conflict_cost = sum(
@@ -471,7 +439,6 @@ def build_master_timetable(students, courses):
 
     )
 
-
     # =================================================
     # SOLVE
     # =================================================
@@ -484,7 +451,7 @@ def build_master_timetable(students, courses):
     status = solver.Solve(model)
 
     # =================================================
-    # SECTION TO BLOCK MAP
+    # RESULTS
     # =================================================
 
     section_to_block = {}
@@ -535,11 +502,6 @@ def build_master_timetable(students, courses):
 
         print("No solution found.")
         sys.exit() # <-- THIS STOPS THE SCRIPT FROM CRASHING LATER
-
-
-    # =================================================
-    # RETURN OBJECT
-    # =================================================
 
     return MasterTimetable(
         sections=sections,

@@ -14,7 +14,7 @@ class Course:
     
     # TODO these are not documented in context and currently unused
     total: int = 0
-    enrollment_max: int = 0
+    enrollment_max: int = 30
 
     rooms: list[str] = field(default_factory=list)
     linear: bool = False

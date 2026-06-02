@@ -79,6 +79,17 @@ def build_master_timetable(students, courses):
         for room in c.rooms
     })
 
+    # Room capacity configuration.
+    # This maps room identifiers to how many groups may occupy the room in the
+    # same block simultaneously. Unspecified rooms default to capacity 1, which
+    # preserves the current behavior for most classrooms.
+    #
+    # Extend this dictionary for special spaces like gyms, labs, or auditoriums.
+    room_capacity = {
+        "Gym": 200,
+        "206": 400,
+    }
+
     # Build simultaneous groups: sections grouped into atomic room-units.
     # Each section will belong to exactly one group; groups created from
     # simultaneous blocking rules, then remaining sections become singleton
@@ -237,45 +248,48 @@ def build_master_timetable(students, courses):
     # build group->allowed rooms (intersection of allowed rooms)
     group_allowed_rooms = {}
 
-    # for gid, s_list in group_sections.items():
+    for gid, s_list in group_sections.items():
 
-    #     # compute allowed rooms as intersection of member course rooms
-    #     allowed = set(course_lookup[s_list[0].course_code].rooms)
+        # compute allowed rooms as intersection of member course rooms
+        allowed = set(course_lookup[s_list[0].course_code].rooms)
 
-    #     for s in s_list[1:]:
-    #         allowed &= set(course_lookup[s.course_code].rooms)
+        for s in s_list[1:]:
+            allowed &= set(course_lookup[s.course_code].rooms)
 
-    #     group_allowed_rooms[gid] = sorted(allowed)
+        group_allowed_rooms[gid] = sorted(allowed)
 
-    # # Create compact group-room-block variables z[(gid,room,block)].
-    # # z is true iff the group is scheduled in `block` AND occupies `room`.
-    # # Link with: sum_rooms z[(gid,room,b)] == x_group[(gid,b)]
-    # z = {}
+    # Create compact group-room-block variables z[(gid,room,block)].
+    # z is true iff the group is scheduled in `block` AND occupies `room`.
+    # Link with: sum_rooms z[(gid,room,b)] == x_group[(gid,b)]
+    z = {}
 
-    # for gid, s_list in group_sections.items():
+    for gid, s_list in group_sections.items():
 
-    #     rooms_for_group = group_allowed_rooms.get(gid, [])
+        rooms_for_group = group_allowed_rooms.get(gid, [])
 
-    #     for room in rooms_for_group:
-    #         for b in blocks:
-    #             z[(gid, room, b)] = model.NewBoolVar(f"z_{gid}_{room}_{b}")
+        for room in rooms_for_group:
+            for b in blocks:
+                z[(gid, room, b)] = model.NewBoolVar(f"z_{gid}_{room}_{b}")
 
-    #     # if group is assigned to block b, exactly one of the group's allowed
-    #     # rooms must be chosen for that block
-    #     for b in blocks:
-    #         room_vars = [z[(gid, room, b)] for room in rooms_for_group if (gid, room, b) in z]
-    #         if room_vars:
-    #             model.Add(sum(room_vars) == x_group[(gid, b)])
+        # if group is assigned to block b, exactly one of the group's allowed
+        # rooms must be chosen for that block
+        for b in blocks:
+            room_vars = [z[(gid, room, b)] for room in rooms_for_group if (gid, room, b) in z]
+            if room_vars:
+                model.Add(sum(room_vars) == x_group[(gid, b)])
 
-    # # ensure each room is used by at most one group per block
-    # for room in all_rooms:
-    #     for block in blocks:
-    #         room_block_vars = []
-    #         for gid in group_sections:
-    #             if (gid, room, block) in z:
-    #                 room_block_vars.append(z[(gid, room, block)])
-    #         if room_block_vars:
-    #             model.Add(sum(room_block_vars) <= 1)
+    # ensure each room respects its configured capacity per block
+    for room in all_rooms:
+        for block in blocks:
+            room_block_vars = []
+            for gid in group_sections:
+                if (gid, room, block) in z:
+                    room_block_vars.append(z[(gid, room, block)])
+            if room_block_vars:
+                model.Add(
+                    sum(room_block_vars)
+                    <= room_capacity.get(room, 100)
+                )
 
     # =================================================
     # C4 - SIMULTANEOUS BLOCKING RULES

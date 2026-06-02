@@ -6,9 +6,9 @@ from solver.student_timetable_builder import generate_all_student_schedules
 
 from validator import validate_courses, validate_students
 
-from output.output_scripts.export import export_all
+from output_scripts.export import export_all
 
-from output.output_scripts.metrics import (
+from output_scripts.metrics import (
     calculate_request_completion,
     calculate_7_to_8_requested_percent,
     calculate_8_of_8_with_alternates_percent,

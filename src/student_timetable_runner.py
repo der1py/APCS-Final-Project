@@ -224,7 +224,7 @@ def main():
     # METRICS
     # =====================================================
     
-    from output.output_scripts.metrics import calculate_request_completion, calculate_optimization_score
+    from output_scripts.metrics import calculate_request_completion, calculate_optimization_score
     
     req_completion = calculate_request_completion(students, all_schedules)
     

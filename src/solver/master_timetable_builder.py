@@ -1,6 +1,8 @@
 # This module builds the master timetable using CP-SAT.
 import sys
 import os
+import csv
+import math
 
 from dataclasses import dataclass
 from collections import defaultdict
@@ -42,6 +44,30 @@ def build_master_timetable(students, courses):
     blocks = list(range(8))
 
     blocking_rules = load_simultaneous_blocking_rules()
+
+    # =================================================
+    # LOAD COURSE SEQUENCE RULES
+    # =================================================
+
+    sequence_rules = []
+
+    sequence_file = os.path.join(
+        "cleaned_data",
+        "course_sequence_cleaned.csv"
+    )
+
+    with open(sequence_file, newline="", encoding="utf-8") as f:
+
+        reader = csv.DictReader(f)
+
+        for row in reader:
+
+            sequence_rules.append(
+                (
+                    row["Prerequisite"].strip(),
+                    row["Subsequent_Course"].strip()
+                )
+            )
 
     sections = []
 
@@ -190,6 +216,27 @@ def build_master_timetable(students, courses):
     print(
         f"Max sections per block <= {len(all_rooms)}"
     )
+
+    # =================================================
+    # SEQUENCING DEMAND
+    # =================================================
+
+    sequence_demand = defaultdict(int)
+
+    for student in students:
+
+        requested = set(student.main_courses)
+
+        for prereq, advanced in sequence_rules:
+
+            if (
+                prereq in requested
+                and advanced in requested
+            ):
+
+                sequence_demand[
+                    (prereq, advanced)
+                ] += 1
 
     # =================================================
     # MODEL CREATION
@@ -375,6 +422,108 @@ def build_master_timetable(students, courses):
                         x[(s1.id, b)] +
                         x[(s2.id, b)] - 1
                     )
+
+    semester1_blocks = [0,1,2,3]
+    semester2_blocks = [4,5,6,7]
+    # =================================================
+    # C7 - COURSE SEQUENCING RULES
+    # =================================================
+
+    print("\nADDING COURSE SEQUENCING RULES...\n")
+
+    for prereq, advanced in sequence_rules:
+
+        demand = sequence_demand.get(
+            (prereq, advanced),
+            0
+        )
+
+        if demand == 0:
+            continue
+
+        if prereq not in course_to_sections:
+            continue
+
+        if advanced not in course_to_sections:
+            continue
+
+        prereq_sections = course_to_sections[prereq]
+        advanced_sections = course_to_sections[advanced]
+
+        # estimate sections needed
+
+        prereq_course = course_lookup[prereq]
+
+        DEFAULT_SECTION_SIZE = 30
+
+        capacity = prereq_course.enrollment_max
+
+        if capacity <= 0:
+            capacity = DEFAULT_SECTION_SIZE
+
+        required_sections = math.ceil(
+            demand / capacity
+        )
+
+        print(
+            f"{prereq} -> {advanced}"
+            f" demand={demand}"
+            f" sections_needed={required_sections}"
+        )
+
+        # ==========================================
+        # prerequisite sections in semester 1
+        # ==========================================
+
+        prereq_sem1_vars = []
+
+        for sec in prereq_sections:
+
+            v = model.NewBoolVar(
+                f"sem1_{sec.id}"
+            )
+
+            model.Add(
+                v ==
+                sum(
+                    x[(sec.id, b)]
+                    for b in semester1_blocks
+                )
+            )
+
+            prereq_sem1_vars.append(v)
+
+        model.Add(
+            sum(prereq_sem1_vars)
+            >= required_sections
+        )
+
+        # ==========================================
+        # advanced sections in semester 2
+        # ==========================================
+
+        advanced_sem2_vars = []
+
+        for sec in advanced_sections:
+
+            v = model.NewBoolVar(
+                f"sem2_{sec.id}"
+            )
+
+            model.Add(
+                v ==
+                sum(
+                    x[(sec.id, b)]
+                    for b in semester2_blocks
+                )
+            )
+
+            advanced_sem2_vars.append(v)
+
+        model.Add(
+            sum(advanced_sem2_vars)
+            >= required_sections
+        )
 
     # =================================================
     # C6 - BALANCE CONSTRAINTS

@@ -18,6 +18,7 @@ class Course:
 
     rooms: list[str] = field(default_factory=list)
     linear: bool = False
+    outside_tt: bool = False # TODO assign these during creation
 
     def __post_init__(self):
         # Basic validation (optional but useful)

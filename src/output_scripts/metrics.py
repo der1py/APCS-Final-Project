@@ -246,14 +246,17 @@ def calculate_block_distribution(section_to_block):
     return ", ".join([f"Block {block}: {count}" for block, count in sorted(counts.items())])
 
 # =====================================================
-# BLOCKING RULE SUCCESS %
+# BLOCKING RULE VIOLATION %
 # =====================================================
 
-def calculate_blocking_rule_success_percent(course_to_sections, section_to_block):
+def calculate_blocking_rule_violation_percent(
+    course_to_sections,
+    section_to_block
+):
     blocking_rules = load_simultaneous_blocking_rules()
 
     total_rules = 0
-    successful_rules = 0
+    violations = 0
 
     for blocking_type, pairs in blocking_rules.items():
 
@@ -282,18 +285,36 @@ def calculate_blocking_rule_success_percent(course_to_sections, section_to_block
 
                 if (
                     section_to_block[s1.id]
-                    ==
+                    !=
                     section_to_block[s2.id]
                 ):
-                    successful_rules += 1
+                    violations += 1
 
     if total_rules == 0:
-        return 100
+        return 0
 
-    return (
-        successful_rules
-        / total_rules
-    ) * 100
+    return (violations / total_rules) * 100
+
+# =====================================================
+# SEQUENCING RULE VIOLATION %
+# =====================================================
+
+def calculate_sequencing_rule_violation_percent(
+    course_to_sections,
+    section_to_block
+):
+    """
+    Placeholder metric.
+
+    Sequencing constraints have not yet been implemented
+    in the timetable generator, so this metric currently
+    returns 0%.
+
+    Future implementation should count the percentage
+    of sequencing constraints that are violated.
+    """
+
+    return 0.0
 
 # =====================================================
 # FULL TIMETABLE % -- done in main

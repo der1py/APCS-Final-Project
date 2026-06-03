@@ -29,6 +29,29 @@
 - Each block should have approximately the same number of sections.
 - Deviation from target block size is penalized.
 
+## C7 - Course Sequencing Rules
+- Certain course pairs have prerequisite ordering requirements.
+- Sequencing is enforced across semesters (not individual blocks).
+- If a student requests both courses in a sequence:
+  - The prerequisite course must be scheduled in Semester 1.
+  - The advanced course must be scheduled in Semester 2.
+- Sequencing constraints are demand-driven:
+  - They are only enforced for courses where students have requested both.
+  - The number of available sections must be sufficient to accommodate sequencing demand.
+- Sequencing applies at the course/section level, not per individual student assignment.
+
+## C8 - Linear Course Constraints
+- Linear courses span both semesters as a single connected section.
+- A linear section is assigned exactly one Semester 1 block and one Semester 2 block.
+- Both semester assignments are jointly determined and cannot be chosen independently.
+- Linear sections are treated as atomic scheduling units for:
+  - block assignment
+  - room assignment
+  - teacher assignment
+  - conflict calculation
+- Linear courses may be part of blocking rules, but must always remain internally consistent across both semesters.
+- Linear sections cannot be partially scheduled or split across different pairing choices after assignment.
+
 ## O1 - Objective Function
 - Minimize total student scheduling conflicts.
 - Minimize imbalance between block sizes.

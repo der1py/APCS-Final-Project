@@ -1,3 +1,5 @@
+import time
+
 from data.data_loader import load_students
 from data.course_loader import load_courses_from_csv
 
@@ -22,9 +24,8 @@ from output_scripts.metrics import (
     calculate_student_conflicts,
     calculate_invalid_room_assignments,
     calculate_block_distribution,
-    calculate_blocking_rule_success_percent,
-    calculate_full_schedules,
-    calculate_half_full_schedules,
+    calculate_blocking_rule_violation_percent,
+    calculate_sequencing_rule_violation_percent,
     calculate_optimization_score,
 )
 
@@ -54,7 +55,7 @@ courses = list(valid_courses.values())
 # =====================================================
 # MASTER TIMETABLE
 # =====================================================
-
+start_time = time.perf_counter()
 master_timetable = build_master_timetable(
     students,
     courses
@@ -70,6 +71,8 @@ section_capacity = {
     sec.id: course_lookup[sec.course_code].enrollment_max
     for sec in master_timetable.sections
 }
+
+runtime_seconds = time.perf_counter() - start_time
 
 # =====================================================
 # STUDENT ASSIGNMENTS
@@ -145,7 +148,8 @@ room_conflicts = calculate_room_conflicts(master_timetable.sections, master_time
 student_conflicts = calculate_student_conflicts(all_schedules)
 invalid_room_assignments = calculate_invalid_room_assignments(master_timetable.sections)
 block_distribution = calculate_block_distribution(master_timetable.section_to_block)
-blocking_rule_success = calculate_blocking_rule_success_percent(master_timetable.course_to_sections, master_timetable.section_to_block)
+blocking_rule_violation = calculate_blocking_rule_violation_percent(master_timetable.course_to_sections, master_timetable.section_to_block)
+sequencing_rule_violation = calculate_sequencing_rule_violation_percent(master_timetable.course_to_sections, master_timetable.section_to_block)
 
 
 # Optimization Score
@@ -179,6 +183,7 @@ print(f"Room Conflicts: {room_conflicts}")
 print(f"Student Conflicts: {student_conflicts}")
 print(f"Invalid Room Assignments: {invalid_room_assignments}")
 print(f"Block Distribution: {block_distribution}")
-print(f"Blocking Rule Success: {blocking_rule_success:.2f}%")
-
+print(f"Blocking Rule Violation: {blocking_rule_violation:.2f}%")
+print(f"Sequencing Rule Violation: {sequencing_rule_violation:.2f}%")
+print(f"Full Timetable Runtime: {runtime_seconds:.3f} seconds")
 print(f"\nOptimization Score: {optimization_score}")

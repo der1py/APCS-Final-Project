@@ -193,6 +193,8 @@ def load_courses_from_csv(course_csv=COURSE_CSV, room_csv=ROOM_CSV):
     rooms_by_department = load_rooms_by_department(room_csv)
     open_rooms = rooms_by_department.get("Open", [])
 
+    out_of_schedule_courses = load_out_of_schedule_courses()
+
     courses = []
 
     with course_csv.open("r", encoding="utf-8", newline="") as file:
@@ -230,12 +232,36 @@ def load_courses_from_csv(course_csv=COURSE_CSV, room_csv=ROOM_CSV):
                 num_sections=num_sections,
                 rooms=possible_rooms,
                 linear=is_linear_course(code, name),
+                outside_tt=code.upper() in out_of_schedule_courses,
             )
 
             courses.append(course)
 
     return courses
 
+OUT_OF_SCHEDULE_CSV = DATA_DIR / "outOfScheduleCourses.csv"
+
+def load_out_of_schedule_courses(csv_path=OUT_OF_SCHEDULE_CSV):
+    courses = set()
+
+    with csv_path.open("r", encoding="utf-8", newline="") as file:
+        reader = csv.reader(file)
+
+        for row in reader:
+            if len(row) > 1:
+                courses.add(normalize_code(row[1]))
+
+    return courses
+
+def normalize_code(code):
+    code = code.upper().strip()
+
+    if code.endswith("--L"):
+        code = code[:-3]
+    elif code.endswith("-L"):
+        code = code[:-2]
+
+    return code
 
 def export_courses_to_json(courses, output_path=OUTPUT_JSON):
     output_path.parent.mkdir(parents=True, exist_ok=True)

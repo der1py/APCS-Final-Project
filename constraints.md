@@ -4,6 +4,18 @@
 - Each section must be assigned to exactly one of 8 blocks.
 - A section cannot appear in more than one block.
 
+### C1.1 - Linear Course Constraints
+- Linear courses span both semesters as a single connected section.
+- A linear section is assigned exactly one Semester 1 block and one Semester 2 block.
+- Both semester assignments are jointly determined and cannot be chosen independently.
+- Linear sections are treated as atomic scheduling units for:
+  - block assignment
+  - room assignment
+  - teacher assignment
+  - conflict calculation
+- Linear courses may be part of blocking rules, but must always remain internally consistent across both semesters.
+- Linear sections cannot be partially scheduled or split across different pairing choices after assignment.
+
 ## C2 - Group Synchronization
 - Sections that belong to the same group must be scheduled in the same block.
 - Group membership is derived from simultaneous blocking rules.
@@ -39,18 +51,6 @@
   - They are only enforced for courses where students have requested both.
   - The number of available sections must be sufficient to accommodate sequencing demand.
 - Sequencing applies at the course/section level, not per individual student assignment.
-
-## C8 - Linear Course Constraints
-- Linear courses span both semesters as a single connected section.
-- A linear section is assigned exactly one Semester 1 block and one Semester 2 block.
-- Both semester assignments are jointly determined and cannot be chosen independently.
-- Linear sections are treated as atomic scheduling units for:
-  - block assignment
-  - room assignment
-  - teacher assignment
-  - conflict calculation
-- Linear courses may be part of blocking rules, but must always remain internally consistent across both semesters.
-- Linear sections cannot be partially scheduled or split across different pairing choices after assignment.
 
 ## O1 - Objective Function
 - Minimize total student scheduling conflicts.

@@ -3,6 +3,13 @@ import json
 from pathlib import Path
 
 
+def _unpack_schedule_value(value):
+    section_id, blocks = value
+    if isinstance(blocks, int):
+        blocks = [blocks]
+    return section_id, list(blocks)
+
+
 # =====================================================
 # MASTER TIMETABLE EXPORT (CSV)
 # =====================================================
@@ -76,7 +83,8 @@ def export_master_csv(section_to_block, blocks,
 # =====================================================
 
 def export_student_csv_code(students, all_schedules, blocks,
-                           output_path="src/output/student_schedules.csv"):
+                           output_path="src/output/student_schedules.csv",
+                           master_timetable=None):
 
     blocks = list(blocks)
 
@@ -93,29 +101,33 @@ def export_student_csv_code(students, all_schedules, blocks,
             row = [student.id] + ["unassigned" for _ in blocks]
 
             for course, value in schedule.items():
-                section, block = value
+                section_id, assigned_blocks = _unpack_schedule_value(value)
 
                 display = course
-                if section is not None and section.room_id:
-                    display = f"{display} (Room {section.room_id})"
+                if master_timetable is not None and section_id is not None:
+                    sec_obj = master_timetable.section_by_id.get(section_id)
+                    if sec_obj is not None and sec_obj.room_id:
+                        display = f"{display} (Room {sec_obj.room_id})"
 
-                if block in blocks:
-                    block_index = blocks.index(block)
-                    row[block_index + 1] = display
+                for block in assigned_blocks:
+                    if block in blocks:
+                        block_index = blocks.index(block)
+                        row[block_index + 1] = display
 
             writer.writerow(row)
 
 
-def export_student_csv(students, all_schedules, courses, blocks, output_path):
+def export_student_csv(students, all_schedules, courses, blocks, output_path, master_timetable=None):
     """
     Export student schedules with course NAMES instead of codes.
 
     Parameters:
     - students: iterable of student objects (must have .id)
-    - all_schedules: dict mapping student_id -> {course_code: (section, block)}
+    - all_schedules: dict mapping student_id -> {course_code: (section_id, blocks)}
     - courses: list of course objects with .code and .name
     - blocks: iterable of blocks
     - output_path: path to write CSV
+    - master_timetable: optional MasterTimetable for section metadata
     """
 
     blocks = list(blocks)
@@ -136,15 +148,18 @@ def export_student_csv(students, all_schedules, courses, blocks, output_path):
             row = [student.id] + ["unassigned" for _ in blocks]
 
             for course_code, value in schedule.items():
-                section, block = value
+                section_id, assigned_blocks = _unpack_schedule_value(value)
 
                 display = course_map.get(course_code, course_code)
-                if section is not None and section.room_id:
-                    display = f"{display} (Room {section.room_id})"
+                if master_timetable is not None and section_id is not None:
+                    sec_obj = master_timetable.section_by_id.get(section_id)
+                    if sec_obj is not None and sec_obj.room_id:
+                        display = f"{display} (Room {sec_obj.room_id})"
 
-                if block in blocks:
-                    block_index = blocks.index(block)
-                    row[block_index + 1] = display
+                for block in assigned_blocks:
+                    if block in blocks:
+                        block_index = blocks.index(block)
+                        row[block_index + 1] = display
 
             writer.writerow(row)
 
@@ -181,21 +196,10 @@ def export_student_json(all_schedules,
         clean_schedules[student_id] = {}
 
         for course, value in schedule.items():
-            section, block = value
-
-            if block == -1:
-                clean_block = "unassigned"
-            else:
-                clean_block = block
-
-            if section is None:
-                clean_section = None
-            else:
-                clean_section = section.id
-
+            section_id, blocks = _unpack_schedule_value(value)
             clean_schedules[student_id][course] = {
-                "section": clean_section,
-                "block": clean_block
+                "section": section_id,
+                "blocks": blocks if blocks else ["unassigned"]
             }
 
     with open(output_path, "w") as f:
@@ -224,11 +228,11 @@ def export_all(students,
         section_enrollment=section_enrollment,
     )
     # legacy exporter (codes)
-    export_student_csv_code(students, all_schedules, blocks)
+    export_student_csv_code(students, all_schedules, blocks, master_timetable=master_timetable)
 
     # name-based exporter (requires courses list)
     if courses is not None:
-        export_student_csv(students, all_schedules, courses, blocks, "src/output/student_schedules_by_name.csv")
+        export_student_csv(students, all_schedules, courses, blocks, "src/output/student_schedules_by_name.csv", master_timetable=master_timetable)
 
     export_master_json(master_timetable)
     export_student_json(all_schedules)

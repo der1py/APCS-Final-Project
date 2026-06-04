@@ -9,36 +9,51 @@ import math
 # SINGLE STUDENT SCHEDULE
 # =====================================================
 
+
+def _get_section_blocks(section):
+    occupied = getattr(section, "occupied_blocks", None)
+    if occupied:
+        return list(occupied)
+    return [section.time_slot]
+
+
 def generate_student_schedule(student: Student, master_timetable: MasterTimetable, section_enrollment, section_capacity=None):
 
     chosen = {}
     used_blocks = set()
 
-    for course_code in student.main_courses:
+    ordered_courses = sorted(
+        student.main_courses,
+        key=lambda course_code: 0 if master_timetable.course_lookup.get(course_code, None) and master_timetable.course_lookup[course_code].linear else 1
+    )
 
-        possible_sections = (master_timetable.course_to_sections[course_code])
+    for course_code in ordered_courses:
+
+        possible_sections = master_timetable.course_to_sections.get(course_code, [])
+
+        if not possible_sections:
+            print(f"Could not place {student.id} into {course_code}")
+            continue
 
         # Most filled first
         # NOTE: least filled first to balance
         possible_sections = sorted(
             possible_sections,
             key=lambda s: section_enrollment[s.id]
-            # reverse=True
         )
 
         assigned = False
 
         for sec in possible_sections:
 
-            block = sec.time_slot
+            section_blocks = _get_section_blocks(sec)
 
             # conflict
-            if block in used_blocks:
+            if any(block in used_blocks for block in section_blocks):
                 continue
 
             # capacity check
             if section_capacity:
-
                 if (
                     section_enrollment[sec.id]
                     >= section_capacity.get(
@@ -49,9 +64,9 @@ def generate_student_schedule(student: Student, master_timetable: MasterTimetabl
                     continue
 
             # assign
-            chosen[course_code] = (sec, block)
+            chosen[course_code] = (sec.id, section_blocks)
 
-            used_blocks.add(block)
+            used_blocks.update(section_blocks)
             section_enrollment[sec.id] += 1
 
             assigned = True
@@ -59,6 +74,7 @@ def generate_student_schedule(student: Student, master_timetable: MasterTimetabl
 
         if not assigned:
             print(f"Could not place {student.id} into {course_code}")
+
     return chosen
 
 
@@ -122,15 +138,16 @@ def reassign_cancelled_sections(
 
         used_blocks = {
             block
-            for sec, block in schedule.values()
-            if sec.id not in cancelled_sections
+            for sec_id, blocks in schedule.values()
+            if sec_id not in cancelled_sections
+            for block in (blocks if isinstance(blocks, list) else [blocks])
         }
 
         for course_code in list(schedule.keys()):
 
-            current_sec, current_block = schedule[course_code]
+            current_section_id, current_blocks = schedule[course_code]
 
-            if current_sec.id not in cancelled_sections:
+            if current_section_id not in cancelled_sections:
                 continue
 
             alternatives = (
@@ -140,6 +157,7 @@ def reassign_cancelled_sections(
             )
 
             replacement = None
+            replacement_blocks = []
 
             for sec in alternatives:
 
@@ -155,24 +173,26 @@ def reassign_cancelled_sections(
                 ):
                     continue
 
-                if sec.time_slot in used_blocks:
+                section_blocks = _get_section_blocks(sec)
+                if any(block in used_blocks for block in section_blocks):
                     continue
 
                 replacement = sec
+                replacement_blocks = section_blocks
                 break
 
             if replacement:
 
-                section_enrollment[current_sec.id] -= 1
+                section_enrollment[current_section_id] -= 1
 
                 section_enrollment[replacement.id] += 1
 
                 schedule[course_code] = (
-                    replacement,
-                    replacement.time_slot
+                    replacement.id,
+                    replacement_blocks
                 )
 
-                used_blocks.add(replacement.time_slot)
+                used_blocks.update(replacement_blocks)
 
             else:
 

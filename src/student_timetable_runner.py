@@ -19,6 +19,15 @@ from data.data_loader import load_students
 from data.course_loader import load_courses_from_csv
 from validator import validate_courses, validate_students
 
+
+def _unpack_assigned_blocks(value):
+    _, blocks = value
+    if isinstance(blocks, list):
+        return blocks
+    if blocks is None:
+        return []
+    return [blocks]
+
 # NOTE: course enrollment max isnt actually used from data set
 # it is just default value of the object (30) for now
 
@@ -26,7 +35,7 @@ from validator import validate_courses, validate_students
 # LOAD MASTER TIMETABLE FROM JSON
 # =====================================================
 
-def load_master_timetable_json(json_path):
+def load_master_timetable_json(json_path, course_lookup=None):
     """
     Load the master timetable JSON and reconstruct the MasterTimetable object.
     
@@ -72,11 +81,21 @@ def load_master_timetable_json(json_path):
     # Convert defaultdicts to regular dicts
     course_to_sections = dict(course_to_sections)
     
+    if course_lookup is None:
+        course_lookup = {}
+
+    section_to_blocks = {
+        section_id: [block]
+        for section_id, block in section_to_block.items()
+    }
+    
     return MasterTimetable(
         sections=sections,
         section_to_block=section_to_block,
         course_to_sections=course_to_sections,
-        section_by_id=section_by_id
+        section_by_id=section_by_id,
+        course_lookup=course_lookup,
+        section_to_blocks=section_to_blocks
     )
 
 
@@ -215,8 +234,9 @@ def main():
         schedule = all_schedules.get(student.id, {})
         num_assigned = len(schedule)
         print(f"Student {student.id}: {num_assigned}/{len(student.main_courses)} courses assigned")
-        for course_code, (sec, block) in sorted(schedule.items()):
-            print(f"  {course_code} -> Block {block}")
+        for course_code, value in sorted(schedule.items()):
+            section_id, assigned_blocks = value
+            print(f"  {course_code} -> Blocks {assigned_blocks}")
         if not schedule:
             print(f"  (no courses assigned)")
     
@@ -285,14 +305,16 @@ def main():
             row = [student.id] + ["unassigned" for _ in blocks]
             
             for course_code, value in schedule.items():
-                section, block = value
+                section_id, assigned_blocks = value
                 display = course_map.get(course_code, course_code)
+                section = master_timetable.section_by_id.get(section_id) if section_id and master_timetable is not None else None
                 if section is not None and section.room_id:
                     display = f"{display} (Room {section.room_id})"
-                
-                if block in blocks:
-                    block_index = blocks.index(block)
-                    row[block_index + 1] = display
+
+                for block in assigned_blocks:
+                    if block in blocks:
+                        block_index = blocks.index(block)
+                        row[block_index + 1] = display
             
             writer.writerow(row)
     

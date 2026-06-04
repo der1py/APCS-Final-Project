@@ -29,6 +29,10 @@ class MasterTimetable:
 
     section_by_id: dict
 
+    course_lookup: dict
+
+    section_to_blocks: dict
+
 
 # =====================================================
 # BUILD MASTER TIMETABLE
@@ -42,6 +46,8 @@ def build_master_timetable(students, courses):
     # =================================================
 
     blocks = list(range(8))
+    semester1_blocks = [0, 1, 2, 3]
+    semester2_blocks = [4, 5, 6, 7]
 
     blocking_rules = load_simultaneous_blocking_rules()
 
@@ -261,9 +267,21 @@ def build_master_timetable(students, courses):
 
     for s in sections:
 
-        model.Add(
-            sum(x[(s.id, b)] for b in blocks) == 1
-        )
+        course = course_lookup[s.course_code]
+
+        if course.linear:
+            # Linear course: exactly one block in Semester 1 AND exactly one in Semester 2
+            model.Add(
+                sum(x[(s.id, b)] for b in semester1_blocks) == 1
+            )
+            model.Add(
+                sum(x[(s.id, b)] for b in semester2_blocks) == 1
+            )
+        else:
+            # Non-linear course: exactly one block across all blocks
+            model.Add(
+                sum(x[(s.id, b)] for b in blocks) == 1
+            )
 
     # =================================================
     # C2 - GROUP SYNCHRONIZATION
@@ -423,8 +441,6 @@ def build_master_timetable(students, courses):
                         x[(s2.id, b)] - 1
                     )
 
-    semester1_blocks = [0,1,2,3]
-    semester2_blocks = [4,5,6,7]
     # =================================================
     # C7 - COURSE SEQUENCING RULES
     # =================================================
@@ -637,24 +653,38 @@ def build_master_timetable(students, courses):
                         break
 
         for s in sections:
-            for b in blocks:
-                if solver.Value(x[(s.id, b)]):
-                    section_to_block[s.id] = b
-                    s.time_slot = b
-                    gid = section_to_group.get(s.id)
-                    assigned = group_room_for_block.get((gid, b))
-                    if assigned is None:
-                        # fallback: pick first allowed room for the group
-                        allowed = group_allowed_rooms.get(gid, [])
-                        s.room_id = allowed[0] if allowed else None
-                    else:
-                        s.room_id = assigned
+            occupied = [
+                b
+                for b in blocks
+                if solver.Value(x[(s.id, b)])
+            ]
+            s.occupied_blocks = occupied
+            s.time_slot = occupied[0] if occupied else -1
 
-                    print(
-                        f"{s.id:15}"
-                        f" Block {s.time_slot}"
-                        f" Room {s.room_id}"
-                    )
+            if occupied:
+                section_to_block[s.id] = occupied[0]
+
+            gid = section_to_group.get(s.id)
+            assigned = None
+            for b in occupied:
+                room = group_room_for_block.get((gid, b))
+                if room is not None:
+                    assigned = room
+                    break
+
+            if assigned is None:
+                # fallback: pick first allowed room for the group
+                allowed = group_allowed_rooms.get(gid, [])
+                s.room_id = allowed[0] if allowed else None
+            else:
+                s.room_id = assigned
+
+            print(
+                f"{s.id:15}"
+                f" Block {s.time_slot}"
+                f" Room {s.room_id}"
+                f" Blocks {occupied}"
+            )
 
         print(
             "\nTotal Conflict Cost:",
@@ -666,9 +696,16 @@ def build_master_timetable(students, courses):
         print("No solution found.")
         sys.exit() # <-- THIS STOPS THE SCRIPT FROM CRASHING LATER
 
+    section_to_blocks = {
+        s.id: s.occupied_blocks
+        for s in sections
+    }
+
     return MasterTimetable(
         sections=sections,
         section_to_block=section_to_block,
         course_to_sections=course_to_sections,
-        section_by_id=section_by_id
+        section_by_id=section_by_id,
+        course_lookup=course_lookup,
+        section_to_blocks=section_to_blocks
     )

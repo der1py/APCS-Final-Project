@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -16,6 +16,7 @@ class Section:
 
     teacher_id: Optional[str] = None
     room_id: Optional[str] = None
+    occupied_blocks: list[int] = field(default_factory=list)
 
     # TODO -1 is some placeholder shit, maybe clean up later
     def __post_init__(self):

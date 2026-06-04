@@ -2,6 +2,16 @@ from collections import Counter
 
 from data.data_loader import load_simultaneous_blocking_rules
 
+
+def _get_assigned_blocks(value):
+    _, blocks = value
+    if isinstance(blocks, list):
+        return blocks
+    if blocks is None:
+        return []
+    return [blocks]
+
+
 # student metrics 
 # =====================================================
 # REQUEST COMPLETION %
@@ -80,13 +90,15 @@ def calculate_students_with_conflicts(
 
         used_blocks = set()
 
-        for course, (section, block) in sched.items():
-
-            if block in used_blocks:
-                conflicts += 1
-                break
-
-            used_blocks.add(block)
+        for course, value in sched.items():
+            for block in _get_assigned_blocks(value):
+                if block in used_blocks:
+                    conflicts += 1
+                    break
+                used_blocks.add(block)
+            else:
+                continue
+            break
 
     return conflicts
 
@@ -213,8 +225,8 @@ def calculate_student_conflicts(
 
         blocks = []
 
-        for course, (section, block) in sched.items():
-            blocks.append(block)
+        for value in sched.values():
+            blocks.extend(_get_assigned_blocks(value))
 
         if len(blocks) != len(set(blocks)):
             conflicts += 1
@@ -427,12 +439,12 @@ def calculate_student_conflicts(all_schedules):
 
         used_blocks = set()
 
-        for course, (sec, block) in sched.items():
-
-            if block in used_blocks:
-                penalty -= 1000
-            else:
-                used_blocks.add(block)
+        for value in sched.values():
+            for block in _get_assigned_blocks(value):
+                if block in used_blocks:
+                    penalty -= 1000
+                else:
+                    used_blocks.add(block)
 
     return penalty
 

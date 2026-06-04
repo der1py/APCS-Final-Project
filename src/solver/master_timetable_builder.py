@@ -1,7 +1,5 @@
 # This module builds the master timetable using CP-SAT.
 import sys
-import os
-import csv
 import math
 
 from dataclasses import dataclass
@@ -12,7 +10,10 @@ from ortools.sat.python import cp_model
 
 from models.section import Section
 
-from data.data_loader import load_simultaneous_blocking_rules
+from data.data_loader import (
+    load_simultaneous_blocking_rules,
+    load_rules,
+)
 
 # =====================================================
 # MASTER TIMETABLE OBJECT
@@ -52,28 +53,12 @@ def build_master_timetable(students, courses):
     blocking_rules = load_simultaneous_blocking_rules()
 
     # =================================================
-    # LOAD COURSE SEQUENCE RULES
+    # LOAD SEQUENCING RULES
     # =================================================
 
-    sequence_rules = []
+    rules = load_rules()
 
-    sequence_file = os.path.join(
-        "cleaned_data",
-        "course_sequence_cleaned.csv"
-    )
-
-    with open(sequence_file, newline="", encoding="utf-8") as f:
-
-        reader = csv.DictReader(f)
-
-        for row in reader:
-
-            sequence_rules.append(
-                (
-                    row["Prerequisite"].strip(),
-                    row["Subsequent_Course"].strip()
-                )
-            )
+    sequence_rules = list(rules.sequence_pairs)
 
     sections = []
 
@@ -477,8 +462,8 @@ def build_master_timetable(students, courses):
         if capacity <= 0:
             capacity = DEFAULT_SECTION_SIZE
 
-        required_sections = math.ceil(
-            demand / capacity
+        required_sections = round(
+            demand / capacity + 0.2
         )
 
         print(

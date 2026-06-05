@@ -148,7 +148,7 @@ student_conflicts = calculate_student_conflicts(all_schedules)
 invalid_room_assignments = calculate_invalid_room_assignments(master_timetable.sections)
 block_distribution = calculate_block_distribution(master_timetable.section_to_block)
 blocking_rule_violation = calculate_blocking_rule_violation_percent(master_timetable.course_to_sections, master_timetable.section_to_block)
-sequencing_rule_violation = calculate_sequencing_rule_violation_percent(master_timetable.course_to_sections, master_timetable.section_to_block)
+sequencing_rule_violation = calculate_sequencing_rule_violation_percent(students, master_timetable.course_to_sections, master_timetable.section_to_block)
 
 
 # Optimization Score

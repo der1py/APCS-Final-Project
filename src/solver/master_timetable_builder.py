@@ -1,6 +1,7 @@
 # This module builds the master timetable using CP-SAT.
 import sys
 import math
+import pickle
 
 from dataclasses import dataclass
 from collections import defaultdict
@@ -686,7 +687,7 @@ def build_master_timetable(students, courses):
         for s in sections
     }
 
-    return MasterTimetable(
+    result = MasterTimetable(
         sections=sections,
         section_to_block=section_to_block,
         course_to_sections=course_to_sections,
@@ -694,3 +695,8 @@ def build_master_timetable(students, courses):
         course_lookup=course_lookup,
         section_to_blocks=section_to_blocks
     )
+
+    with open("src/output/master_timetable.pkl", "wb") as f:
+        pickle.dump(result, f)
+
+    return result

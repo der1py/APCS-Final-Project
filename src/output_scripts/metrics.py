@@ -1,6 +1,7 @@
-from collections import Counter
+from collections import Counter, defaultdict
 
-from data.data_loader import load_simultaneous_blocking_rules
+from data.data_loader import load_rules, load_simultaneous_blocking_rules
+from models import rules
 
 
 def _get_assigned_blocks(value):
@@ -312,21 +313,74 @@ def calculate_blocking_rule_violation_percent(
 # =====================================================
 
 def calculate_sequencing_rule_violation_percent(
+    students,
     course_to_sections,
     section_to_block
 ):
-    """
-    Placeholder metric.
+        rules = load_rules()
+        sequence_rules = rules.sequence_pairs
 
-    Sequencing constraints have not yet been implemented
-    in the timetable generator, so this metric currently
-    returns 0%.
+        # Match the demand calculation used by the solver
+        sequence_demand = defaultdict(int)
 
-    Future implementation should count the percentage
-    of sequencing constraints that are violated.
-    """
+        for student in students:
 
-    return 0.0
+            requested = set(student.main_courses)
+
+            for prereq, advanced in sequence_rules:
+
+                if (
+                    prereq in requested
+                    and advanced in requested
+                ):
+                    sequence_demand[(prereq, advanced)] += 1
+
+        semester1_blocks = {0, 1, 2, 3}
+        semester2_blocks = {4, 5, 6, 7}
+
+        total_rules = 0
+        violations = 0
+
+        for prereq, advanced in sequence_rules:
+
+            demand = sequence_demand.get(
+                (prereq, advanced),
+                0
+            )
+
+            # Ignore rules the solver ignored
+            if demand == 0:
+                continue
+
+            if prereq not in course_to_sections:
+                continue
+
+            if advanced not in course_to_sections:
+                continue
+
+            total_rules += 1
+
+            prereq_in_sem1 = any(
+                section_to_block[sec.id] in semester1_blocks
+                for sec in course_to_sections[prereq]
+            )
+
+            advanced_in_sem2 = any(
+                section_to_block[sec.id] in semester2_blocks
+                for sec in course_to_sections[advanced]
+            )
+
+            if not (
+                prereq_in_sem1
+                and
+                advanced_in_sem2
+            ):
+                violations += 1
+
+        if total_rules == 0:
+            return 0.0
+
+        return (violations / total_rules) * 100
 
 # =====================================================
 # FULL TIMETABLE % -- done in main

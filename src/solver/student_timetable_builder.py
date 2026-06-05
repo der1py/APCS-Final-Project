@@ -24,8 +24,13 @@ def generate_student_schedule(student: Student, master_timetable: MasterTimetabl
 
     ordered_courses = sorted(
         student.main_courses,
-        key=lambda course_code: 0 if master_timetable.course_lookup.get(course_code, None) and master_timetable.course_lookup[course_code].linear else 1
-    )
+        key=lambda course_code:
+            len(master_timetable.course_to_sections.get(course_code, []))
+            * max(
+                24,
+                master_timetable.course_lookup[course_code].enrollment_max
+            )
+    )   
 
     for course_code in ordered_courses:
 

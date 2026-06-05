@@ -209,9 +209,6 @@ def load_courses_from_csv(course_csv=COURSE_CSV, room_csv=ROOM_CSV):
             if not code or not name:
                 continue
 
-            if code.upper().endswith("--L") or code.upper().endswith("-L"):
-                continue
-
             num_sections = int(sections_raw)
 
             special_rooms = get_special_course_rooms(code, name)

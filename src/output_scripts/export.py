@@ -26,10 +26,22 @@ def export_master_csv(section_to_block, blocks,
     # optional course code -> name map
     course_map = {c.code: c.name for c in courses} if courses is not None else {}
 
+    section_blocks_map = None
+    if master_timetable is not None and hasattr(master_timetable, "section_to_blocks"):
+        section_blocks_map = master_timetable.section_to_blocks
+
     for sec_id, block in section_to_block.items():
-        if block in master_timetable_display:
+        section_blocks = [block]
+        if section_blocks_map is not None and sec_id in section_blocks_map:
+            section_blocks = section_blocks_map[sec_id]
+
+        # use any available block for the course/section metadata lookup
+        section_display_block = section_blocks[0] if section_blocks else block
+
+        if section_display_block in master_timetable_display:
             # determine course code for this section id
             course_code = None
+            sec_obj = None
 
             if master_timetable is not None and hasattr(master_timetable, "section_by_id"):
                 sec_obj = master_timetable.section_by_id.get(sec_id)
@@ -55,7 +67,9 @@ def export_master_csv(section_to_block, blocks,
 
             display = f"{display} ({count} students)"
 
-            master_timetable_display[block].append(display)
+            for block in section_blocks:
+                if block in master_timetable_display:
+                    master_timetable_display[block].append(display)
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
@@ -176,6 +190,9 @@ def export_master_json(master_timetable,
     data = {
         "section_to_block": master_timetable.section_to_block
     }
+
+    if hasattr(master_timetable, "section_to_blocks"):
+        data["section_to_blocks"] = master_timetable.section_to_blocks
 
     with open(output_path, "w") as f:
         json.dump(data, f, indent=2)

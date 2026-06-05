@@ -7,7 +7,8 @@ from pathlib import Path
 
 from models.course import Course
 
-
+# Preprocessing-only module: CSV -> course_stats.json generation.
+# Runtime should load course definitions from course_stats.json instead.
 DATA_DIR = Path(__file__).resolve().parent / "cleaned data"
 
 COURSE_CSV = DATA_DIR / "course_sections_cleaned.csv"

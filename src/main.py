@@ -1,7 +1,6 @@
 import time
 
-from data.data_loader import load_students
-from data.course_loader import load_courses_from_csv
+from data.data_loader import load_courses_from_json, load_students
 
 from solver.master_timetable_builder import build_master_timetable
 from solver.student_timetable_builder import generate_all_student_schedules
@@ -35,7 +34,7 @@ from output_scripts.metrics import (
 # =====================================================
 
 students = load_students()
-courses = load_courses_from_csv()
+courses = load_courses_from_json()
 
 
 # =====================================================

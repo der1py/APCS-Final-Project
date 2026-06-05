@@ -13,7 +13,7 @@ from models.student import Student
 
 STUDENT_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "student_requests_cleaned.csv"
 COURSE_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_sections_cleaned.csv"
-COURSE_STATS_PATH = Path(__file__).resolve().parent / "cleaned data" / "clean_courses_stats.json"
+COURSE_STATS_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_stats.json"
 SEQUENCING_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_sequencing_cleaned.csv"
 BLOCKING_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_blocking_cleaned.csv"
 
@@ -52,51 +52,14 @@ def load_students(csv_path: Path | None = None) -> List[Student]:
         for student_id in sorted(students)
     ]
 
-# def load_course_stats(csv_path: Path | None = None) -> dict:
-#     """Load course statistics from the cleaned JSON file."""
-#     path = Path(csv_path) if csv_path is not None else COURSE_STATS_PATH
+def load_courses_from_json(json_path: Path | None = None) -> List[Course]:
+    """Load course definitions from the JSON cache and return Course objects."""
+    path = Path(json_path) if json_path is not None else COURSE_STATS_PATH
 
-#     if not path.exists():
-#         return {}
+    with path.open("r", encoding="utf-8") as file:
+        course_data = json.load(file)
 
-#     with path.open("r", encoding="utf-8") as file:
-#         return json.load(file)
-
-
-# def load_courses(csv_path: Path | None = None, stats_path: Path | None = None) -> List[Course]:
-#     """Load course definitions from the cleaned CSV and return Course objects."""
-#     path = Path(csv_path) if csv_path is not None else COURSE_DATA_PATH
-#     stats = load_course_stats(stats_path)
-
-#     courses: List[Course] = []
-
-#     with path.open("r", encoding="utf-8", newline="") as file:
-#         reader = csv.DictReader(file)
-
-#         for row in reader:
-#             code = (row.get("Course") or "").strip()
-#             name = (row.get("Description") or "").strip()
-#             sections_raw = (row.get("Sections") or "0").strip()
-
-#             if not code or not name:
-#                 continue
-
-#             num_sections = int(sections_raw)
-#             course_stats = stats.get(code, {})
-
-#             courses.append(
-#                 Course(
-#                     code=code,
-#                     name=name,
-#                     num_sections=num_sections,
-#                     total=int(course_stats.get("total", 0)),
-#                     enrollment_max=int(course_stats.get("enrollment_max", 0)),
-#                     rooms=course_stats.get("rooms", []),
-#                     linear=bool(course_stats.get("linear", False)),
-#                 )
-#             )
-
-#     return courses
+    return [Course(**course_entry) for course_entry in course_data]
 
 
 def load_simultaneous_blocking_rules(csv_path: Path | None = None) -> Dict[str, List[Tuple[str, str]]]:

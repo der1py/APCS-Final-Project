@@ -27,7 +27,7 @@ def generate_student_schedule(student: Student, master_timetable: MasterTimetabl
         key=lambda course_code:
             len(master_timetable.course_to_sections.get(course_code, []))
             * max(
-                30,
+                24,
                 master_timetable.course_lookup[course_code].enrollment_max
             )
     )   

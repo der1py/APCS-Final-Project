@@ -86,6 +86,7 @@ def validate_students(
             continue
 
         cleaned_courses = []
+        cleaned_alt_courses = []
 
         for c in s.main_courses:
 
@@ -102,6 +103,23 @@ def validate_students(
 
             cleaned_courses.append(c)
 
+        for c in getattr(s, "alt_courses", []):
+
+            if c not in valid_courses:
+
+                log_issue(
+                    f"{s.id}: "
+                    f"INVALID ALTERNATE COURSE REQUEST "
+                    f"-> {c}"
+                )
+
+                continue
+
+            if c in cleaned_courses:
+                continue
+
+            cleaned_alt_courses.append(c)
+
         # no usable requests left
         if not cleaned_courses:
 
@@ -115,6 +133,7 @@ def validate_students(
 
         # overwrite cleaned list
         s.main_courses = cleaned_courses
+        s.alt_courses = cleaned_alt_courses
 
         valid_students.append(s)
 

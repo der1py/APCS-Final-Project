@@ -61,6 +61,37 @@ def calculate_7_to_8_requested_percent(students, all_schedules):
     ) * 100
 
 # =====================================================
+# 8/8 COURSES (WITHOUT ALTERNATES)
+# =====================================================
+
+def calculate_8_of_8_without_alternates_percent(students, all_schedules):
+    if not students:
+        return 0.0
+
+    successful = 0
+
+    for student in students:
+
+        if len(student.main_courses) != 8:
+            continue
+
+        sched = all_schedules.get(student.id, {})
+
+        placed = sum(
+            1
+            for course in student.main_courses
+            if course in sched
+        )
+
+        if placed == 8:
+            successful += 1
+
+    return (
+        successful / len(students)
+    ) * 100
+
+
+# =====================================================
 # 8/8 COURSES (REQUESTED OR ALTERNATE)
 # =====================================================
 
@@ -129,6 +160,80 @@ def calculate_unassigned_requests(students,all_schedules):
 def calculate_section_enrollment(section_enrollment):
     return section_enrollment
 
+
+def _build_enrollment_groups(sections):
+    section_by_id = {
+        sec.id: sec
+        for sec in sections
+    }
+
+    course_to_sections = defaultdict(list)
+
+    for sec in sections:
+        course_to_sections[sec.course_code].append(sec)
+
+    groups = {}
+    section_to_group = {}
+    group_counter = 0
+    blocking_rules = load_simultaneous_blocking_rules()
+
+    for c1, c2 in blocking_rules.get("Simultaneous", []):
+
+        if c1 not in course_to_sections:
+            continue
+
+        if c2 not in course_to_sections:
+            continue
+
+        sections_1 = course_to_sections[c1]
+        sections_2 = course_to_sections[c2]
+
+        for i in range(min(len(sections_1), len(sections_2))):
+            s1 = sections_1[i]
+            s2 = sections_2[i]
+
+            g1 = section_to_group.get(s1.id)
+            g2 = section_to_group.get(s2.id)
+
+            if g1 is None and g2 is None:
+                gid = f"group_{group_counter}"
+                group_counter += 1
+                groups[gid] = {s1.id, s2.id}
+                section_to_group[s1.id] = gid
+                section_to_group[s2.id] = gid
+
+            elif g1 is not None and g2 is None:
+                groups[g1].add(s2.id)
+                section_to_group[s2.id] = g1
+
+            elif g1 is None and g2 is not None:
+                groups[g2].add(s1.id)
+                section_to_group[s1.id] = g2
+
+            elif g1 != g2:
+                for sid in groups[g2]:
+                    groups[g1].add(sid)
+                    section_to_group[sid] = g1
+                del groups[g2]
+
+    for sec in sections:
+        if sec.id in section_to_group:
+            continue
+
+        gid = f"group_{group_counter}"
+        group_counter += 1
+        groups[gid] = {sec.id}
+        section_to_group[sec.id] = gid
+
+    return {
+        gid: [
+            section_by_id[sid]
+            for sid in sorted(section_ids)
+        ]
+        for gid, section_ids in groups.items()
+    }
+
+
 # =====================================================
 # TOTAL NUMBER OF SECTIONS
 # =====================================================
@@ -143,16 +248,16 @@ def calculate_total_sections(sections):
 def calculate_full_sections(sections, section_enrollment, section_capacity):
     count = 0
 
-    for sec in sections:
+    for grouped_sections in _build_enrollment_groups(sections).values():
 
-        enrolled = section_enrollment.get(
-            sec.id,
-            0
+        enrolled = sum(
+            section_enrollment.get(sec.id, 0)
+            for sec in grouped_sections
         )
 
-        capacity = section_capacity.get(
-            sec.id,
-            0
+        capacity = max(
+            section_capacity.get(sec.id, 0)
+            for sec in grouped_sections
         )
 
         if enrolled >= capacity:
@@ -167,22 +272,26 @@ def calculate_full_sections(sections, section_enrollment, section_capacity):
 def calculate_under_half_sections(sections, section_enrollment, section_capacity):
     count = 0
 
-    for sec in sections:
+    for grouped_sections in _build_enrollment_groups(sections).values():
 
-        enrolled = section_enrollment.get(
-            sec.id,
-            0
+        enrolled = sum(
+            section_enrollment.get(sec.id, 0)
+            for sec in grouped_sections
         )
 
-        capacity = section_capacity.get(
-            sec.id,
-            0
+        capacity = max(
+            section_capacity.get(sec.id, 0)
+            for sec in grouped_sections
         )
 
-        if capacity > 0:
+        if capacity <= 0:
+            continue
 
-            if enrolled < capacity * 0.5:
-                count += 1
+        if enrolled == 0:
+            continue
+
+        if enrolled < capacity * 0.5:
+            count += 1
 
     return count
 
@@ -381,6 +490,65 @@ def calculate_sequencing_rule_violation_percent(
             return 0.0
 
         return (violations / total_rules) * 100
+
+# =====================================================
+# STUDENT SEQUENCING RULE VIOLATION %
+# =====================================================
+# Measures the ACTUAL per-student assignments (all_schedules),
+# not just the master timetable. A pair counts as a checked rule
+# whenever a student was assigned BOTH the prerequisite and the
+# subsequent course. It is a violation when, for that student, the
+# prerequisite is not placed in semester 1 (blocks 0-3) or the
+# subsequent course is not placed in semester 2 (blocks 4-7).
+
+def calculate_student_sequencing_violation_percent(
+    students,
+    all_schedules
+):
+    rules = load_rules()
+    sequence_rules = rules.sequence_pairs
+
+    semester1_blocks = {0, 1, 2, 3}
+    semester2_blocks = {4, 5, 6, 7}
+
+    total_rules = 0
+    violations = 0
+
+    for student in students:
+
+        sched = all_schedules.get(student.id, {})
+
+        for prereq, subsequent in sequence_rules:
+
+            if prereq not in sched:
+                continue
+
+            if subsequent not in sched:
+                continue
+
+            total_rules += 1
+
+            prereq_blocks = _get_assigned_blocks(sched[prereq])
+            subsequent_blocks = _get_assigned_blocks(sched[subsequent])
+
+            prereq_in_sem1 = any(
+                b in semester1_blocks
+                for b in prereq_blocks
+            )
+
+            subsequent_in_sem2 = any(
+                b in semester2_blocks
+                for b in subsequent_blocks
+            )
+
+            if not (prereq_in_sem1 and subsequent_in_sem2):
+                violations += 1
+
+    if total_rules == 0:
+        return 0.0
+
+    return (violations / total_rules) * 100
+
 
 # =====================================================
 # FULL TIMETABLE % -- done in main

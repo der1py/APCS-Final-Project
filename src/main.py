@@ -12,6 +12,7 @@ from output_scripts.export import export_all
 from output_scripts.metrics import (
     calculate_request_completion,
     calculate_7_to_8_requested_percent,
+    calculate_8_of_8_without_alternates_percent,
     calculate_8_of_8_with_alternates_percent,
     calculate_students_with_conflicts,
     calculate_unassigned_requests,
@@ -25,6 +26,7 @@ from output_scripts.metrics import (
     calculate_block_distribution,
     calculate_blocking_rule_violation_percent,
     calculate_sequencing_rule_violation_percent,
+    calculate_student_sequencing_violation_percent,
     calculate_optimization_score,
 )
 
@@ -117,7 +119,10 @@ for s in students:
         count_8_of_8 += 1
         id_8_of_8_students.append(s.id)
 
-percent_8_of_8 = (count_8_of_8 / len(students)) * 100 if students else 0
+eight_of_eight_without_alternates = calculate_8_of_8_without_alternates_percent(
+    students,
+    all_schedules
+)
 
 # % of students with >=50% of requested courses placed
 count_half_or_more = 0
@@ -149,6 +154,7 @@ invalid_room_assignments = calculate_invalid_room_assignments(master_timetable.s
 block_distribution = calculate_block_distribution(master_timetable.section_to_block)
 blocking_rule_violation = calculate_blocking_rule_violation_percent(master_timetable.course_to_sections, master_timetable.section_to_block)
 sequencing_rule_violation = calculate_sequencing_rule_violation_percent(students, master_timetable.course_to_sections, master_timetable.section_to_block)
+student_sequencing_violation = calculate_student_sequencing_violation_percent(students, all_schedules)
 
 
 # Optimization Score
@@ -163,7 +169,7 @@ optimization_score = calculate_optimization_score(
 
 print("--- Student Metrics ---")
 print(f"Request Completion: {request_completion:.2f}%")
-print(f"Full Schedules: {percent_8_of_8:.2f}%")
+print(f"8/8 Courses (without Alternates): {eight_of_eight_without_alternates:.2f}%")
 print(f"Half-Full Schedules: {percent_half_or_more:.2f}%")
 print(f"7-8/8 Requested Courses: {seven_to_eight_requested:.2f}%")
 print(f"8/8 Courses (with Alternates): {eight_of_eight_with_alternates:.2f}%")
@@ -173,8 +179,8 @@ print(f"Students with 8/8 requested courses placed: {id_8_of_8_students}")
 
 print("\n--- Enrollment Metrics ---")
 print(f"Total Number of Sections: {total_sections}")
-print(f"Full Sections: {full_sections}")
-print(f"Sections Below 50% Enrollment: {under_half_sections}")
+print(f"Full Enrollment Groups: {full_sections}")
+print(f"Active Enrollment Groups Below 50%: {under_half_sections}")
 # print(f"Section Enrollment: {section_enrollment_metric}") # This can be very long
 
 print("\n--- Timetable Metrics ---")
@@ -184,5 +190,6 @@ print(f"Invalid Room Assignments: {invalid_room_assignments}")
 print(f"Block Distribution: {block_distribution}")
 print(f"Blocking Rule Violation: {blocking_rule_violation:.2f}%")
 print(f"Sequencing Rule Violation: {sequencing_rule_violation:.2f}%")
+print(f"Student Sequencing Rule Violation: {student_sequencing_violation:.2f}%")
 print(f"Full Timetable Runtime: {runtime_seconds:.3f} seconds")
 print(f"\nOptimization Score: {optimization_score}")

@@ -48,6 +48,9 @@ def export_master_csv(section_to_block, blocks,
                 if sec_obj is not None:
                     course_code = getattr(sec_obj, "course_code", None)
 
+            if sec_obj is not None and getattr(sec_obj, "cancelled", False):
+                continue
+
             # fallback: try parsing from section id (prefix before first underscore)
             if course_code is None and isinstance(sec_id, str) and "_" in sec_id:
                 course_code = sec_id.split("_")[0]
@@ -193,6 +196,13 @@ def export_master_json(master_timetable,
 
     if hasattr(master_timetable, "section_to_blocks"):
         data["section_to_blocks"] = master_timetable.section_to_blocks
+
+    if hasattr(master_timetable, "sections"):
+        data["cancelled_sections"] = [
+            sec.id
+            for sec in master_timetable.sections
+            if getattr(sec, "cancelled", False)
+        ]
 
     with open(output_path, "w") as f:
         json.dump(data, f, indent=2)

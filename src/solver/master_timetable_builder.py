@@ -610,7 +610,7 @@ def build_master_timetable(students, courses):
 
     solver = cp_model.CpSolver()
 
-    solver.parameters.max_time_in_seconds = 120
+    solver.parameters.max_time_in_seconds = 60
     solver.parameters.num_search_workers = 8
 
     status = solver.Solve(model)

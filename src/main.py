@@ -3,7 +3,7 @@ import time
 from data.data_loader import load_courses_from_json, load_students
 
 from solver.master_timetable_builder import build_master_timetable
-from solver.student_timetable_builder import generate_all_student_schedules
+from solver.student_timetable_cpsat import build_student_timetables
 
 from validator import validate_courses, validate_students
 
@@ -77,10 +77,10 @@ runtime_seconds = time.perf_counter() - start_time
 # STUDENT ASSIGNMENTS
 # =====================================================
 
-all_schedules, section_enrollment = generate_all_student_schedules(
+all_schedules, section_enrollment = build_student_timetables(
     students,
     master_timetable,
-    section_capacity
+    course_lookup
 )
 
 

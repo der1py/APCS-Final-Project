@@ -445,6 +445,7 @@ def build_student_timetables(
     active = {}
     active_groups = {}
     group_enrollment = {}
+    under_half_penalties = []
 
     for gid, grouped_sections in group_sections.items():
 
@@ -478,15 +479,47 @@ def build_student_timetables(
 
         active_groups[gid] = a
 
+        # Soft constraint: active enrollment groups should reach 50% capacity.
+        # Keep the original hard constraint commented out so it can be restored
+        # if low-enrollment groups should be cancelled again.
+        #
+        # model.Add(
+        #     group_enrollment_var
+        #     >= minimum
+        # ).OnlyEnforceIf(a)
+
         model.Add(
             group_enrollment_var
-            >= minimum
+            >= 1
         ).OnlyEnforceIf(a)
 
         model.Add(
             group_enrollment_var
             == 0
         ).OnlyEnforceIf(a.Not())
+
+        under_half_penalty = model.NewIntVar(
+            0,
+            minimum,
+            f"under_half_penalty_{gid}"
+        )
+
+        model.Add(
+            under_half_penalty
+            >=
+            minimum
+            -
+            group_enrollment_var
+        ).OnlyEnforceIf(a)
+
+        model.Add(
+            under_half_penalty
+            == 0
+        ).OnlyEnforceIf(a.Not())
+
+        under_half_penalties.append(
+            under_half_penalty
+        )
 
         for sec in grouped_sections:
             active[sec.id] = a
@@ -547,6 +580,7 @@ def build_student_timetables(
     MAIN_COURSE_WEIGHT = 100_000_000
     ALTERNATE_COURSE_WEIGHT = 10_000
     ACTIVE_SECTION_WEIGHT = 100
+    UNDER_HALF_PENALTY_WEIGHT = 1_000
 
     model.Maximize(
 
@@ -571,6 +605,12 @@ def build_student_timetables(
         ACTIVE_SECTION_WEIGHT
         *
         sum(active_groups.values())
+
+        -
+
+        UNDER_HALF_PENALTY_WEIGHT
+        *
+        sum(under_half_penalties)
 
         -
 

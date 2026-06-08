@@ -19,6 +19,7 @@ class Course:
     rooms: list[str] = field(default_factory=list)
     linear: bool = False
     outside_tt: bool = False
+    back_up_rooms: list[str] = field(default_factory=list)
 
     def __post_init__(self):
         # Basic validation (optional but useful)

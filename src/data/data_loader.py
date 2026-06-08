@@ -13,7 +13,7 @@ from models.student import Student
 
 STUDENT_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "student_requests_cleaned.csv"
 COURSE_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_sections_cleaned.csv"
-COURSE_STATS_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_stats.json"
+COURSE_STATS_PATH = Path(__file__).resolve().parent / "cleaned data" / "clean_courses_stats.json"
 SEQUENCING_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_sequencing_cleaned.csv"
 BLOCKING_DATA_PATH = Path(__file__).resolve().parent / "cleaned data" / "course_blocking_cleaned.csv"
 
@@ -52,14 +52,41 @@ def load_students(csv_path: Path | None = None) -> List[Student]:
         for student_id in sorted(students)
     ]
 
+# old version - loads courses from the course_stats.json
+# def load_courses_from_json(json_path: Path | None = None) -> List[Course]:
+#     """Load course definitions from the JSON cache and return Course objects."""
+#     path = Path(json_path) if json_path is not None else COURSE_STATS_PATH
+
+#     with path.open("r", encoding="utf-8") as file:
+#         course_data = json.load(file)
+
+#     return [Course(**course_entry) for course_entry in course_data]
+
 def load_courses_from_json(json_path: Path | None = None) -> List[Course]:
-    """Load course definitions from the JSON cache and return Course objects."""
+    """Load course definitions from clean_courses_stats.json and return Course objects."""
     path = Path(json_path) if json_path is not None else COURSE_STATS_PATH
 
     with path.open("r", encoding="utf-8") as file:
         course_data = json.load(file)
 
-    return [Course(**course_entry) for course_entry in course_data]
+    courses: List[Course] = []
+
+    for code, data in course_data.items():
+        courses.append(
+            Course(
+                code=code,
+                name=data.get("description", ""),
+                num_sections=int(data.get("section_count", 0)),
+                total=int(data.get("total", 0)),
+                enrollment_max=int(data.get("enrollment_max", 30)),
+                rooms=data.get("rooms", []),
+                back_up_rooms=data.get("backUpRooms", []),
+                linear=bool(data.get("linear", False)),
+                outside_tt=not bool(data.get("timetable", True)),
+            )
+        )
+
+    return courses
 
 
 def load_simultaneous_blocking_rules(csv_path: Path | None = None) -> Dict[str, List[Tuple[str, str]]]:

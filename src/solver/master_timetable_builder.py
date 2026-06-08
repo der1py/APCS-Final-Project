@@ -94,7 +94,7 @@ def build_master_timetable(students, courses):
     all_rooms = sorted({
         room
         for c in courses
-        for room in c.rooms
+        for room in (c.rooms + c.back_up_rooms)
     })
 
     # Room capacity configuration.
@@ -297,17 +297,23 @@ def build_master_timetable(students, courses):
     # =================================================
 
     # build group->allowed rooms (intersection of allowed rooms)
+    # include back_up_rooms so backup rooms are valid options
     group_allowed_rooms = {}
+    group_primary_rooms = {}  # subset of allowed rooms that are primary
 
     for gid, s_list in group_sections.items():
 
-        # compute allowed rooms as intersection of member course rooms
-        allowed = set(course_lookup[s_list[0].course_code].rooms)
+        # compute allowed rooms as intersection of (primary + backup) rooms
+        allowed = set(course_lookup[s_list[0].course_code].rooms) | set(course_lookup[s_list[0].course_code].back_up_rooms)
+        primary = set(course_lookup[s_list[0].course_code].rooms)
 
         for s in s_list[1:]:
-            allowed &= set(course_lookup[s.course_code].rooms)
+            c = course_lookup[s.course_code]
+            allowed &= (set(c.rooms) | set(c.back_up_rooms))
+            primary &= set(c.rooms)
 
         group_allowed_rooms[gid] = sorted(allowed)
+        group_primary_rooms[gid] = primary
 
     # Create compact group-room-block variables z[(gid,room,block)].
     # z is true iff the group is scheduled in `block` AND occupies `room`.
@@ -592,6 +598,24 @@ def build_master_timetable(students, courses):
 
     BALANCE_WEIGHT = 100
 
+    # -------------------------------------------------
+    # ROOM PREFERENCE PENALTY (soft constraint)
+    # Backup rooms incur a small penalty per assignment;
+    # primary rooms incur zero.
+    # -------------------------------------------------
+
+    ROOM_PENALTY_WEIGHT = 50
+    BACKUP_ROOM_COST = 1  # per-assignment penalty for a backup room
+
+    backup_room_penalty = sum(
+        BACKUP_ROOM_COST * z[(gid, room, b)]
+        for gid in group_sections
+        for room in group_allowed_rooms.get(gid, [])
+        for b in blocks
+        if (gid, room, b) in z
+        and room not in group_primary_rooms.get(gid, set())
+    )
+
     model.Minimize(
 
         conflict_cost
@@ -601,6 +625,12 @@ def build_master_timetable(students, courses):
         BALANCE_WEIGHT
         *
         sum(balance_penalties)
+
+        +
+
+        ROOM_PENALTY_WEIGHT
+        *
+        backup_room_penalty
 
     )
 

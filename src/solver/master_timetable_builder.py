@@ -37,6 +37,120 @@ class MasterTimetable:
 
 
 # =====================================================
+# DEBUG: ROOM ASSIGNMENT RISK ANALYSIS
+# =====================================================
+
+
+def analyze_room_assignment_risk(group_sections, group_allowed_rooms, group_primary_rooms):
+    """
+    Prints a risk analysis report for room assignment feasibility.
+    Helps identify groups that may cause CP-SAT infeasibility.
+    
+    Args:
+        group_sections: dict mapping group_id -> list of Section objects
+        group_allowed_rooms: dict mapping group_id -> list of allowed room names
+        group_primary_rooms: dict mapping group_id -> set of primary room names
+    """
+    
+    # Classify groups by risk
+    dead_groups = []
+    very_risky_groups = []
+    low_flex_groups = []
+    ok_groups = []
+    
+    for gid in group_sections:
+        allowed_count = len(group_allowed_rooms.get(gid, []))
+        
+        if allowed_count == 0:
+            dead_groups.append(gid)
+        elif allowed_count == 1:
+            very_risky_groups.append(gid)
+        elif allowed_count == 2:
+            low_flex_groups.append(gid)
+        else:
+            ok_groups.append(gid)
+    
+    # Print header
+    print("\n" + "="*90)
+    print("ROOM ASSIGNMENT RISK ANALYSIS")
+    print("="*90 + "\n")
+    
+    # Helper function to print group details
+    def print_group_details(gid, risk_label):
+        allowed = group_allowed_rooms.get(gid, [])
+        primary = group_primary_rooms.get(gid, set())
+        sections = group_sections[gid]
+        section_codes = [s.course_code for s in sections]
+        
+        print(f"  Group ID:              {gid}")
+        print(f"  Risk Level:            {risk_label}")
+        print(f"  Num Allowed Rooms:     {len(allowed)}")
+        print(f"  Allowed Rooms:         {allowed if allowed else 'NONE'}")
+        print(f"  Primary Rooms:         {sorted(primary) if primary else 'NONE'}")
+        print(f"  Sections in Group:     {len(sections)}")
+        print(f"  Courses:               {section_codes}")
+    
+    # Print DEAD groups (0 rooms)
+    if dead_groups:
+        print("🚨 INFEASIBLE / DEAD GROUPS (0 allowed rooms)")
+        print("-" * 90)
+        for gid in dead_groups:
+            sections = group_sections[gid]
+            print(f"Dead Group: {gid}")
+            for s in sections:
+                print(f"  {s.id} ({s.course_code})")
+            print("  Diagnostic Hint: Likely caused by intersection of course room constraints.")
+            print("                   (Primary and/or backup rooms don't overlap)")
+            print()
+    
+    # Print VERY RISKY groups (1 room)
+    if very_risky_groups:
+        print("⚠️  VERY RISKY GROUPS (exactly 1 allowed room)")
+        print("-" * 90)
+        for gid in very_risky_groups:
+            print_group_details(gid, "⚠️  VERY RISKY")
+            print()
+    
+    # # Print LOW FLEXIBILITY groups (2 rooms)
+    # if low_flex_groups:
+    #     print("⚠️  LOW FLEXIBILITY GROUPS (exactly 2 allowed rooms)")
+    #     print("-" * 90)
+    #     for gid in low_flex_groups:
+    #         print_group_details(gid, "⚠️  LOW FLEX")
+    #         print()
+    
+    # # Print OK groups (brief summary)
+    # if ok_groups:
+    #     print("🟡 OK GROUPS (3+ allowed rooms)")
+    #     print("-" * 90)
+    #     print(f"  Count: {len(ok_groups)} groups")
+    #     print("  (Detailed output suppressed for brevity)\n")
+    
+    # Print summary statistics
+    print("\n" + "="*90)
+    print("SUMMARY STATISTICS")
+    print("="*90)
+    total = len(group_sections)
+    dead_count = len(dead_groups)
+    risky_count = len(very_risky_groups) + len(low_flex_groups)
+    safe_count = len(ok_groups)
+    
+    print(f"  Total Groups:                 {total}")
+    print(f"  🚨 Dead Groups (0 rooms):     {dead_count} ({100*dead_count/total:.1f}%)")
+    print(f"  ⚠️  Risky Groups (1-2 rooms): {risky_count} ({100*risky_count/total:.1f}%)")
+    print(f"  🟡 Safe Groups (3+ rooms):    {safe_count} ({100*safe_count/total:.1f}%)")
+    
+    if dead_count > 0:
+        print(f"\n  ⚠️  CRITICAL: {dead_count} dead group(s) → Model will be INFEASIBLE")
+    elif risky_count > 0:
+        print(f"\n  ⚠️  WARNING: {risky_count} risky group(s) → May cause infeasibility")
+    else:
+        print(f"\n  ✅ All groups have sufficient room flexibility")
+    
+    print("\n" + "="*90 + "\n")
+
+
+# =====================================================
 # BUILD MASTER TIMETABLE
 # =====================================================
 
@@ -314,6 +428,12 @@ def build_master_timetable(students, courses):
 
         group_allowed_rooms[gid] = sorted(allowed)
         group_primary_rooms[gid] = primary
+
+    # =================================================
+    # DEBUG: ANALYZE ROOM ASSIGNMENT RISK
+    # =================================================
+
+    analyze_room_assignment_risk(group_sections, group_allowed_rooms, group_primary_rooms)
 
     # Create compact group-room-block variables z[(gid,room,block)].
     # z is true iff the group is scheduled in `block` AND occupies `room`.

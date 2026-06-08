@@ -584,7 +584,7 @@ def build_student_timetables(
 
     solver = cp_model.CpSolver()
 
-    solver.parameters.max_time_in_seconds = 180
+    solver.parameters.max_time_in_seconds = 60
     solver.parameters.num_search_workers = 8
 
     status = solver.Solve(model)

@@ -382,7 +382,7 @@ def build_master_timetable(students, courses):
             if room_block_vars:
                 model.Add(
                     sum(room_block_vars)
-                    <= room_capacity.get(room, 20)
+                    <= room_capacity.get(room, 3)
                 )
 
     # =================================================

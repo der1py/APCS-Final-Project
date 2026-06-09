@@ -1,0 +1,592 @@
+
+==========================================================================================
+ERROR: FORCED_ROOM_BOTTLENECK
+==========================================================================================
+
+Room: 206
+Capacity: 8
+Demand: 11
+Shortfall: 3
+
+Affected Groups:
+  sim_17
+  sim_18
+  sim_19
+  sim_20
+  sim_33
+  sim_34
+  sim_35
+  sim_36
+  sim_183
+  sim_184
+  sim_185
+
+Affected Sections:
+  MTXT-10---_1
+  MADT-09---_1
+  MTXT-12---_1
+  MTXT-11---_1
+  MTXT-11---_2
+  MTXT-10---_2
+  MTXT-12---_2
+  MADT-09---_2
+  MTXT-10---_3
+  MADT-09---_3
+  MTXT-12---_3
+  MTXT-11---_3
+  MTXT-11---_4
+  MADT-09---_4
+  MTXT-10---_4
+  MTXT-12---_4
+  MFOOD12---_1
+  MFOOD11---_1
+  MFOOD12---_2
+  MFOOD11---_2
+  MFOOD12---_3
+  MFOOD11---_3
+  MFOOD12---_4
+  MFOOD11---_4
+  MFOOD10---_1
+  MFOOD10---_2
+  MFOOD10---_3
+
+==========================================================================================
+
+
+==========================================================================================
+ROOM ASSIGNMENT RISK ANALYSIS
+==========================================================================================
+
+🚨 INFEASIBLE / DEAD GROUPS (0 allowed rooms)
+------------------------------------------------------------------------------------------
+Dead Group: sim_12
+  MADGE09---_1 (MADGE09---)
+  MENR-11---_1 (MENR-11---)
+  MTEXP10---_1 (MTEXP10---)
+  MENR-12---_1 (MENR-12---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_13
+  MTEXP10---_2 (MTEXP10---)
+  MENR-12---_2 (MENR-12---)
+  MADGE09---_2 (MADGE09---)
+  MENR-11---_2 (MENR-11---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_14
+  MTEXP10---_3 (MTEXP10---)
+  MENR-11---_3 (MENR-11---)
+  MADGE09---_3 (MADGE09---)
+  MENR-12---_3 (MENR-12---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_15
+  MTEXP10---_4 (MTEXP10---)
+  MENR-12---_4 (MENR-12---)
+  MENR-11---_4 (MENR-11---)
+  MADGE09---_4 (MADGE09---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_16
+  MTEXP10---_5 (MTEXP10---)
+  MENR-11---_5 (MENR-11---)
+  MADGE09---_5 (MADGE09---)
+  MENR-12---_5 (MENR-12---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_26
+  MIDS-0B---_1 (MIDS-0B---)
+  MDNC-09H--_1 (MDNC-09H--)
+  MDNCN12---_1 (MDNCN12---)
+  MDNCN11---_1 (MDNCN11---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_65
+  XLDCB09M--_1 (XLDCB09M--)
+  MTPOW10---_1 (MTPOW10---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_66
+  XLDCB09M--_2 (XLDCB09M--)
+  MTPOW10---_2 (MTPOW10---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_69
+  MVA--09---_1 (MVA--09---)
+  MVAST12---_1 (MVAST12---)
+  MVAST11---_1 (MVAST11---)
+  MVAST10---_1 (MVAST10---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_70
+  MVA--09---_2 (MVA--09---)
+  MVAST11---_2 (MVAST11---)
+  MVAST10---_2 (MVAST10---)
+  MVAST12---_2 (MVAST12---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+Dead Group: sim_71
+  MVAST12---_3 (MVAST12---)
+  MVA--09---_3 (MVA--09---)
+  MVAST11---_3 (MVAST11---)
+  MVAST10---_3 (MVAST10---)
+  Diagnostic Hint: Likely caused by intersection of course room constraints.
+                   (Primary and/or backup rooms don't overlap)
+
+⚠️  VERY RISKY GROUPS (exactly 1 allowed room)
+------------------------------------------------------------------------------------------
+  Group ID:              sim_0
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['203']
+  Primary Rooms:         ['203']
+  Sections in Group:     3
+  Courses:               ['MMACS11---', 'MMACS12---', 'ACSC-2A---']
+
+  Group ID:              sim_6
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['105']
+  Primary Rooms:         ['105']
+  Sections in Group:     4
+  Courses:               ['MADD-09---', 'MTDRF12---', 'MTDRF10---', 'MTDRF11---']
+
+  Group ID:              sim_7
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['105']
+  Primary Rooms:         ['105']
+  Sections in Group:     4
+  Courses:               ['MTDRF10---', 'MTDRF12---', 'MTDRF11---', 'MADD-09---']
+
+  Group ID:              sim_8
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['105']
+  Primary Rooms:         ['105']
+  Sections in Group:     4
+  Courses:               ['MTDRF12---', 'MADD-09---', 'MTDRF11---', 'MTDRF10---']
+
+  Group ID:              sim_9
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['105']
+  Primary Rooms:         ['105']
+  Sections in Group:     4
+  Courses:               ['MTDRF10---', 'MTDRF11---', 'MADD-09---', 'MTDRF12---']
+
+  Group ID:              sim_10
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['104']
+  Primary Rooms:         ['104']
+  Sections in Group:     4
+  Courses:               ['MTROB11---', 'MTEAR10---', 'MADER09---', 'MTROB12---']
+
+  Group ID:              sim_11
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['104']
+  Primary Rooms:         ['104']
+  Sections in Group:     4
+  Courses:               ['MADER09---', 'MTEAR10---', 'MTROB12---', 'MTROB11---']
+
+  Group ID:              sim_17
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     4
+  Courses:               ['MTXT-10---', 'MADT-09---', 'MTXT-12---', 'MTXT-11---']
+
+  Group ID:              sim_18
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     4
+  Courses:               ['MTXT-11---', 'MTXT-10---', 'MTXT-12---', 'MADT-09---']
+
+  Group ID:              sim_19
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     4
+  Courses:               ['MTXT-10---', 'MADT-09---', 'MTXT-12---', 'MTXT-11---']
+
+  Group ID:              sim_20
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     4
+  Courses:               ['MTXT-11---', 'MADT-09---', 'MTXT-10---', 'MTXT-12---']
+
+  Group ID:              sim_21
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['101']
+  Primary Rooms:         ['101']
+  Sections in Group:     4
+  Courses:               ['MADW-09---', 'MWWK-12---', 'MWWK-11---', 'MWWK-10---']
+
+  Group ID:              sim_22
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['101']
+  Primary Rooms:         ['101']
+  Sections in Group:     4
+  Courses:               ['MWWK-11---', 'MADW-09---', 'MWWK-12---', 'MWWK-10---']
+
+  Group ID:              sim_25
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Studio']
+  Primary Rooms:         ['Studio']
+  Sections in Group:     4
+  Courses:               ['MDNC-09F--', 'MDCF-12---', 'MDCF-10---', 'MDCF-11---']
+
+  Group ID:              sim_27
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Studio']
+  Primary Rooms:         ['Studio']
+  Sections in Group:     2
+  Courses:               ['MDNC-09PT-', 'MDNTP10---']
+
+  Group ID:              sim_28
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Studio']
+  Primary Rooms:         ['Studio']
+  Sections in Group:     2
+  Courses:               ['MDNTP11---', 'MDNTP12---']
+
+  Group ID:              sim_29
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['A-1']
+  Primary Rooms:         ['A-1']
+  Sections in Group:     4
+  Courses:               ['MDRM-12---', 'MDRM-10---', 'MDR--09---', 'MDRM-11---']
+
+  Group ID:              sim_33
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     2
+  Courses:               ['MFOOD12---', 'MFOOD11---']
+
+  Group ID:              sim_34
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     2
+  Courses:               ['MFOOD12---', 'MFOOD11---']
+
+  Group ID:              sim_35
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     2
+  Courses:               ['MFOOD12---', 'MFOOD11---']
+
+  Group ID:              sim_36
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     2
+  Courses:               ['MFOOD12---', 'MFOOD11---']
+
+  Group ID:              sim_42
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['203']
+  Primary Rooms:         ['203']
+  Sections in Group:     2
+  Courses:               ['MMACS11---', 'MMACS12---']
+
+  Group ID:              sim_43
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['203']
+  Primary Rooms:         ['203']
+  Sections in Group:     2
+  Courses:               ['MMACS11---', 'MMACS12---']
+
+  Group ID:              sim_44
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['114']
+  Primary Rooms:         ['114']
+  Sections in Group:     3
+  Courses:               ['MMEDD11---', 'MMEDD10---', 'MMEDD12---']
+
+  Group ID:              sim_45
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['114']
+  Primary Rooms:         ['114']
+  Sections in Group:     3
+  Courses:               ['MMEDD12---', 'MMEDD10---', 'MMEDD11---']
+
+  Group ID:              sim_47
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHE-09---', 'MPHED10---']
+
+  Group ID:              sim_48
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHED10---', 'MPHE-09---']
+
+  Group ID:              sim_49
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHE-09---', 'MPHED10---']
+
+  Group ID:              sim_50
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHE-09B--', 'MPHED10B--']
+
+  Group ID:              sim_51
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHE-09B--', 'MPHED10B--']
+
+  Group ID:              sim_52
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHED10B--', 'MPHE-09B--']
+
+  Group ID:              sim_53
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHED10B--', 'MPHE-09B--']
+
+  Group ID:              sim_54
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHE-09G--', 'MPHED10G--']
+
+  Group ID:              sim_55
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHE-09G--', 'MPHED10G--']
+
+  Group ID:              sim_56
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHE-09G--', 'MPHED10G--']
+
+  Group ID:              sim_57
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     2
+  Courses:               ['MPHE-09G--', 'MPHED10G--']
+
+  Group ID:              sim_58
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     4
+  Courses:               ['YPA--1CX--', 'YPA--0CX--', 'MPHE-09Y--', 'YPA--2CX--']
+
+  Group ID:              sim_62
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['102']
+  Primary Rooms:         ['102']
+  Sections in Group:     3
+  Courses:               ['MTAUT12---', 'MTAUT11---', 'MTEAD12---']
+
+  Group ID:              sim_63
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['102']
+  Primary Rooms:         ['102']
+  Sections in Group:     3
+  Courses:               ['MTAUT12---', 'MTAUT11---', 'MTEAD12---']
+
+  Group ID:              sim_64
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['102']
+  Primary Rooms:         ['102']
+  Sections in Group:     3
+  Courses:               ['MTEAD12---', 'MTAUT11---', 'MTAUT12---']
+
+  Group ID:              sim_67
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['113']
+  Primary Rooms:         ['113']
+  Sections in Group:     3
+  Courses:               ['MVAPH11---', 'MVAPH12---', 'MVAPH10---']
+
+  Group ID:              sim_68
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['113']
+  Primary Rooms:         ['113']
+  Sections in Group:     3
+  Courses:               ['MVAPH12---', 'MVAPH11---', 'MVAPH10---']
+
+  Group ID:              sim_125
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['203']
+  Primary Rooms:         ['203']
+  Sections in Group:     1
+  Courses:               ['MCMPR11AI-']
+
+  Group ID:              sim_126
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['203']
+  Primary Rooms:         ['203']
+  Sections in Group:     1
+  Courses:               ['MCMPR12AI-']
+
+  Group ID:              sim_141
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['114']
+  Primary Rooms:         ['114']
+  Sections in Group:     1
+  Courses:               ['MDMD-12D--']
+
+  Group ID:              sim_183
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     1
+  Courses:               ['MFOOD10---']
+
+  Group ID:              sim_184
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     1
+  Courses:               ['MFOOD10---']
+
+  Group ID:              sim_185
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['206']
+  Primary Rooms:         ['206']
+  Sections in Group:     1
+  Courses:               ['MFOOD10---']
+
+  Group ID:              sim_187
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['119']
+  Primary Rooms:         ['119']
+  Sections in Group:     1
+  Courses:               ['MIMG-11---']
+
+  Group ID:              sim_188
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['119']
+  Primary Rooms:         ['119']
+  Sections in Group:     1
+  Courses:               ['MIMG-12---']
+
+  Group ID:              sim_212
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['119']
+  Primary Rooms:         ['119']
+  Sections in Group:     1
+  Courses:               ['MMUGT10---']
+
+  Group ID:              sim_224
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     1
+  Courses:               ['MPHE-09FB-']
+
+  Group ID:              sim_225
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['Gym']
+  Primary Rooms:         ['Gym']
+  Sections in Group:     1
+  Courses:               ['MPHED10FB-']
+
+  Group ID:              sim_290
+  Risk Level:            ⚠️  VERY RISKY
+  Num Allowed Rooms:     1
+  Allowed Rooms:         ['119']
+  Primary Rooms:         ['119']
+  Sections in Group:     1
+  Courses:               ['XBA--09G--']
+
+
+==========================================================================================
+SUMMARY STATISTICS
+==========================================================================================
+  Total Groups:                 303
+  🚨 Dead Groups (0 rooms):     11 (3.6%)
+  ⚠️  Risky Groups (1-2 rooms): 58 (19.1%)
+  🟡 Safe Groups (3+ rooms):    234 (77.2%)
+
+  ⚠️  CRITICAL: 11 dead group(s) → Model will be INFEASIBLE
+
+==========================================================================================
+

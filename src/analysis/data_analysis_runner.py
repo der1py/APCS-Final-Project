@@ -17,7 +17,7 @@ if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
 
 from models.section import Section
-from analysis.data_analysis import analyze_room_assignment_risk
+from analysis.data_analysis import analyze_room_assignment_risk, check_forced_room_bottleneck
 from data.data_loader import load_simultaneous_blocking_rules
 
 
@@ -146,9 +146,28 @@ def main():
 
     group_sections, group_allowed_rooms, group_primary_rooms = build_groups_from_course_stats(courses)
 
-    # Capture printed analysis output and write to analysis_output.txt
+    # Capture printed output
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
+        # Run forced-room bottleneck check first (hard constraint)
+        bottleneck_violation = check_forced_room_bottleneck(group_sections, group_allowed_rooms, num_blocks=8)
+        if bottleneck_violation:
+            print("\n" + "=" * 90)
+            print("ERROR: FORCED_ROOM_BOTTLENECK")
+            print("=" * 90)
+            print(f"\nRoom: {bottleneck_violation['room_name']}")
+            print(f"Capacity: {bottleneck_violation['capacity']}")
+            print(f"Demand: {bottleneck_violation['demand']}")
+            print(f"Shortfall: {bottleneck_violation['shortfall']}")
+            print(f"\nAffected Groups:")
+            for gid in bottleneck_violation['affected_groups']:
+                print(f"  {gid}")
+            print(f"\nAffected Sections:")
+            for sid in bottleneck_violation['affected_sections']:
+                print(f"  {sid}")
+            print("\n" + "=" * 90 + "\n")
+        
+        # Run room assignment risk analysis
         analyze_room_assignment_risk(
             group_sections,
             group_allowed_rooms,

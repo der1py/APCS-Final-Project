@@ -6,7 +6,66 @@ This module provides a pure-Python implementation of
 pipeline or independently by the runner.
 """
 from collections import defaultdict
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Optional
+
+
+def check_forced_room_bottleneck(group_sections: Dict[str, List[object]],
+                                  group_allowed_rooms: Dict[str, List[str]],
+                                  num_blocks: int = 8) -> Optional[Dict]:
+    """
+    Check for rooms that are mathematically oversubscribed (forced-room bottleneck).
+    
+    A forced-room section is one where the group has exactly 1 allowed room.
+    If the number of forced-room groups assigned to a room exceeds the number of
+    available blocks, the room is oversubscribed and the model will be infeasible.
+    
+    Args:
+        group_sections: dict mapping group_id -> list of Section-like objects
+        group_allowed_rooms: dict mapping group_id -> list of allowed room names
+        num_blocks: number of available timetable blocks (default: 8)
+    
+    Returns:
+        A dict with violation details if any room is oversubscribed, else None.
+        Format: {
+            'room_name': str,
+            'capacity': int,
+            'demand': int,
+            'shortfall': int,
+            'affected_groups': list of group_ids,
+            'affected_sections': list of section_ids
+        }
+        If multiple rooms are oversubscribed, returns the first one found.
+    """
+    
+    # Group forced-room sections by their sole allowed room
+    room_to_forced_groups = defaultdict(list)
+    
+    for gid, allowed_rooms in group_allowed_rooms.items():
+        if len(allowed_rooms) == 1:
+            room = allowed_rooms[0]
+            room_to_forced_groups[room].append(gid)
+    
+    # Check for bottlenecks
+    for room, forced_groups in room_to_forced_groups.items():
+        demand = len(forced_groups)
+        capacity = num_blocks
+        
+        if demand > capacity:
+            affected_sections = []
+            for gid in forced_groups:
+                for section in group_sections.get(gid, []):
+                    affected_sections.append(getattr(section, "id", "<unknown>"))
+            
+            return {
+                'room_name': room,
+                'capacity': capacity,
+                'demand': demand,
+                'shortfall': demand - capacity,
+                'affected_groups': forced_groups,
+                'affected_sections': affected_sections,
+            }
+    
+    return None
 
 
 def classify_groups_by_room_risk(group_allowed_rooms: Dict[str, List[str]]):
@@ -157,6 +216,7 @@ def analyze_room_assignment_risk(group_sections,
 
 
 __all__ = [
+    "check_forced_room_bottleneck",
     "analyze_room_assignment_risk",
     "classify_groups_by_room_risk",
     "compute_group_room_stats",

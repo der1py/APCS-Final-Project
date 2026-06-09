@@ -76,6 +76,10 @@ def build_master_timetable(students, courses):
     course_to_sections = defaultdict(list)
 
     for course in courses:
+        
+        # filter out courses outside of timetable
+        if course.outside_tt:
+            continue
 
         for i in range(1, course.num_sections + 1):
 

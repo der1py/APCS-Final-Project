@@ -77,7 +77,7 @@ def build_master_timetable(students, courses):
 
     for course in courses:
         
-        # filter out courses outside of timetable
+        # filter out courses outside of
         if course.outside_tt:
             continue
 
@@ -510,8 +510,9 @@ def build_master_timetable(students, courses):
         if capacity <= 0:
             capacity = DEFAULT_SECTION_SIZE
 
-        required_sections = round(
-            demand / capacity + 0.2
+        # round up to ensure enough sections even if not perfectly divisible
+        required_sections = math.ceil(
+            demand / capacity
         )
 
         print(

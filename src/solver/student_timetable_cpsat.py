@@ -704,36 +704,36 @@ def build_student_timetables(
     # REPORT
     # =====================================================
 
-    print("\nGROUP ENROLLMENTS\n")
+    # print("\nGROUP ENROLLMENTS\n")
 
-    for gid, grouped_sections in group_sections.items():
-        group_capacity = max(
-            section_capacity[sec.id]
-            for sec in grouped_sections
-        )
-        section_ids = ", ".join(
-            sec.id
-            for sec in grouped_sections
-        )
+    # for gid, grouped_sections in group_sections.items():
+    #     group_capacity = max(
+    #         section_capacity[sec.id]
+    #         for sec in grouped_sections
+    #     )
+    #     section_ids = ", ".join(
+    #         sec.id
+    #         for sec in grouped_sections
+    #     )
 
-        print(
-            f"{gid:12}"
-            f"{group_enrollment_values[gid]:3}"
-            f"/{group_capacity:3}"
-            f" active={solver.Value(active_groups[gid])}"
-            f" sections={section_ids}"
-        )
+    #     print(
+    #         f"{gid:12}"
+    #         f"{group_enrollment_values[gid]:3}"
+    #         f"/{group_capacity:3}"
+    #         f" active={solver.Value(active_groups[gid])}"
+    #         f" sections={section_ids}"
+    #     )
 
-    print("\nSECTION ENROLLMENTS\n")
+    # print("\nSECTION ENROLLMENTS\n")
 
-    for sec in master_timetable.sections:
+    # for sec in master_timetable.sections:
 
-        print(
-            f"{sec.id:20}"
-            f"{section_enrollment[sec.id]:3}"
-            f"/{section_capacity[sec.id]:3}"
-            f" active={solver.Value(active[sec.id])}"
-        )
+    #     print(
+    #         f"{sec.id:20}"
+    #         f"{section_enrollment[sec.id]:3}"
+    #         f"/{section_capacity[sec.id]:3}"
+    #         f" active={solver.Value(active[sec.id])}"
+    #     )
 
     return (
         all_schedules,

@@ -16,6 +16,13 @@ from data.data_loader import (
     load_rules,
 )
 
+from analysis.data_analysis import analyze_room_assignment_risk
+
+# Toggle: when True, groups with zero allowed rooms may be scheduled without
+# requiring a room assignment. When False, roomless behavior is not permitted
+# (model will behave as before).
+ENABLE_ROOM_FALLBACK = True
+
 # =====================================================
 # MASTER TIMETABLE OBJECT
 # =====================================================
@@ -36,118 +43,7 @@ class MasterTimetable:
     section_to_blocks: dict
 
 
-# =====================================================
-# DEBUG: ROOM ASSIGNMENT RISK ANALYSIS
-# =====================================================
-
-
-def analyze_room_assignment_risk(group_sections, group_allowed_rooms, group_primary_rooms):
-    """
-    Prints a risk analysis report for room assignment feasibility.
-    Helps identify groups that may cause CP-SAT infeasibility.
-    
-    Args:
-        group_sections: dict mapping group_id -> list of Section objects
-        group_allowed_rooms: dict mapping group_id -> list of allowed room names
-        group_primary_rooms: dict mapping group_id -> set of primary room names
-    """
-    
-    # Classify groups by risk
-    dead_groups = []
-    very_risky_groups = []
-    low_flex_groups = []
-    ok_groups = []
-    
-    for gid in group_sections:
-        allowed_count = len(group_allowed_rooms.get(gid, []))
-        
-        if allowed_count == 0:
-            dead_groups.append(gid)
-        elif allowed_count == 1:
-            very_risky_groups.append(gid)
-        elif allowed_count == 2:
-            low_flex_groups.append(gid)
-        else:
-            ok_groups.append(gid)
-    
-    # Print header
-    print("\n" + "="*90)
-    print("ROOM ASSIGNMENT RISK ANALYSIS")
-    print("="*90 + "\n")
-    
-    # Helper function to print group details
-    def print_group_details(gid, risk_label):
-        allowed = group_allowed_rooms.get(gid, [])
-        primary = group_primary_rooms.get(gid, set())
-        sections = group_sections[gid]
-        section_codes = [s.course_code for s in sections]
-        
-        print(f"  Group ID:              {gid}")
-        print(f"  Risk Level:            {risk_label}")
-        print(f"  Num Allowed Rooms:     {len(allowed)}")
-        print(f"  Allowed Rooms:         {allowed if allowed else 'NONE'}")
-        print(f"  Primary Rooms:         {sorted(primary) if primary else 'NONE'}")
-        print(f"  Sections in Group:     {len(sections)}")
-        print(f"  Courses:               {section_codes}")
-    
-    # Print DEAD groups (0 rooms)
-    if dead_groups:
-        print("🚨 INFEASIBLE / DEAD GROUPS (0 allowed rooms)")
-        print("-" * 90)
-        for gid in dead_groups:
-            sections = group_sections[gid]
-            print(f"Dead Group: {gid}")
-            for s in sections:
-                print(f"  {s.id} ({s.course_code})")
-            print("  Diagnostic Hint: Likely caused by intersection of course room constraints.")
-            print("                   (Primary and/or backup rooms don't overlap)")
-            print()
-    
-    # Print VERY RISKY groups (1 room)
-    if very_risky_groups:
-        print("⚠️  VERY RISKY GROUPS (exactly 1 allowed room)")
-        print("-" * 90)
-        for gid in very_risky_groups:
-            print_group_details(gid, "⚠️  VERY RISKY")
-            print()
-    
-    # # Print LOW FLEXIBILITY groups (2 rooms)
-    # if low_flex_groups:
-    #     print("⚠️  LOW FLEXIBILITY GROUPS (exactly 2 allowed rooms)")
-    #     print("-" * 90)
-    #     for gid in low_flex_groups:
-    #         print_group_details(gid, "⚠️  LOW FLEX")
-    #         print()
-    
-    # # Print OK groups (brief summary)
-    # if ok_groups:
-    #     print("🟡 OK GROUPS (3+ allowed rooms)")
-    #     print("-" * 90)
-    #     print(f"  Count: {len(ok_groups)} groups")
-    #     print("  (Detailed output suppressed for brevity)\n")
-    
-    # Print summary statistics
-    print("\n" + "="*90)
-    print("SUMMARY STATISTICS")
-    print("="*90)
-    total = len(group_sections)
-    dead_count = len(dead_groups)
-    risky_count = len(very_risky_groups) + len(low_flex_groups)
-    safe_count = len(ok_groups)
-    
-    print(f"  Total Groups:                 {total}")
-    print(f"  🚨 Dead Groups (0 rooms):     {dead_count} ({100*dead_count/total:.1f}%)")
-    print(f"  ⚠️  Risky Groups (1-2 rooms): {risky_count} ({100*risky_count/total:.1f}%)")
-    print(f"  🟡 Safe Groups (3+ rooms):    {safe_count} ({100*safe_count/total:.1f}%)")
-    
-    if dead_count > 0:
-        print(f"\n  ⚠️  CRITICAL: {dead_count} dead group(s) → Model will be INFEASIBLE")
-    elif risky_count > 0:
-        print(f"\n  ⚠️  WARNING: {risky_count} risky group(s) → May cause infeasibility")
-    else:
-        print(f"\n  ✅ All groups have sufficient room flexibility")
-    
-    print("\n" + "="*90 + "\n")
+# NOTE: Room-assignment analysis moved to src/analysis/data_analysis.py
 
 
 # =====================================================
@@ -430,9 +326,17 @@ def build_master_timetable(students, courses):
         group_primary_rooms[gid] = primary
 
     # =================================================
-    # DEBUG: ANALYZE ROOM ASSIGNMENT RISK
+    # CLASSIFY GROUPS BY ROOM AVAILABILITY
     # =================================================
+    roomless_groups = {
+        gid
+        for gid, rooms in group_allowed_rooms.items()
+        if len(rooms) == 0
+    }
 
+    normal_groups = set(group_allowed_rooms.keys()) - roomless_groups
+
+    # Show analysis (unchanged)
     analyze_room_assignment_risk(group_sections, group_allowed_rooms, group_primary_rooms)
 
     # Create compact group-room-block variables z[(gid,room,block)].
@@ -441,9 +345,22 @@ def build_master_timetable(students, courses):
     z = {}
 
     for gid, s_list in group_sections.items():
-
         rooms_for_group = group_allowed_rooms.get(gid, [])
 
+        # If there are no allowed rooms:
+        if len(rooms_for_group) == 0:
+            if ENABLE_ROOM_FALLBACK:
+                # Allow the group to be scheduled without a room assignment.
+                # Do not create z variables or room constraints for this group.
+                continue
+            else:
+                # Enforce that the group cannot be scheduled (makes model
+                # infeasible if the sections must be scheduled).
+                for b in blocks:
+                    model.Add(x_group[(gid, b)] == 0)
+                continue
+
+        # Create z variables for groups with available rooms
         for room in rooms_for_group:
             for b in blocks:
                 z[(gid, room, b)] = model.NewBoolVar(f"z_{gid}_{room}_{b}")
@@ -465,7 +382,7 @@ def build_master_timetable(students, courses):
             if room_block_vars:
                 model.Add(
                     sum(room_block_vars)
-                    <= room_capacity.get(room, 2)
+                    <= room_capacity.get(room, 20)
                 )
 
     # =================================================
@@ -809,9 +726,17 @@ def build_master_timetable(students, courses):
                     break
 
             if assigned is None:
-                # fallback: pick first allowed room for the group
+                # No assigned room from z. If the group is roomless and
+                # fallback is enabled, label explicitly. Otherwise pick
+                # the first allowed room (existing behavior).
                 allowed = group_allowed_rooms.get(gid, [])
-                s.room_id = allowed[0] if allowed else None
+                if (
+                    ENABLE_ROOM_FALLBACK
+                    and gid in roomless_groups
+                ):
+                    s.room_id = "NO ROOM FOUND"
+                else:
+                    s.room_id = allowed[0] if allowed else None
             else:
                 s.room_id = assigned
 

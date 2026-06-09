@@ -12,7 +12,7 @@
         "total": 30,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -37,7 +37,7 @@
         "total": 10,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -49,7 +49,7 @@
         "total": 25,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -80,7 +80,7 @@
         "total": 26,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 2,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -97,7 +97,7 @@
         "total": 31,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 2,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -122,7 +122,7 @@
         "total": 84,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -147,7 +147,7 @@
         "total": 24,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -172,7 +172,7 @@
         "total": 35,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -184,7 +184,7 @@
         "total": 39,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -196,7 +196,7 @@
         "total": 77,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -206,7 +206,7 @@
         "total": 114,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -231,7 +231,7 @@
         "total": 56,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -244,7 +244,7 @@
         "total": 93,
         "enrollment_max": 30,
         "section_count": 5,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -257,7 +257,7 @@
         "total": 92,
         "enrollment_max": 30,
         "section_count": 0,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -269,7 +269,7 @@
         "total": 52,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -281,7 +281,7 @@
         "total": 50,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -299,7 +299,7 @@
         "total": 133,
         "enrollment_max": 24,
         "section_count": 5,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -309,7 +309,7 @@
         "total": 18,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -339,7 +339,7 @@
         "total": 95,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -370,7 +370,7 @@
         "total": 151,
         "enrollment_max": 24,
         "section_count": 6,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -388,7 +388,7 @@
         "total": 140,
         "enrollment_max": 24,
         "section_count": 6,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -400,7 +400,7 @@
         "total": 9,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -425,7 +425,7 @@
         "total": 232,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [
             "107",
             "122",
@@ -451,7 +451,7 @@
         "total": 133,
         "enrollment_max": 30,
         "section_count": 5,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -477,7 +477,7 @@
         "total": 37,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [
             "107",
             "122",
@@ -502,7 +502,7 @@
         "total": 7,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -514,7 +514,7 @@
         "total": 49,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -539,7 +539,7 @@
         "total": 57,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -564,7 +564,7 @@
         "total": 45,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -589,7 +589,7 @@
         "total": 216,
         "enrollment_max": 30,
         "section_count": 9,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -614,7 +614,7 @@
         "total": 9,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -626,7 +626,7 @@
         "total": 12,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -638,7 +638,7 @@
         "total": 10,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -650,7 +650,7 @@
         "total": 43,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -662,7 +662,7 @@
         "total": 12,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -674,7 +674,7 @@
         "total": 16,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -686,19 +686,19 @@
         "total": 23,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
     "MDNC-09M-L": {
         "description": "DANCE 9 Company: Platform 61 Linear",
         "rooms": [
-            "none"
+            "Studio"
         ],
         "total": 12,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -710,7 +710,7 @@
         "total": 11,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -722,7 +722,7 @@
         "total": 12,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -734,7 +734,7 @@
         "total": 13,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -746,7 +746,7 @@
         "total": 20,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -758,7 +758,7 @@
         "total": 12,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -770,7 +770,7 @@
         "total": 13,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -782,7 +782,7 @@
         "total": 21,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -794,7 +794,7 @@
         "total": 7,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -806,7 +806,7 @@
         "total": 10,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -818,7 +818,7 @@
         "total": 4,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -830,7 +830,7 @@
         "total": 9,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -842,7 +842,7 @@
         "total": 14,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -854,7 +854,7 @@
         "total": 33,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -866,7 +866,7 @@
         "total": 27,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -878,7 +878,7 @@
         "total": 19,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -890,7 +890,7 @@
         "total": 27,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -901,7 +901,7 @@
         "total": 65,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -927,7 +927,7 @@
         "total": 1,
         "enrollment_max": 30,
         "section_count": 0,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -953,7 +953,7 @@
         "total": 118,
         "enrollment_max": 30,
         "section_count": 5,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -978,7 +978,7 @@
         "total": 139,
         "enrollment_max": 30,
         "section_count": 6,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1003,7 +1003,7 @@
         "total": 46,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1028,7 +1028,7 @@
         "total": 12,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1053,7 +1053,7 @@
         "total": 78,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1078,7 +1078,7 @@
         "total": 15,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1104,7 +1104,7 @@
         "total": 22,
         "enrollment_max": 30,
         "section_count": 5,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1117,7 +1117,7 @@
         "total": 28,
         "enrollment_max": 30,
         "section_count": 5,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1129,7 +1129,7 @@
         "total": 123,
         "enrollment_max": 30,
         "section_count": 5,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1154,7 +1154,7 @@
         "total": 29,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1177,7 +1177,7 @@
         "total": 26,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1202,7 +1202,7 @@
         "total": 76,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1225,7 +1225,7 @@
         "total": 60,
         "enrollment_max": 24,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1248,7 +1248,7 @@
         "total": 41,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1278,7 +1278,7 @@
         "total": 118,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1308,7 +1308,7 @@
         "total": 45,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1338,7 +1338,7 @@
         "total": 30,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1368,7 +1368,7 @@
         "total": 69,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1393,7 +1393,7 @@
         "total": 114,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1405,7 +1405,7 @@
         "total": 77,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1417,7 +1417,7 @@
         "total": 98,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1427,7 +1427,7 @@
         "total": 59,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1450,7 +1450,7 @@
         "total": 31,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1473,7 +1473,7 @@
         "total": 56,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1496,7 +1496,7 @@
         "total": 26,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1521,7 +1521,7 @@
         "total": 11,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -1533,19 +1533,20 @@
         "total": 5,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
     "MIDS-0B---": {
         "description": "INDEPENDENT DIRECTED STUDIES 10B",
         "rooms": [
-            "Studio"
+            "108",
+            "109"
         ],
         "total": 10,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": false
     },
@@ -1557,7 +1558,7 @@
         "total": 22,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": false
     },
@@ -1569,7 +1570,7 @@
         "total": 36,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1581,7 +1582,7 @@
         "total": 17,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1593,7 +1594,7 @@
         "total": 14,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1605,7 +1606,7 @@
         "total": 19,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -1617,7 +1618,7 @@
         "total": 11,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -1629,7 +1630,7 @@
         "total": 39,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1654,7 +1655,7 @@
         "total": 45,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1685,7 +1686,7 @@
         "total": 129,
         "enrollment_max": 24,
         "section_count": 5,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1697,7 +1698,7 @@
         "total": 128,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1723,7 +1724,7 @@
         "total": 45,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1749,7 +1750,7 @@
         "total": 25,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1779,7 +1780,7 @@
         "total": 114,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1809,7 +1810,7 @@
         "total": 46,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1839,7 +1840,7 @@
         "total": 29,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1864,7 +1865,7 @@
         "total": 96,
         "enrollment_max": 24,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1876,7 +1877,7 @@
         "total": 30,
         "enrollment_max": 24,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1891,7 +1892,7 @@
         "total": 46,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -1916,7 +1917,7 @@
         "total": 41,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1928,7 +1929,7 @@
         "total": 19,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1940,7 +1941,7 @@
         "total": 15,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1952,7 +1953,7 @@
         "total": 35,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -1964,7 +1965,7 @@
         "total": 8,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -1976,7 +1977,7 @@
         "total": 12,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -1988,7 +1989,7 @@
         "total": 9,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -2000,7 +2001,7 @@
         "total": 6,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -2012,7 +2013,7 @@
         "total": 7,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -2024,7 +2025,7 @@
         "total": 19,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2036,7 +2037,7 @@
         "total": 20,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2048,7 +2049,7 @@
         "total": 30,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2079,7 +2080,7 @@
         "total": 136,
         "enrollment_max": 24,
         "section_count": 6,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2097,7 +2098,7 @@
         "total": 104,
         "enrollment_max": 24,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2109,7 +2110,7 @@
         "total": 49,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2121,7 +2122,7 @@
         "total": 40,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2133,7 +2134,7 @@
         "total": 38,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2145,7 +2146,7 @@
         "total": 63,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2157,7 +2158,7 @@
         "total": 18,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2169,7 +2170,7 @@
         "total": 38,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2181,7 +2182,7 @@
         "total": 32,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2193,7 +2194,7 @@
         "total": 58,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2205,7 +2206,7 @@
         "total": 59,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2222,7 +2223,7 @@
         "total": 149,
         "enrollment_max": 30,
         "section_count": 6,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2252,7 +2253,7 @@
         "total": 30,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2282,7 +2283,7 @@
         "total": 163,
         "enrollment_max": 30,
         "section_count": 6,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2312,7 +2313,7 @@
         "total": 30,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2343,7 +2344,7 @@
         "total": 153,
         "enrollment_max": 24,
         "section_count": 6,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2361,7 +2362,7 @@
         "total": 46,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2379,7 +2380,7 @@
         "total": 45,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2391,7 +2392,7 @@
         "total": 63,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2414,7 +2415,7 @@
         "total": 56,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2437,7 +2438,7 @@
         "total": 32,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2460,7 +2461,7 @@
         "total": 35,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2483,7 +2484,7 @@
         "total": 19,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2506,7 +2507,7 @@
         "total": 30,
         "enrollment_max": 30,
         "section_count": 0,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2529,7 +2530,7 @@
         "total": 5,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2554,7 +2555,7 @@
         "total": 150,
         "enrollment_max": 30,
         "section_count": 7,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2579,7 +2580,7 @@
         "total": 46,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2604,7 +2605,7 @@
         "total": 169,
         "enrollment_max": 30,
         "section_count": 8,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2629,7 +2630,7 @@
         "total": 45,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -2654,7 +2655,7 @@
         "total": 33,
         "enrollment_max": 24,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2666,7 +2667,7 @@
         "total": 52,
         "enrollment_max": 24,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2678,7 +2679,7 @@
         "total": 41,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2690,7 +2691,7 @@
         "total": 19,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2702,7 +2703,7 @@
         "total": 24,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2714,7 +2715,7 @@
         "total": 19,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2726,7 +2727,7 @@
         "total": 17,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -2739,7 +2740,7 @@
         "total": 54,
         "enrollment_max": 24,
         "section_count": 5,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2754,55 +2755,67 @@
         "total": 52,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
     "MTROB11---": {
         "description": "ROBOTICS 11",
         "rooms": [
-            "104"
+            "101",
+            "103",
+            "105",
+            "206"
         ],
         "total": 9,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
     "MTROB11--L": {
         "description": "ROBOTICS 11 LINEAR",
         "rooms": [
-            "104"
+            "101",
+            "103",
+            "105",
+            "206"
         ],
         "total": 7,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
     "MTROB12---": {
         "description": "ROBOTICS 12",
         "rooms": [
-            "104"
+            "101",
+            "103",
+            "105",
+            "206"
         ],
         "total": 10,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
     "MTROB12--L": {
         "description": "ROBOTICS 12 LINEAR",
         "rooms": [
-            "104"
+            "101",
+            "103",
+            "105",
+            "206"
         ],
         "total": 9,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -2814,7 +2827,7 @@
         "total": 51,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2826,7 +2839,7 @@
         "total": 40,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2838,7 +2851,7 @@
         "total": 47,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2850,7 +2863,7 @@
         "total": 70,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2862,7 +2875,7 @@
         "total": 54,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2874,7 +2887,7 @@
         "total": 54,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2886,7 +2899,7 @@
         "total": 14,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2900,7 +2913,7 @@
         "total": 35,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2914,7 +2927,7 @@
         "total": 29,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2928,7 +2941,7 @@
         "total": 29,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2941,7 +2954,7 @@
         "total": 128,
         "enrollment_max": 24,
         "section_count": 4,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -2953,7 +2966,7 @@
         "total": 12,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -2965,7 +2978,7 @@
         "total": 3,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -2977,7 +2990,7 @@
         "total": 63,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3007,7 +3020,7 @@
         "total": 21,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3037,7 +3050,7 @@
         "total": 36,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3062,7 +3075,7 @@
         "total": 29,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3074,7 +3087,7 @@
         "total": 23,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3086,7 +3099,7 @@
         "total": 18,
         "enrollment_max": 24,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3098,7 +3111,7 @@
         "total": 46,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3110,7 +3123,7 @@
         "total": 30,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3122,7 +3135,7 @@
         "total": 16,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -3134,7 +3147,7 @@
         "total": 20,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -3147,7 +3160,7 @@
         "total": 11,
         "enrollment_max": 30,
         "section_count": 17,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3159,7 +3172,7 @@
         "total": 45,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3170,7 +3183,7 @@
         ],
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -3182,7 +3195,7 @@
         "total": 13,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [
             "107",
             "122",
@@ -3207,7 +3220,7 @@
         "total": 6,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3232,7 +3245,7 @@
         "total": 39,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [
             "107",
             "122",
@@ -3257,7 +3270,7 @@
         "total": 14,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3282,7 +3295,7 @@
         "total": 26,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [
             "107",
             "122",
@@ -3307,7 +3320,7 @@
         "total": 8,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3333,7 +3346,7 @@
         "total": 16,
         "enrollment_max": 30,
         "section_count": 17,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3346,7 +3359,7 @@
         "total": 3,
         "enrollment_max": 30,
         "section_count": 5,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3358,7 +3371,7 @@
         "total": 15,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -3371,7 +3384,7 @@
         "total": 13,
         "enrollment_max": 30,
         "section_count": 18,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3384,7 +3397,7 @@
         "total": 5,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3396,7 +3409,7 @@
         "total": 14,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -3409,7 +3422,7 @@
         "total": 21,
         "enrollment_max": 30,
         "section_count": 17,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3422,7 +3435,7 @@
         "total": 1,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3434,7 +3447,7 @@
         "total": 22,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -3446,7 +3459,7 @@
         "total": 53,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [
             "107",
             "122",
@@ -3471,7 +3484,7 @@
         "total": 4,
         "enrollment_max": 30,
         "section_count": 0,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3483,7 +3496,7 @@
         "total": 10,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3508,7 +3521,7 @@
         "total": 117,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3533,7 +3546,7 @@
         "total": 28,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [
             "107",
             "122",
@@ -3558,7 +3571,7 @@
         "total": 19,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [
             "107",
             "122",
@@ -3583,7 +3596,7 @@
         "total": 18,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [
             "107",
             "122",
@@ -3603,36 +3616,39 @@
     "YPA--0CX--": {
         "description": "YOGA FOR MINDFULNESS 10",
         "rooms": [
-            "Gym"
+            "108",
+            "109"
         ],
         "total": 15,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
     "YPA--1CX--": {
         "description": "YOGA FOR MINDFULNESS 11",
         "rooms": [
-            "Gym"
+            "108",
+            "109"
         ],
         "total": 18,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
     "YPA--2CX--": {
         "description": "YOGA FOR MINDFULNESS 12",
         "rooms": [
-            "Gym"
+            "108",
+            "109"
         ],
         "total": 16,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3644,7 +3660,7 @@
         "total": 15,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3654,7 +3670,7 @@
         "total": 117,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3679,7 +3695,7 @@
         "total": 13,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3691,7 +3707,7 @@
         "total": 18,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3703,7 +3719,7 @@
         "total": 10,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3715,7 +3731,7 @@
         "total": 0,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -3727,7 +3743,7 @@
         "total": 7,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": false
     },
@@ -3739,7 +3755,7 @@
         "total": 57,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3751,7 +3767,7 @@
         "total": 6,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3763,7 +3779,7 @@
         "total": 0,
         "enrollment_max": 24,
         "section_count": 0,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3775,7 +3791,7 @@
         "total": 10,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3800,7 +3816,7 @@
         "total": 14,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3813,7 +3829,7 @@
         "total": 0,
         "enrollment_max": 30,
         "section_count": 0,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3839,7 +3855,7 @@
         "total": 0,
         "enrollment_max": 30,
         "section_count": 0,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3864,7 +3880,7 @@
         "total": 25,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3876,7 +3892,7 @@
         "total": 5,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3888,7 +3904,7 @@
         "total": 13,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3906,7 +3922,7 @@
         "total": 171,
         "enrollment_max": 24,
         "section_count": 7,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3918,7 +3934,7 @@
         "total": 8,
         "enrollment_max": 24,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3930,7 +3946,7 @@
         "total": 0,
         "enrollment_max": 30,
         "section_count": 3,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": false
     },
@@ -3942,7 +3958,7 @@
         "total": 8,
         "enrollment_max": 30,
         "section_count": 2,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -3968,7 +3984,7 @@
         "total": 4,
         "enrollment_max": 30,
         "section_count": 4,
-        "linear": 1,
+        "linear": true,
         "backUpRooms": [],
         "timetable": true
     },
@@ -3980,7 +3996,7 @@
         "total": 11,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [
             "107",
             "122",
@@ -4005,7 +4021,7 @@
         "total": 19,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -4017,7 +4033,7 @@
         "total": 14,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     },
@@ -4029,7 +4045,7 @@
         "total": 12,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 0,
+        "linear": false,
         "backUpRooms": [],
         "timetable": true
     }

@@ -548,7 +548,56 @@ def calculate_student_sequencing_violation_percent(
         return 0.0
 
     return (violations / total_rules) * 100
+# =====================================================
+# 0-2 UNFULFILLED COURSES
+# =====================================================
 
+def calculate_0_to_2_unfulfilled_percent(students, all_schedules):
+    successful = 0
+
+    for student in students:
+        sched = all_schedules.get(student.id, {})
+        unfulfilled = max(0, 8 - len(sched))
+
+        if unfulfilled <= 2:
+            successful += 1
+
+    return (successful / len(students)) * 100 if students else 0.0
+
+
+# =====================================================
+# 3-8 UNFULFILLED COURSES
+# =====================================================
+
+def calculate_3_to_8_unfulfilled_percent(students, all_schedules):
+    count = 0
+
+    for student in students:
+        sched = all_schedules.get(student.id, {})
+        unfulfilled = max(0, 8 - len(sched))
+
+        if 3 <= unfulfilled <= 8:
+            count += 1
+
+    return (count / len(students)) * 100 if students else 0.0
+# =====================================================
+# COURSES PER BLOCK
+# =====================================================
+
+def calculate_courses_per_block(
+    section_to_block
+):
+    counts = Counter(section_to_block.values())
+
+    return dict(sorted(counts.items()))
+
+
+# =====================================================
+# BLOCK BALANCE DIFFERENCE
+# =====================================================
+def calculate_block_balance_difference(section_to_block):
+    counts = Counter(section_to_block.values())
+    return max(counts.values()) - min(counts.values()) if counts else 0
 
 # =====================================================
 # FULL TIMETABLE % -- done in main

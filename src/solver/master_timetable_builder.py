@@ -510,7 +510,7 @@ def build_master_timetable(students, courses):
         if capacity <= 0:
             capacity = DEFAULT_SECTION_SIZE
 
-        required_sections = round(
+        required_sections = math.ceil(
             demand / capacity + 0.2
         )
 

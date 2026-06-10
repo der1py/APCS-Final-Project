@@ -583,21 +583,33 @@ def calculate_3_to_8_unfulfilled_percent(students, all_schedules):
 # =====================================================
 # COURSES PER BLOCK
 # =====================================================
+def calculate_courses_per_block(course_to_sections, section_to_block):
+    block_courses = defaultdict(set)
 
-def calculate_courses_per_block(
-    section_to_block
-):
-    counts = Counter(section_to_block.values())
+    for course_code, sections in course_to_sections.items():
+        for sec in sections:
+            block = section_to_block[sec.id]
+            block_courses[block].add(course_code)
 
-    return dict(sorted(counts.items()))
-
+    return {
+        block: len(courses)
+        for block, courses in block_courses.items()
+    }
+def format_courses_per_block(block_courses):
+    return ", ".join(
+        f"Block {block}: {courses}"
+        for block, courses in sorted(block_courses.items())
+    )
 
 # =====================================================
 # BLOCK BALANCE DIFFERENCE
 # =====================================================
-def calculate_block_balance_difference(section_to_block):
-    counts = Counter(section_to_block.values())
-    return max(counts.values()) - min(counts.values()) if counts else 0
+def calculate_block_balance_difference(course_to_sections, section_to_block):
+    courses_per_block = calculate_courses_per_block(course_to_sections, section_to_block)
+
+    values = list(courses_per_block.values())
+
+    return max(values) - min(values) if values else 0
 
 # =====================================================
 # FULL TIMETABLE % -- done in main

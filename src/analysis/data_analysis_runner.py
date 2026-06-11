@@ -66,39 +66,38 @@ def build_groups_from_course_stats(courses):
     section_to_group = {}
     group_counter = 0
 
-    for blocking_type, pairs in blocking_rules.items():
-        for c1, c2 in pairs:
-            if c1 not in course_to_sections or c2 not in course_to_sections:
-                continue
+    for c1, c2 in blocking_rules.get("Simultaneous", []):
+        if c1 not in course_to_sections or c2 not in course_to_sections:
+            continue
 
-            sec_list_1 = course_to_sections[c1]
-            sec_list_2 = course_to_sections[c2]
-            min_len = min(len(sec_list_1), len(sec_list_2))
+        sec_list_1 = course_to_sections[c1]
+        sec_list_2 = course_to_sections[c2]
+        min_len = min(len(sec_list_1), len(sec_list_2))
 
-            for i in range(min_len):
-                s1 = sec_list_1[i]
-                s2 = sec_list_2[i]
+        for i in range(min_len):
+            s1 = sec_list_1[i]
+            s2 = sec_list_2[i]
 
-                g1 = section_to_group.get(s1.id)
-                g2 = section_to_group.get(s2.id)
+            g1 = section_to_group.get(s1.id)
+            g2 = section_to_group.get(s2.id)
 
-                if g1 is None and g2 is None:
-                    gid = f"sim_{group_counter}"
-                    group_counter += 1
-                    sim_groups[gid] = {s1.id, s2.id}
-                    section_to_group[s1.id] = gid
-                    section_to_group[s2.id] = gid
-                elif g1 is not None and g2 is None:
-                    sim_groups[g1].add(s2.id)
-                    section_to_group[s2.id] = g1
-                elif g1 is None and g2 is not None:
-                    sim_groups[g2].add(s1.id)
-                    section_to_group[s1.id] = g2
-                elif g1 != g2:
-                    for sid in sim_groups[g2]:
-                        sim_groups[g1].add(sid)
-                        section_to_group[sid] = g1
-                    del sim_groups[g2]
+            if g1 is None and g2 is None:
+                gid = f"sim_{group_counter}"
+                group_counter += 1
+                sim_groups[gid] = {s1.id, s2.id}
+                section_to_group[s1.id] = gid
+                section_to_group[s2.id] = gid
+            elif g1 is not None and g2 is None:
+                sim_groups[g1].add(s2.id)
+                section_to_group[s2.id] = g1
+            elif g1 is None and g2 is not None:
+                sim_groups[g2].add(s1.id)
+                section_to_group[s1.id] = g2
+            elif g1 != g2:
+                for sid in sim_groups[g2]:
+                    sim_groups[g1].add(sid)
+                    section_to_group[sid] = g1
+                del sim_groups[g2]
 
     for sec in sections:
         if sec.id not in section_to_group:

@@ -1,4 +1,5 @@
 from collections import defaultdict
+from itertools import combinations
 from ortools.sat.python import cp_model
 import math
 
@@ -49,9 +50,17 @@ def build_student_timetables(
 
         return result
 
-    def build_enrollment_groups():
-        blocking_rules = load_simultaneous_blocking_rules()
+    blocking_rules = load_simultaneous_blocking_rules()
 
+    notsim_pairs = {
+        frozenset((c1, c2))
+        for c1, c2 in blocking_rules.get("NotSimultaneous", [])
+    }
+
+    def is_notsim_pair(c1, c2):
+        return c1 != c2 and frozenset((c1, c2)) in notsim_pairs
+
+    def build_enrollment_groups():
         groups = {}
         section_to_group = {}
         group_counter = 0
@@ -300,19 +309,26 @@ def build_student_timetables(
                     if block in occupied:
 
                         block_vars.append(
-                            x[
-                                (
-                                    student.id,
-                                    course_code,
-                                    sec.id
-                                )
-                            ]
+                            (
+                                course_code,
+                                x[
+                                    (
+                                        student.id,
+                                        course_code,
+                                        sec.id
+                                    )
+                                ]
+                            )
                         )
 
-            model.Add(
-                sum(block_vars)
-                <= 1
-            )
+            for (c1, v1), (c2, v2) in combinations(block_vars, 2):
+
+                if is_notsim_pair(c1, c2):
+                    continue
+
+                model.Add(
+                    v1 + v2 <= 1
+                )
 
     # =====================================================
     # COURSE SEQUENCING RULES

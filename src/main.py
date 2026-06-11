@@ -31,6 +31,7 @@ from output_scripts.metrics import (
     calculate_0_to_2_unfulfilled_percent,
     calculate_3_to_8_unfulfilled_percent,
     calculate_courses_per_block,
+    format_courses_per_block, 
     calculate_block_balance_difference,
 )
 
@@ -159,8 +160,8 @@ room_conflicts = calculate_room_conflicts(master_timetable.sections, master_time
 student_conflicts = calculate_student_conflicts(all_schedules)
 invalid_room_assignments = calculate_invalid_room_assignments(master_timetable.sections)
 block_distribution = calculate_block_distribution(master_timetable.section_to_block)
-courses_per_block = calculate_courses_per_block(master_timetable.section_to_block)
-block_balance_difference = calculate_block_balance_difference(master_timetable.section_to_block)
+block_courses = calculate_courses_per_block(master_timetable.course_to_sections, master_timetable.section_to_block)
+block_balance_difference = calculate_block_balance_difference(master_timetable.course_to_sections, master_timetable.section_to_block)
 blocking_rule_violation = calculate_blocking_rule_violation_percent(master_timetable.course_to_sections, master_timetable.section_to_block)
 sequencing_rule_violation = calculate_sequencing_rule_violation_percent(students, master_timetable.course_to_sections, master_timetable.section_to_block)
 student_sequencing_violation = calculate_student_sequencing_violation_percent(students, all_schedules)
@@ -198,9 +199,9 @@ print("\n--- Timetable Metrics ---")
 print(f"Room Conflicts: {room_conflicts}")
 print(f"Student Conflicts: {student_conflicts}")
 print(f"Invalid Room Assignments: {invalid_room_assignments}")
-print(f"Block Distribution: {block_distribution}")
-print(f"Courses Per Block: {courses_per_block}")
-print(f"Largest-Smallest Block Difference: {block_balance_difference} {'PASS' if block_balance_difference <= 4 else 'FAIL'}")
+print(f"Section per block: {block_distribution}")
+print(f"Course per block:  {format_courses_per_block(block_courses)}")
+print(f"Largest-Smallest Course Difference: {block_balance_difference} {'PASS' if block_balance_difference <= 4 else 'FAIL'}")
 print(f"Blocking Rule Violation: {blocking_rule_violation:.2f}%")
 print(f"Sequencing Rule Violation: {sequencing_rule_violation:.2f}%")
 print(f"Student Sequencing Rule Violation: {student_sequencing_violation:.2f}%")

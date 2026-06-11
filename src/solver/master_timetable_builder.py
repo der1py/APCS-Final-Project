@@ -17,6 +17,7 @@ from data.data_loader import (
 )
 
 from analysis.data_analysis import analyze_room_assignment_risk
+from solver.solver_context import SolverContext
 
 # Toggle: when True, groups with zero allowed rooms may be scheduled without
 # requiring a room assignment. When False, roomless behavior is not permitted
@@ -250,11 +251,32 @@ def build_master_timetable(students, courses):
 
     model = cp_model.CpModel()
 
+    # Phase 1 modular constraint infrastructure.
+    # Existing constraints remain in this builder for now; later phases can
+    # move them into separate HardConstraint/SoftConstraint classes that all
+    # receive this shared context and mutate the same CP-SAT model.
+    ctx = SolverContext(
+        model=model,
+        students=students,
+        courses=courses,
+        blocks=blocks,
+        semester1_blocks=semester1_blocks,
+        semester2_blocks=semester2_blocks,
+        sections=sections,
+        course_to_sections=course_to_sections,
+        section_by_id=section_by_id,
+        course_lookup=course_lookup,
+        group_sections=group_sections,
+        section_to_group=section_to_group,
+        room_capacity=room_capacity,
+    )
+
     # =================================================
     # C1 - SECTION ASSIGNMENT
     # =================================================
 
     x = {}
+    ctx.x = x
 
     for s in sections:
 
@@ -289,6 +311,7 @@ def build_master_timetable(students, courses):
 
     # group-level block variables (mirror of x for group)
     x_group = {}
+    ctx.x_group = x_group
 
     for gid, s_list in group_sections.items():
 
@@ -314,6 +337,8 @@ def build_master_timetable(students, courses):
     # include back_up_rooms so backup rooms are valid options
     group_allowed_rooms = {}
     group_primary_rooms = {}  # subset of allowed rooms that are primary
+    ctx.group_allowed_rooms = group_allowed_rooms
+    ctx.group_primary_rooms = group_primary_rooms
 
     for gid, s_list in group_sections.items():
 
@@ -347,6 +372,7 @@ def build_master_timetable(students, courses):
     # z is true iff the group is scheduled in `block` AND occupies `room`.
     # Link with: sum_rooms z[(gid,room,b)] == x_group[(gid,b)]
     z = {}
+    ctx.z = z
 
     for gid, s_list in group_sections.items():
         rooms_for_group = group_allowed_rooms.get(gid, [])
@@ -657,23 +683,28 @@ def build_master_timetable(students, courses):
         and room not in group_primary_rooms.get(gid, set())
     )
 
-    model.Minimize(
-
-        conflict_cost
-
-        +
-
-        BALANCE_WEIGHT
-        *
-        sum(balance_penalties)
-
-        +
-
-        ROOM_PENALTY_WEIGHT
-        *
-        backup_room_penalty
-
+    # Register the existing objective components through SolverContext.
+    # This preserves the current objective math while giving future soft
+    # constraints the same mechanism for contributing weighted penalties.
+    ctx.add_objective_term(
+        "conflict_cost",
+        conflict_cost,
+        1
     )
+
+    ctx.add_objective_term(
+        "balance_penalty",
+        sum(balance_penalties),
+        BALANCE_WEIGHT
+    )
+
+    ctx.add_objective_term(
+        "backup_room_penalty",
+        backup_room_penalty,
+        ROOM_PENALTY_WEIGHT
+    )
+
+    model.Minimize(ctx.build_objective())
 
     # =================================================
     # SOLVE
@@ -681,7 +712,7 @@ def build_master_timetable(students, courses):
 
     solver = cp_model.CpSolver()
 
-    solver.parameters.max_time_in_seconds = 120
+    solver.parameters.max_time_in_seconds = 60
     solver.parameters.num_search_workers = 8
 
     status = solver.Solve(model)

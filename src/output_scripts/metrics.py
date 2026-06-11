@@ -13,6 +13,18 @@ def _get_assigned_blocks(value):
     return [blocks]
 
 
+def _get_notsim_pairs():
+    blocking_rules = load_simultaneous_blocking_rules()
+    return {
+        frozenset((c1, c2))
+        for c1, c2 in blocking_rules.get("NotSimultaneous", [])
+    }
+
+
+def _is_notsim_pair(c1, c2, notsim_pairs):
+    return c1 != c2 and frozenset((c1, c2)) in notsim_pairs
+
+
 # student metrics 
 # =====================================================
 # REQUEST COMPLETION %
@@ -117,17 +129,23 @@ def calculate_students_with_conflicts(
     all_schedules
 ):
     conflicts = 0
+    notsim_pairs = _get_notsim_pairs()
 
     for sched in all_schedules.values():
 
-        used_blocks = set()
+        courses_by_block = defaultdict(list)
 
         for course, value in sched.items():
             for block in _get_assigned_blocks(value):
-                if block in used_blocks:
+
+                if any(
+                    not _is_notsim_pair(course, existing, notsim_pairs)
+                    for existing in courses_by_block[block]
+                ):
                     conflicts += 1
                     break
-                used_blocks.add(block)
+
+                courses_by_block[block].append(course)
             else:
                 continue
             break
@@ -330,15 +348,29 @@ def calculate_student_conflicts(
     all_schedules
 ):
     conflicts = 0
+    notsim_pairs = _get_notsim_pairs()
 
     for sched in all_schedules.values():
 
-        blocks = []
+        courses_by_block = defaultdict(list)
+        has_conflict = False
 
-        for value in sched.values():
-            blocks.extend(_get_assigned_blocks(value))
+        for course, value in sched.items():
+            for block in _get_assigned_blocks(value):
 
-        if len(blocks) != len(set(blocks)):
+                if any(
+                    not _is_notsim_pair(course, existing, notsim_pairs)
+                    for existing in courses_by_block[block]
+                ):
+                    has_conflict = True
+                    break
+
+                courses_by_block[block].append(course)
+
+            if has_conflict:
+                break
+
+        if has_conflict:
             conflicts += 1
 
     return conflicts
@@ -376,6 +408,8 @@ def calculate_blocking_rule_violation_percent(
     section_to_block
 ):
     blocking_rules = load_simultaneous_blocking_rules()
+    semester1_blocks = {0, 1, 2, 3}
+    semester2_blocks = {4, 5, 6, 7}
 
     total_rules = 0
     violations = 0
@@ -393,22 +427,63 @@ def calculate_blocking_rule_violation_percent(
             sec_list_1 = course_to_sections[c1]
             sec_list_2 = course_to_sections[c2]
 
-            min_len = min(
-                len(sec_list_1),
-                len(sec_list_2)
-            )
+            if blocking_type == "Simultaneous":
+                min_len = min(
+                    len(sec_list_1),
+                    len(sec_list_2)
+                )
 
-            for i in range(min_len):
+                for i in range(min_len):
 
+                    total_rules += 1
+
+                    s1 = sec_list_1[i]
+                    s2 = sec_list_2[i]
+
+                    if (
+                        section_to_block[s1.id]
+                        !=
+                        section_to_block[s2.id]
+                    ):
+                        violations += 1
+
+            elif blocking_type == "NotSimultaneous":
+                min_len = min(
+                    len(sec_list_1),
+                    len(sec_list_2)
+                )
+
+                for i in range(min_len):
+
+                    s1 = sec_list_1[i]
+                    s2 = sec_list_2[i]
+
+                    total_rules += 1
+
+                    if (
+                        section_to_block[s1.id]
+                        !=
+                        section_to_block[s2.id]
+                    ):
+                        violations += 1
+
+            elif blocking_type == "Consecutive":
                 total_rules += 1
 
-                s1 = sec_list_1[i]
-                s2 = sec_list_2[i]
+                first_in_sem1 = any(
+                    section_to_block[s.id] in semester1_blocks
+                    for s in sec_list_1
+                )
 
-                if (
-                    section_to_block[s1.id]
-                    !=
-                    section_to_block[s2.id]
+                second_in_sem2 = any(
+                    section_to_block[s.id] in semester2_blocks
+                    for s in sec_list_2
+                )
+
+                if not (
+                    first_in_sem1
+                    and
+                    second_in_sem2
                 ):
                     violations += 1
 
@@ -717,17 +792,22 @@ def calculate_full_timetable_score(all_schedules, students):
 def calculate_student_conflicts(all_schedules):
 
     penalty = 0
+    notsim_pairs = _get_notsim_pairs()
 
     for student_id, sched in all_schedules.items():
 
-        used_blocks = set()
+        courses_by_block = defaultdict(list)
 
-        for value in sched.values():
+        for course, value in sched.items():
             for block in _get_assigned_blocks(value):
-                if block in used_blocks:
+
+                if any(
+                    not _is_notsim_pair(course, existing, notsim_pairs)
+                    for existing in courses_by_block[block]
+                ):
                     penalty -= 1000
                 else:
-                    used_blocks.add(block)
+                    courses_by_block[block].append(course)
 
     return penalty
 

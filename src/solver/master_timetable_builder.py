@@ -17,6 +17,10 @@ from data.data_loader import (
 )
 
 from analysis.data_analysis import analyze_room_assignment_risk
+from solver.constraints import (
+    BackupRoomPenaltyConstraint,
+    BalancePenaltyConstraint,
+)
 from solver.solver_context import SolverContext
 
 # Toggle: when True, groups with zero allowed rooms may be scheduled without
@@ -601,46 +605,6 @@ def build_master_timetable(students, courses):
         )
 
     # =================================================
-    # C6 - BALANCE CONSTRAINTS
-    # =================================================
-
-    target = len(sections) // len(blocks)
-
-    balance_penalties = []
-
-    for b in blocks:
-
-        count = sum(
-            x[(s.id, b)]
-            for s in sections
-        )
-
-        diff = model.NewIntVar(
-            -len(sections),
-            len(sections),
-            f"balance_diff_{b}"
-        )
-
-        deviation = model.NewIntVar(
-            0,
-            len(sections),
-            f"balance_dev_{b}"
-        )
-
-        model.Add(
-            diff == count - target
-        )
-
-        model.AddAbsEquality(
-            deviation,
-            diff
-        )
-
-        balance_penalties.append(
-            deviation
-        )
-
-    # =================================================
     # O1 - OBJECTIVE FUNCTION
     # =================================================
 
@@ -663,25 +627,14 @@ def build_master_timetable(students, courses):
         for b in blocks
     )
 
-    BALANCE_WEIGHT = 100
-
-    # -------------------------------------------------
-    # ROOM PREFERENCE PENALTY (soft constraint)
-    # Backup rooms incur a small penalty per assignment;
-    # primary rooms incur zero.
-    # -------------------------------------------------
-
-    ROOM_PENALTY_WEIGHT = 50
-    BACKUP_ROOM_COST = 1  # per-assignment penalty for a backup room
-
-    backup_room_penalty = sum(
-        BACKUP_ROOM_COST * z[(gid, room, b)]
-        for gid in group_sections
-        for room in group_allowed_rooms.get(gid, [])
-        for b in blocks
-        if (gid, room, b) in z
-        and room not in group_primary_rooms.get(gid, set())
-    )
+    # C6 balance penalty and the backup-room preference penalty are the first
+    # modular soft constraints. They still mutate the same shared CP-SAT model
+    # and only contribute objective terms; the builder remains responsible for
+    # the single final model.Minimize(...) call.
+    soft_constraints = [
+        BalancePenaltyConstraint(),
+        BackupRoomPenaltyConstraint(),
+    ]
 
     # Register the existing objective components through SolverContext.
     # This preserves the current objective math while giving future soft
@@ -692,17 +645,8 @@ def build_master_timetable(students, courses):
         1
     )
 
-    ctx.add_objective_term(
-        "balance_penalty",
-        sum(balance_penalties),
-        BALANCE_WEIGHT
-    )
-
-    ctx.add_objective_term(
-        "backup_room_penalty",
-        backup_room_penalty,
-        ROOM_PENALTY_WEIGHT
-    )
+    for constraint in soft_constraints:
+        constraint.apply(ctx)
 
     model.Minimize(ctx.build_objective())
 

@@ -1,6 +1,5 @@
 # This module builds the master timetable using CP-SAT.
 import sys
-import math
 import pickle
 
 from dataclasses import dataclass
@@ -16,10 +15,15 @@ from data.data_loader import (
     load_rules,
 )
 
-from analysis.data_analysis import analyze_room_assignment_risk
 from solver.constraints import (
     BackupRoomPenaltyConstraint,
     BalancePenaltyConstraint,
+    ConflictPenaltyConstraint,
+    GroupSyncConstraint,
+    RoomAssignmentConstraint,
+    SequencingConstraint,
+    SectionAssignmentConstraint,
+    SimultaneousBlockingConstraint,
 )
 from solver.solver_context import SolverContext
 
@@ -272,416 +276,41 @@ def build_master_timetable(students, courses):
         course_lookup=course_lookup,
         group_sections=group_sections,
         section_to_group=section_to_group,
+        all_rooms=all_rooms,
         room_capacity=room_capacity,
+        enable_room_fallback=ENABLE_ROOM_FALLBACK,
+        blocking_rules=blocking_rules,
+        sequence_rules=sequence_rules,
+        sequence_demand=sequence_demand,
+        conflict=conflict,
     )
 
     # =================================================
-    # C1 - SECTION ASSIGNMENT
+    # MODULAR CONSTRAINTS
     # =================================================
 
-    x = {}
-    ctx.x = x
-
-    for s in sections:
-
-        # block variables
-        for b in blocks:
-
-            x[(s.id, b)] = model.NewBoolVar(
-                f"block_{s.id}_{b}"
-            )
-
-    for s in sections:
-
-        course = course_lookup[s.course_code]
-
-        if course.linear:
-            # Linear course: exactly one block in Semester 1 AND exactly one in Semester 2
-            model.Add(
-                sum(x[(s.id, b)] for b in semester1_blocks) == 1
-            )
-            model.Add(
-                sum(x[(s.id, b)] for b in semester2_blocks) == 1
-            )
-        else:
-            # Non-linear course: exactly one block across all blocks
-            model.Add(
-                sum(x[(s.id, b)] for b in blocks) == 1
-            )
-
-    # =================================================
-    # C2 - GROUP SYNCHRONIZATION
-    # =================================================
-
-    # group-level block variables (mirror of x for group)
-    x_group = {}
-    ctx.x_group = x_group
-
-    for gid, s_list in group_sections.items():
-
-        # ensure group block var equals the first section's block var
-        s0 = s_list[0]
-
-        for b in blocks:
-            xg = model.NewBoolVar(f"x_group_{gid}_{b}")
-            x_group[(gid, b)] = xg
-            model.Add(xg == x[(s0.id, b)])
-
-        # enforce section-level synchronization: link every member to the
-        # group's block var so all sections share the same block (O(n)).
-        for s in s_list:
-            for b in blocks:
-                model.Add(x[(s.id, b)] == x_group[(gid, b)])
-
-    # =================================================
-    # C3 - ROOM CONSTRAINTS
-    # =================================================
-
-    # build group->allowed rooms (intersection of allowed rooms)
-    # include back_up_rooms so backup rooms are valid options
-    group_allowed_rooms = {}
-    group_primary_rooms = {}  # subset of allowed rooms that are primary
-    ctx.group_allowed_rooms = group_allowed_rooms
-    ctx.group_primary_rooms = group_primary_rooms
-
-    for gid, s_list in group_sections.items():
-
-        # compute allowed rooms as intersection of (primary + backup) rooms
-        allowed = set(course_lookup[s_list[0].course_code].rooms) | set(course_lookup[s_list[0].course_code].back_up_rooms)
-        primary = set(course_lookup[s_list[0].course_code].rooms)
-
-        for s in s_list[1:]:
-            c = course_lookup[s.course_code]
-            allowed &= (set(c.rooms) | set(c.back_up_rooms))
-            primary &= set(c.rooms)
-
-        group_allowed_rooms[gid] = sorted(allowed)
-        group_primary_rooms[gid] = primary
-
-    # =================================================
-    # CLASSIFY GROUPS BY ROOM AVAILABILITY
-    # =================================================
-    roomless_groups = {
-        gid
-        for gid, rooms in group_allowed_rooms.items()
-        if len(rooms) == 0
-    }
-
-    normal_groups = set(group_allowed_rooms.keys()) - roomless_groups
-
-    # Show analysis (unchanged)
-    analyze_room_assignment_risk(group_sections, group_allowed_rooms, group_primary_rooms)
-
-    # Create compact group-room-block variables z[(gid,room,block)].
-    # z is true iff the group is scheduled in `block` AND occupies `room`.
-    # Link with: sum_rooms z[(gid,room,b)] == x_group[(gid,b)]
-    z = {}
-    ctx.z = z
-
-    for gid, s_list in group_sections.items():
-        rooms_for_group = group_allowed_rooms.get(gid, [])
-
-        # If there are no allowed rooms:
-        if len(rooms_for_group) == 0:
-            if ENABLE_ROOM_FALLBACK:
-                # Allow the group to be scheduled without a room assignment.
-                # Do not create z variables or room constraints for this group.
-                continue
-            else:
-                # Enforce that the group cannot be scheduled (makes model
-                # infeasible if the sections must be scheduled).
-                for b in blocks:
-                    model.Add(x_group[(gid, b)] == 0)
-                continue
-
-        # Create z variables for groups with available rooms
-        for room in rooms_for_group:
-            for b in blocks:
-                z[(gid, room, b)] = model.NewBoolVar(f"z_{gid}_{room}_{b}")
-
-        # if group is assigned to block b, exactly one of the group's allowed
-        # rooms must be chosen for that block
-        for b in blocks:
-            room_vars = [z[(gid, room, b)] for room in rooms_for_group if (gid, room, b) in z]
-            if room_vars:
-                model.Add(sum(room_vars) == x_group[(gid, b)])
-
-    # ensure each room respects its configured capacity per block
-    for room in all_rooms:
-        for block in blocks:
-            room_block_vars = []
-            for gid in group_sections:
-                if (gid, room, block) in z:
-                    room_block_vars.append(z[(gid, room, block)])
-            if room_block_vars:
-                model.Add(
-                    sum(room_block_vars)
-                    <= room_capacity.get(room, 3)
-                )
-
-    # =================================================
-    # C4 - COURSE BLOCKING RULES
-    # =================================================
-
-    print("\nADDING COURSE BLOCKING RULES...\n")
-
-    for blocking_type, pairs in blocking_rules.items():
-
-        print(f"Blocking Type: {blocking_type}")
-
-        for c1, c2 in pairs:
-
-            if c1 not in course_to_sections:
-                print(f"Missing course: {c1}")
-                continue
-
-            if c2 not in course_to_sections:
-                print(f"Missing course: {c2}")
-                continue
-
-            sec_list_1 = course_to_sections[c1]
-            sec_list_2 = course_to_sections[c2]
-
-            if blocking_type == "Simultaneous":
-                min_len = min(
-                    len(sec_list_1),
-                    len(sec_list_2)
-                )
-
-                for i in range(min_len):
-
-                    s1 = sec_list_1[i]
-                    s2 = sec_list_2[i]
-
-                    for b in blocks:
-
-                        model.Add(
-                            x[(s1.id, b)] ==
-                            x[(s2.id, b)]
-                        )
-
-            elif blocking_type == "NotSimultaneous":
-                min_len = min(
-                    len(sec_list_1),
-                    len(sec_list_2)
-                )
-
-                for i in range(min_len):
-
-                    s1 = sec_list_1[i]
-                    s2 = sec_list_2[i]
-
-                    for b in blocks:
-
-                        model.Add(
-                            x[(s1.id, b)] ==
-                            x[(s2.id, b)]
-                        )
-
-            elif blocking_type == "Consecutive":
-                model.Add(
-                    sum(
-                        x[(s.id, b)]
-                        for s in sec_list_1
-                        for b in semester1_blocks
-                    ) >= 1
-                )
-
-                model.Add(
-                    sum(
-                        x[(s.id, b)]
-                        for s in sec_list_2
-                        for b in semester2_blocks
-                    ) >= 1
-                )
-
-    # =================================================
-    # C5 - CONFLICT CONSTRAINTS
-    # =================================================
-    
-    same_block = {}
-
-    for (c1, c2), weight in conflict.items():
-
-        if c1 not in course_to_sections:
-            continue
-
-        if c2 not in course_to_sections:
-            continue
-
-        for s1 in course_to_sections[c1]:
-
-            for s2 in course_to_sections[c2]:
-
-                # skip same-course comparisons
-                if s1.course_code == s2.course_code:
-                    continue
-
-                for b in blocks:
-
-                    v = model.NewBoolVar(
-                        f"same_{s1.id}_{s2.id}_{b}"
-                    )
-
-                    same_block[(s1.id, s2.id, b)] = v
-
-                    model.Add(
-                        v <= x[(s1.id, b)]
-                    )
-
-                    model.Add(
-                        v <= x[(s2.id, b)]
-                    )
-
-                    model.Add(
-                        v >=
-                        x[(s1.id, b)] +
-                        x[(s2.id, b)] - 1
-                    )
-
-    # =================================================
-    # C7 - COURSE SEQUENCING RULES
-    # =================================================
-
-    print("\nADDING COURSE SEQUENCING RULES...\n")
-
-    for prereq, advanced in sequence_rules:
-
-        demand = sequence_demand.get(
-            (prereq, advanced),
-            0
-        )
-
-        if demand == 0:
-            continue
-
-        if prereq not in course_to_sections:
-            continue
-
-        if advanced not in course_to_sections:
-            continue
-
-        prereq_sections = course_to_sections[prereq]
-        advanced_sections = course_to_sections[advanced]
-
-        # estimate sections needed
-
-        prereq_course = course_lookup[prereq]
-
-        DEFAULT_SECTION_SIZE = 30
-
-        capacity = prereq_course.enrollment_max
-
-        if capacity <= 0:
-            capacity = DEFAULT_SECTION_SIZE
-
-        required_sections = math.ceil(
-            demand / capacity
-        )
-
-        print(
-            f"{prereq} -> {advanced}"
-            f" demand={demand}"
-            f" sections_needed={required_sections}"
-        )
-
-        # ==========================================
-        # prerequisite sections in semester 1
-        # ==========================================
-
-        prereq_sem1_vars = []
-
-        for sec in prereq_sections:
-
-            v = model.NewBoolVar(
-                f"sem1_{sec.id}"
-            )
-
-            model.Add(
-                v ==
-                sum(
-                    x[(sec.id, b)]
-                    for b in semester1_blocks
-                )
-            )
-
-            prereq_sem1_vars.append(v)
-
-        model.Add(
-            sum(prereq_sem1_vars)
-            >= required_sections
-        )
-
-        # ==========================================
-        # advanced sections in semester 2
-        # ==========================================
-
-        advanced_sem2_vars = []
-
-        for sec in advanced_sections:
-
-            v = model.NewBoolVar(
-                f"sem2_{sec.id}"
-            )
-
-            model.Add(
-                v ==
-                sum(
-                    x[(sec.id, b)]
-                    for b in semester2_blocks
-                )
-            )
-
-            advanced_sem2_vars.append(v)
-
-        model.Add(
-            sum(advanced_sem2_vars)
-            >= required_sections
-        )
-
-    # =================================================
-    # O1 - OBJECTIVE FUNCTION
-    # =================================================
-
-    conflict_cost = sum(
-
-        conflict[(c1, c2)]
-        *
-        same_block[(s1.id, s2.id, b)]
-
-        for (c1, c2) in conflict
-
-        if c1 in course_to_sections
-        and c2 in course_to_sections
-
-        for s1 in course_to_sections[c1]
-        for s2 in course_to_sections[c2]
-
-        if s1.course_code != s2.course_code
-
-        for b in blocks
-    )
-
-    # C6 balance penalty and the backup-room preference penalty are the first
-    # modular soft constraints. They still mutate the same shared CP-SAT model
-    # and only contribute objective terms; the builder remains responsible for
-    # the single final model.Minimize(...) call.
-    soft_constraints = [
+    constraints = [
+        SectionAssignmentConstraint(),
+        GroupSyncConstraint(),
+        RoomAssignmentConstraint(),
+        SimultaneousBlockingConstraint(),
+        ConflictPenaltyConstraint(),
+        SequencingConstraint(),
         BalancePenaltyConstraint(),
         BackupRoomPenaltyConstraint(),
     ]
 
-    # Register the existing objective components through SolverContext.
-    # This preserves the current objective math while giving future soft
-    # constraints the same mechanism for contributing weighted penalties.
-    ctx.add_objective_term(
-        "conflict_cost",
-        conflict_cost,
-        1
-    )
-
-    for constraint in soft_constraints:
+    for constraint in constraints:
         constraint.apply(ctx)
+
+    x = ctx.x
+    z = ctx.z
+    group_allowed_rooms = ctx.group_allowed_rooms
+    roomless_groups = ctx.roomless_groups
+
+    # =================================================
+    # O1 - OBJECTIVE FUNCTION
+    # =================================================
 
     model.Minimize(ctx.build_objective())
 

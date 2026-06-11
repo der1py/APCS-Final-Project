@@ -41,12 +41,20 @@ class SolverContext:
     course_lookup: dict
     group_sections: dict
     section_to_group: dict
+    all_rooms: list
     room_capacity: dict
+    enable_room_fallback: bool
+    blocking_rules: dict
+    sequence_rules: list
+    sequence_demand: dict
+    conflict: dict
     x: dict = field(default_factory=dict)
     x_group: dict = field(default_factory=dict)
     z: dict = field(default_factory=dict)
+    same_block: dict = field(default_factory=dict)
     group_allowed_rooms: dict = field(default_factory=dict)
     group_primary_rooms: dict = field(default_factory=dict)
+    roomless_groups: set = field(default_factory=set)
     objective_terms: List[ObjectiveTerm] = field(default_factory=list)
 
     def add_objective_term(self, name, expression, weight):

@@ -1,9 +1,18 @@
 from collections import defaultdict
-from itertools import combinations
 from ortools.sat.python import cp_model
-import math
 
 from data.data_loader import load_rules, load_simultaneous_blocking_rules
+from solver.student_constraints import (
+    AssignmentVariablesConstraint,
+    BalanceSectionsConstraint,
+    BlockConflictConstraint,
+    CourseAssignmentConstraint,
+    CourseSequencingConstraint,
+    FullScheduleConstraint,
+    GroupSurvivalConstraint,
+    SectionEnrollmentConstraint,
+    StudentSolverContext,
+)
 
 
 def build_student_timetables(
@@ -25,18 +34,6 @@ def build_student_timetables(
     semester1_blocks = {0, 1, 2, 3}
     semester2_blocks = {4, 5, 6, 7}
 
-    def section_occupied(sec):
-        occupied = getattr(sec, "occupied_blocks", None)
-        if not occupied:
-            occupied = [sec.time_slot]
-        return occupied
-
-    def section_in_semester(sec, semester_blocks):
-        return any(
-            b in semester_blocks
-            for b in section_occupied(sec)
-        )
-
     def unique_courses(courses):
         seen = set()
         result = []
@@ -56,9 +53,6 @@ def build_student_timetables(
         frozenset((c1, c2))
         for c1, c2 in blocking_rules.get("NotSimultaneous", [])
     }
-
-    def is_notsim_pair(c1, c2):
-        return c1 != c2 and frozenset((c1, c2)) in notsim_pairs
 
     def build_enrollment_groups():
         groups = {}
@@ -158,435 +152,46 @@ def build_student_timetables(
 
     group_sections, section_to_group = build_enrollment_groups()
 
-    # =====================================================
-    # ASSIGNMENT VARIABLES
-    # =====================================================
-
-    x = {}
-
-    for student in students:
-
-        for course_code in student_course_options[student.id]["all"]:
-
-            sections = (
-                master_timetable.course_to_sections
-                .get(course_code, [])
-            )
-
-            for sec in sections:
-
-                x[
-                    (
-                        student.id,
-                        course_code,
-                        sec.id
-                    )
-                ] = model.NewBoolVar(
-                    f"x_{student.id}_{sec.id}"
-                )
-
-    # =====================================================
-    # COURSE ASSIGNMENT
-    # =====================================================
-
-    assigned_course_vars = []
-    assigned_alternate_vars = []
-    assigned_by_course = {}
-    assigned_main_by_student = defaultdict(list)
-    assigned_alternate_by_student = defaultdict(list)
-    assigned_all_by_student = defaultdict(list)
-
-    for student in students:
-
-        for course_code in student_course_options[student.id]["all"]:
-
-            vars_for_course = []
-
-            for sec in (
-                master_timetable.course_to_sections
-                .get(course_code, [])
-            ):
-
-                vars_for_course.append(
-                    x[
-                        (
-                            student.id,
-                            course_code,
-                            sec.id
-                        )
-                    ]
-                )
-
-            if not vars_for_course:
-                continue
-
-            assigned = model.NewBoolVar(
-                f"assigned_{student.id}_{course_code}"
-            )
-
-            model.Add(
-                sum(vars_for_course) == assigned
-            )
-
-            assigned_by_course[(student.id, course_code)] = assigned
-            assigned_all_by_student[student.id].append(
-                assigned
-            )
-
-            if course_code in student_course_options[student.id]["main"]:
-                assigned_course_vars.append(
-                    assigned
-                )
-                assigned_main_by_student[student.id].append(
-                    assigned
-                )
-
-            else:
-                assigned_alternate_vars.append(
-                    assigned
-                )
-                assigned_alternate_by_student[student.id].append(
-                    assigned
-                )
-
-    for student in students:
-        main_count = len(student_course_options[student.id]["main"])
-
-        model.Add(
-            sum(assigned_alternate_by_student[student.id])
-            <=
-            main_count
-            -
-            sum(assigned_main_by_student[student.id])
-        )
-
-    # =====================================================
-    # 8/8 SCHEDULE COMPLETION
-    # =====================================================
-
-    full_schedule_vars = []
-
-    for student in students:
-        assigned_count = sum(assigned_all_by_student[student.id])
-
-        full_schedule = model.NewBoolVar(
-            f"full_schedule_{student.id}"
-        )
-
-        model.Add(
-            assigned_count >= 8
-        ).OnlyEnforceIf(full_schedule)
-
-        model.Add(
-            assigned_count <= 7
-        ).OnlyEnforceIf(full_schedule.Not())
-
-        full_schedule_vars.append(full_schedule)
-
-    # =====================================================
-    # BLOCK CONFLICTS
-    # =====================================================
-
-    for student in students:
-
-        for block in range(8):
-
-            block_vars = []
-
-            for course_code in student_course_options[student.id]["all"]:
-
-                for sec in (
-                    master_timetable.course_to_sections
-                    .get(course_code, [])
-                ):
-
-                    occupied = getattr(
-                        sec,
-                        "occupied_blocks",
-                        [sec.time_slot]
-                    )
-
-                    if block in occupied:
-
-                        block_vars.append(
-                            (
-                                course_code,
-                                x[
-                                    (
-                                        student.id,
-                                        course_code,
-                                        sec.id
-                                    )
-                                ]
-                            )
-                        )
-
-            for (c1, v1), (c2, v2) in combinations(block_vars, 2):
-
-                if is_notsim_pair(c1, c2):
-                    continue
-
-                model.Add(
-                    v1 + v2 <= 1
-                )
-
-    # =====================================================
-    # COURSE SEQUENCING RULES
-    # =====================================================
-    # Mirror of master_timetable_builder C7, applied per student:
-    # whenever a student requests both a prerequisite and its
-    # subsequent course, the prerequisite must be placed in
-    # semester 1 (blocks 0-3) and the subsequent course in
-    # semester 2 (blocks 4-7).
-    #
-    # We enforce this by forbidding the student from being assigned
-    # to any prerequisite section that lives outside semester 1, or
-    # any subsequent section that lives outside semester 2. Section
-    # blocks are already fixed by the master timetable, so this is a
-    # simple filter on the assignment variables.
-
     rules = load_rules()
     sequence_rules = list(rules.sequence_pairs)
 
-    for student in students:
-
-        requested = set(student_course_options[student.id]["all"])
-
-        for prereq, subsequent in sequence_rules:
-
-            if prereq not in requested:
-                continue
-
-            if subsequent not in requested:
-                continue
-
-            prereq_assigned = assigned_by_course.get(
-                (
-                    student.id,
-                    prereq
-                )
-            )
-
-            subsequent_assigned = assigned_by_course.get(
-                (
-                    student.id,
-                    subsequent
-                )
-            )
-
-            if prereq_assigned is None:
-                continue
-
-            if subsequent_assigned is None:
-                continue
-
-            # If both courses are assigned, prerequisites must be in semester 1.
-            for sec in (
-                master_timetable.course_to_sections
-                .get(prereq, [])
-            ):
-
-                if not section_in_semester(sec, semester1_blocks):
-
-                    model.Add(
-                        x[
-                            (
-                                student.id,
-                                prereq,
-                                sec.id
-                            )
-                        ] == 0
-                    ).OnlyEnforceIf(subsequent_assigned)
-
-            # If both courses are assigned, subsequent courses must be in semester 2.
-            for sec in (
-                master_timetable.course_to_sections
-                .get(subsequent, [])
-            ):
-
-                if not section_in_semester(sec, semester2_blocks):
-
-                    model.Add(
-                        x[
-                            (
-                                student.id,
-                                subsequent,
-                                sec.id
-                            )
-                        ] == 0
-                    ).OnlyEnforceIf(prereq_assigned)
-
-    enrollment = {}
-
-    for sec in master_timetable.sections:
-
-        cap = section_capacity[sec.id]
-
-        e = model.NewIntVar(
-            0,
-            cap,
-            f"enrollment_{sec.id}"
-        )
-
-        enrollment[sec.id] = e
-
-        vars_for_section = []
-
-        for student in students:
-
-            if (
-                sec.course_code
-                not in student_course_options[student.id]["all"]
-            ):
-                continue
-
-            vars_for_section.append(
-                x[
-                    (
-                        student.id,
-                        sec.course_code,
-                        sec.id
-                    )
-                ]
-            )
-
-        model.Add(
-            e == sum(vars_for_section)
-        )
+    ctx = StudentSolverContext(
+        model=model,
+        students=students,
+        master_timetable=master_timetable,
+        course_lookup=course_lookup,
+        semester1_blocks=semester1_blocks,
+        semester2_blocks=semester2_blocks,
+        blocking_rules=blocking_rules,
+        sequence_rules=sequence_rules,
+        notsim_pairs=notsim_pairs,
+        student_course_options=student_course_options,
+        section_capacity=section_capacity,
+        group_sections=group_sections,
+        section_to_group=section_to_group,
+    )
 
     # =====================================================
-    # GROUP SURVIVAL
+    # MODULAR CONSTRAINTS
     # =====================================================
 
-    active = {}
-    active_groups = {}
-    group_enrollment = {}
-    under_half_penalties = []
+    constraints = [
+        AssignmentVariablesConstraint(),
+        CourseAssignmentConstraint(),
+        FullScheduleConstraint(),
+        BlockConflictConstraint(),
+        CourseSequencingConstraint(),
+        SectionEnrollmentConstraint(),
+        GroupSurvivalConstraint(),
+        BalanceSectionsConstraint(),
+    ]
 
-    for gid, grouped_sections in group_sections.items():
+    for constraint in constraints:
+        constraint.apply(ctx)
 
-        group_capacity = max(
-            section_capacity[sec.id]
-            for sec in grouped_sections
-        )
-
-        minimum = math.ceil(max(1, group_capacity) * 0.5)
-
-        group_enrollment_var = model.NewIntVar(
-            0,
-            group_capacity,
-            f"enrollment_{gid}"
-        )
-
-        group_enrollment[gid] = group_enrollment_var
-
-        model.Add(
-            group_enrollment_var
-            ==
-            sum(
-                enrollment[sec.id]
-                for sec in grouped_sections
-            )
-        )
-
-        a = model.NewBoolVar(
-            f"active_{gid}"
-        )
-
-        active_groups[gid] = a
-
-        # Soft constraint: active enrollment groups should reach 50% capacity.
-        # Keep the original hard constraint commented out so it can be restored
-        # if low-enrollment groups should be cancelled again.
-        #
-        # model.Add(
-        #     group_enrollment_var
-        #     >= minimum
-        # ).OnlyEnforceIf(a)
-
-        model.Add(
-            group_enrollment_var
-            >= 1
-        ).OnlyEnforceIf(a)
-
-        model.Add(
-            group_enrollment_var
-            == 0
-        ).OnlyEnforceIf(a.Not())
-
-        under_half_penalty = model.NewIntVar(
-            0,
-            minimum,
-            f"under_half_penalty_{gid}"
-        )
-
-        model.Add(
-            under_half_penalty
-            >=
-            minimum
-            -
-            group_enrollment_var
-        ).OnlyEnforceIf(a)
-
-        model.Add(
-            under_half_penalty
-            == 0
-        ).OnlyEnforceIf(a.Not())
-
-        under_half_penalties.append(
-            under_half_penalty
-        )
-
-        for sec in grouped_sections:
-            active[sec.id] = a
-
-    # =====================================================
-    # BALANCE SECTIONS
-    # =====================================================
-
-    balance_penalties = []
-
-    for course_code, sections in (
-        master_timetable.course_to_sections.items()
-    ):
-
-        if len(sections) <= 1:
-            continue
-
-        total_cap = sum(
-            section_capacity[s.id]
-            for s in sections
-        )
-
-        target = total_cap // len(sections)
-
-        for sec in sections:
-
-            diff = model.NewIntVar(
-                -1000,
-                1000,
-                f"diff_{sec.id}"
-            )
-
-            abs_diff = model.NewIntVar(
-                0,
-                1000,
-                f"abs_{sec.id}"
-            )
-
-            model.Add(
-                diff ==
-                enrollment[sec.id] - target
-            )
-
-            model.AddAbsEquality(
-                abs_diff,
-                diff
-            )
-
-            balance_penalties.append(
-                abs_diff
-            )
+    x = ctx.x
+    active = ctx.active
+    group_enrollment = ctx.group_enrollment
 
     # =====================================================
     # OBJECTIVE
@@ -602,35 +207,35 @@ def build_student_timetables(
 
         FULL_SCHEDULE_WEIGHT
         *
-        sum(full_schedule_vars)
+        sum(ctx.full_schedule_vars)
 
         +
 
         MAIN_COURSE_WEIGHT
         *
-        sum(assigned_course_vars)
+        sum(ctx.assigned_course_vars)
 
         +
 
         ALTERNATE_COURSE_WEIGHT
         *
-        sum(assigned_alternate_vars)
+        sum(ctx.assigned_alternate_vars)
 
         +
 
         ACTIVE_SECTION_WEIGHT
         *
-        sum(active_groups.values())
+        sum(ctx.active_groups.values())
 
         -
 
         UNDER_HALF_PENALTY_WEIGHT
         *
-        sum(under_half_penalties)
+        sum(ctx.under_half_penalties)
 
         -
 
-        sum(balance_penalties)
+        sum(ctx.balance_penalties)
 
     )
 

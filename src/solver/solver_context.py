@@ -43,6 +43,7 @@ class SolverContext:
     section_to_group: dict
     all_rooms: list
     room_capacity: dict
+    room_spread_target: dict
     enable_room_fallback: bool
     blocking_rules: dict
     sequence_rules: list
@@ -51,6 +52,7 @@ class SolverContext:
     x: dict = field(default_factory=dict)
     x_group: dict = field(default_factory=dict)
     z: dict = field(default_factory=dict)
+    room_choice: dict = field(default_factory=dict)
     same_block: dict = field(default_factory=dict)
     group_allowed_rooms: dict = field(default_factory=dict)
     group_primary_rooms: dict = field(default_factory=dict)

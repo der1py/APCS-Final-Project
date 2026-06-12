@@ -2,6 +2,7 @@
 
 from analysis.data_analysis import analyze_room_assignment_risk
 from solver.constraints.base import HardConstraint
+from solver.room_config import DEFAULT_ROOM_CAPACITY
 
 
 class RoomAssignmentConstraint(HardConstraint):
@@ -50,7 +51,9 @@ class RoomAssignmentConstraint(HardConstraint):
         # z is true iff the group is scheduled in `block` AND occupies `room`.
         # Link with: sum_rooms z[(gid,room,b)] == x_group[(gid,b)]
         z = {}
+        room_choice = {}
         ctx.z = z
+        ctx.room_choice = room_choice
 
         for gid, s_list in ctx.group_sections.items():
             rooms_for_group = group_allowed_rooms.get(gid, [])
@@ -68,10 +71,28 @@ class RoomAssignmentConstraint(HardConstraint):
                         model.Add(ctx.x_group[(gid, b)] == 0)
                     continue
 
+            for room in rooms_for_group:
+                room_choice[(gid, room)] = model.NewBoolVar(
+                    f"room_choice_{gid}_{room}"
+                )
+
+            model.Add(
+                sum(room_choice[(gid, room)] for room in rooms_for_group)
+                == 1
+            )
+
             # Create z variables for groups with available rooms
             for room in rooms_for_group:
                 for b in ctx.blocks:
                     z[(gid, room, b)] = model.NewBoolVar(f"z_{gid}_{room}_{b}")
+                    model.Add(z[(gid, room, b)] <= room_choice[(gid, room)])
+                    model.Add(
+                        z[(gid, room, b)]
+                        >=
+                        ctx.x_group[(gid, b)]
+                        + room_choice[(gid, room)]
+                        - 1
+                    )
 
             # if group is assigned to block b, exactly one of the group's allowed
             # rooms must be chosen for that block
@@ -90,5 +111,5 @@ class RoomAssignmentConstraint(HardConstraint):
                 if room_block_vars:
                     model.Add(
                         sum(room_block_vars)
-                        <= ctx.room_capacity.get(room, 3)
+                        <= ctx.room_capacity.get(room, DEFAULT_ROOM_CAPACITY)
                     )

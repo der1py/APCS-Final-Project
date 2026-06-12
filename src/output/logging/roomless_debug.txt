@@ -1,47 +1,6 @@
 Roomless Debug Assignments
-Count: 43
-Unique groups: 42
+Count: 2
+Unique groups: 2
 
-group_id=sim_6 block=5 sections=MADD-09---_1, MTDRF12---_1, MTDRF10---_1, MTDRF11---_1
-group_id=sim_7 block=5 sections=MADD-09---_2, MTDRF12---_2, MTDRF11---_2, MTDRF10---_2
-group_id=sim_10 block=6 sections=MTROB12---_1, MTROB11---_1, MADER09---_1, MTEAR10---_1
-group_id=sim_17 block=4 sections=MTXT-10---_1, MADT-09---_1, MTXT-12---_1, MTXT-11---_1
-group_id=sim_19 block=4 sections=MTXT-12---_3, MTXT-11---_3, MADT-09---_3, MTXT-10---_3
-group_id=sim_20 block=4 sections=MTXT-11---_4, MTXT-10---_4, MADT-09---_4, MTXT-12---_4
-group_id=sim_27 block=7 sections=MDNC-09PT-_1, MDNTP10---_1
-group_id=sim_30 block=0 sections=MEC--12---_1, MECOM12---_1
-group_id=sim_44 block=0 sections=MMACS11---_3, MMACS12---_3
-group_id=sim_65 block=6 sections=MTEAD12---_3, MTAUT11---_3, MTAUT12---_3
-group_id=sim_66 block=3 sections=XLDCB09M--_1, MTPOW10---_1
-group_id=sim_70 block=6 sections=MVAST12---_1, MVA--09---_1, MVAST10---_1, MVAST11---_1
-group_id=sim_71 block=6 sections=MVAST10---_2, MVA--09---_2, MVAST11---_2, MVAST12---_2
-group_id=sim_81 block=2 sections=MATPH12---_2
-group_id=sim_98 block=1 sections=MCH--12---_5
-group_id=sim_109 block=0 sections=MCMPS10---_3
-group_id=sim_117 block=2 sections=MCMPS11---_6
-group_id=sim_127 block=7 sections=MEN--09---_1
-group_id=sim_132 block=7 sections=MEN--09---_6
-group_id=sim_133 block=0 sections=MEN--09C--_1
-group_id=sim_134 block=2 sections=MEN--09C--_2
-group_id=sim_158 block=2 sections=MFMP-10C--_1
-group_id=sim_190 block=1 sections=MMUCB10--L_1
-group_id=sim_195 block=1 sections=MPH--11---_4
-group_id=sim_199 block=2 sections=MPH--12---_2
-group_id=sim_219 block=6 sections=MSC--09---_1
-group_id=sim_220 block=6 sections=MSC--09---_2
-group_id=sim_227 block=2 sections=MSC--10C--_1
-group_id=sim_232 block=2 sections=MSS--09---_2
-group_id=sim_235 block=0 sections=MSS--09---_5
-group_id=sim_236 block=0 sections=MSS--09---_6
-group_id=sim_242 block=7 sections=MSS--10---_3
-group_id=sim_246 block=7 sections=MSS--10---_7
-group_id=sim_251 block=4 sections=MWBDV10IT-_2
-group_id=sim_252 block=4 sections=MWBDV10IT-_3
-group_id=sim_253 block=4 sections=MWBDV10IT-_4
-group_id=sim_255 block=5 sections=MWH--12---_2
-group_id=sim_259 block=1 sections=XBA--09C-L_1
-group_id=sim_259 block=5 sections=XBA--09C-L_1
-group_id=sim_260 block=7 sections=XBA--09G--_1
-group_id=sim_346 block=7 sections=YPSYC1AX--_2
-group_id=sim_352 block=6 sections=MMUGT10---_1
-group_id=sim_359 block=7 sections=MSC--10---_5
+group_id=sim_260 block=2 sections=XBA--09G--_1
+group_id=sim_352 block=7 sections=MMUGT10---_1

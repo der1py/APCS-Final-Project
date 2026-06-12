@@ -24,6 +24,8 @@ from solver.constraints import (
     SequencingConstraint,
     SectionAssignmentConstraint,
     SimultaneousBlockingConstraint,
+    
+    RoomAssignmentDebugSoftConstraint, # NOTE: debug
 )
 from solver.solver_context import SolverContext
 
@@ -292,7 +294,8 @@ def build_master_timetable(students, courses):
     constraints = [
         SectionAssignmentConstraint(),
         GroupSyncConstraint(),
-        RoomAssignmentConstraint(),
+        # RoomAssignmentConstraint(),
+        RoomAssignmentDebugSoftConstraint(), # NOTE: debug
         SimultaneousBlockingConstraint(),
         ConflictPenaltyConstraint(),
         SequencingConstraint(),
@@ -348,6 +351,18 @@ def build_master_timetable(students, courses):
                         group_room_for_block[(gid, b)] = room
                         break
 
+        roomless_debug_assignments = (
+            RoomAssignmentDebugSoftConstraint.get_roomless_assignments(
+                ctx,
+                solver,
+            )
+        )
+
+        roomless_group_blocks = {
+            (item["group_id"], item["block"])
+            for item in roomless_debug_assignments
+        }
+
         for s in sections:
             occupied = [
                 b
@@ -362,13 +377,22 @@ def build_master_timetable(students, courses):
 
             gid = section_to_group.get(s.id)
             assigned = None
-            for b in occupied:
-                room = group_room_for_block.get((gid, b))
-                if room is not None:
-                    assigned = room
-                    break
+            roomless_debug_blocks = [
+                b
+                for b in occupied
+                if (gid, b) in roomless_group_blocks
+            ]
 
-            if assigned is None:
+            if not roomless_debug_blocks:
+                for b in occupied:
+                    room = group_room_for_block.get((gid, b))
+                    if room is not None:
+                        assigned = room
+                        break
+
+            if roomless_debug_blocks:
+                s.room_id = "NO ROOM FOUND"
+            elif assigned is None:
                 # No assigned room from z. If the group is roomless and
                 # fallback is enabled, label explicitly. Otherwise pick
                 # the first allowed room (existing behavior).
@@ -393,6 +417,18 @@ def build_master_timetable(students, courses):
         print(
             "\nTotal Conflict Cost:",
             solver.ObjectiveValue()
+        )
+
+        roomless_debug_assignments = (
+            RoomAssignmentDebugSoftConstraint.write_roomless_report(
+                ctx,
+                solver,
+            )
+        )
+
+        print(
+            "Roomless Debug Assignments:",
+            len(roomless_debug_assignments)
         )
 
     else:

@@ -319,24 +319,28 @@ def calculate_under_half_sections(sections, section_enrollment, section_capacity
 # =====================================================
 
 def calculate_room_conflicts(sections, section_to_block):
-    room_usage = {}
+    # Room conflicts are group-level, not section-level: simultaneous
+    # sections in the same enrollment group intentionally share a room/block.
+    room_usage = defaultdict(set)
+
+    for group_id, grouped_sections in _build_enrollment_groups(sections).items():
+
+        for sec in grouped_sections:
+
+            key = (
+                sec.room_id,
+                section_to_block[sec.id]
+            )
+
+            room_usage[key].add(group_id)
 
     conflicts = 0
 
-    for sec in sections:
+    for group_ids in room_usage.values():
 
-        key = (
-            sec.room_id,
-            section_to_block[sec.id]
-        )
-
-        room_usage.setdefault(key, 0)
-        room_usage[key] += 1
-
-    for count in room_usage.values():
-
-        if count > 1:
-            conflicts += count - 1
+        # Count only different groups sharing the same room/block.
+        if len(group_ids) > 1:
+            conflicts += len(group_ids) - 1
 
     return conflicts
 

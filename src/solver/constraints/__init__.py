@@ -5,6 +5,7 @@ from solver.constraints.base import BaseConstraint, HardConstraint, SoftConstrai
 from solver.constraints.balance_penalty_constraint import BalancePenaltyConstraint
 from solver.constraints.conflict_penalty_constraint import ConflictPenaltyConstraint
 from solver.constraints.group_sync_constraint import GroupSyncConstraint
+from solver.constraints.room_assignment_debug_soft_constraint import RoomAssignmentDebugSoftConstraint
 from solver.constraints.room_assignment_constraint import RoomAssignmentConstraint
 from solver.constraints.sequencing_constraint import SequencingConstraint
 from solver.constraints.section_assignment_constraint import SectionAssignmentConstraint
@@ -17,6 +18,7 @@ __all__ = [
     "ConflictPenaltyConstraint",
     "GroupSyncConstraint",
     "HardConstraint",
+    "RoomAssignmentDebugSoftConstraint",
     "RoomAssignmentConstraint",
     "SequencingConstraint",
     "SectionAssignmentConstraint",

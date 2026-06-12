@@ -1,6 +1,10 @@
 import csv
 import json
+from collections import defaultdict
 from pathlib import Path
+
+
+NO_ROOM_FOUND = "NO ROOM FOUND"
 
 
 def _unpack_schedule_value(value):
@@ -91,6 +95,73 @@ def export_master_csv(section_to_block, blocks,
                     row.append(master_timetable_display[b][i])
                 else:
                     row.append("")
+
+            writer.writerow(row)
+
+
+# =====================================================
+# ROOM TIMETABLE EXPORT (CSV)
+# =====================================================
+
+def export_room_timetable_csv(master_timetable,
+                              blocks,
+                              output_path="src/output/master_timetable_by_room.csv",
+                              courses=None,
+                              section_enrollment=None):
+
+    blocks = sorted(list(blocks), key=int)
+    room_block_grid = defaultdict(lambda: {b: [] for b in blocks})
+
+    course_map = {c.code: c.name for c in courses} if courses is not None else {}
+    section_blocks_map = getattr(master_timetable, "section_to_blocks", {})
+    section_by_id = getattr(master_timetable, "section_by_id", {})
+
+    for sec_id, block in master_timetable.section_to_block.items():
+        sec_obj = section_by_id.get(sec_id)
+
+        if sec_obj is not None and getattr(sec_obj, "cancelled", False):
+            continue
+
+        section_blocks = section_blocks_map.get(sec_id, [block])
+        if isinstance(section_blocks, int):
+            section_blocks = [section_blocks]
+
+        room = getattr(sec_obj, "room_id", None) if sec_obj is not None else None
+        room = NO_ROOM_FOUND if room is None or room == "" else str(room)
+
+        course_code = getattr(sec_obj, "course_code", None) if sec_obj is not None else None
+        if course_code is None and isinstance(sec_id, str) and "_" in sec_id:
+            course_code = sec_id.split("_")[0]
+
+        display = course_map.get(course_code, sec_id)
+        count = section_enrollment.get(sec_id, 0) if section_enrollment is not None else 0
+        display = f"{display} ({count} students)"
+
+        for section_block in section_blocks:
+            if section_block in blocks:
+                room_block_grid[room][section_block].append(display)
+
+    rooms = sorted(
+        room
+        for room in room_block_grid
+        if room != NO_ROOM_FOUND
+    )
+
+    if NO_ROOM_FOUND in room_block_grid:
+        rooms.append(NO_ROOM_FOUND)
+
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+
+    with open(output_path, "w", newline="") as f:
+        writer = csv.writer(f)
+
+        writer.writerow([""] + [f"Block {b}" for b in blocks])
+
+        for room in rooms:
+            row = [room]
+
+            for block in blocks:
+                row.append("\n".join(room_block_grid[room][block]))
 
             writer.writerow(row)
 
@@ -251,6 +322,12 @@ def export_all(students,
         section_to_block,
         blocks,
         master_timetable=master_timetable,
+        courses=courses,
+        section_enrollment=section_enrollment,
+    )
+    export_room_timetable_csv(
+        master_timetable,
+        blocks,
         courses=courses,
         section_enrollment=section_enrollment,
     )

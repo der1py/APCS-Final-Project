@@ -5,6 +5,7 @@ mirrors the production room assignment structure, but lets the solver choose a
 massively-penalized ``roomless`` variable when no valid room assignment can be
 made.
 """
+# NOTE: DOES NOT USE UPDATED ROOM CONFIG @room_config.py
 
 from pathlib import Path
 

@@ -80,7 +80,7 @@
         "total": 26,
         "enrollment_max": 24,
         "section_count": 1,
-        "linear": 2,
+        "linear": 0,
         "backUpRooms": [],
         "timetable": true
     },
@@ -97,7 +97,7 @@
         "total": 31,
         "enrollment_max": 30,
         "section_count": 1,
-        "linear": 2,
+        "linear": 0,
         "backUpRooms": [
             "107",
             "122",

@@ -4,6 +4,7 @@ from data.data_loader import load_courses_from_json, load_students
 
 from solver.master_timetable_builder import build_master_timetable
 from solver.student_timetable_cpsat import build_student_timetables
+from solver.room_config import get_room_capacity_map
 
 from validator import validate_courses, validate_students
 
@@ -33,6 +34,8 @@ from output_scripts.metrics import (
     calculate_courses_per_block,
     format_courses_per_block, 
     calculate_block_balance_difference,
+    calculate_room_capacity_violations,
+    calculate_room_utilization,
 )
 
 
@@ -159,6 +162,22 @@ under_half_sections = calculate_under_half_sections(master_timetable.sections, s
 room_conflicts = calculate_room_conflicts(master_timetable.sections, master_timetable.section_to_block)
 student_conflicts = calculate_student_conflicts(all_schedules)
 invalid_room_assignments = calculate_invalid_room_assignments(master_timetable.sections)
+room_capacity_violations = calculate_room_capacity_violations(
+    master_timetable.sections,
+    master_timetable.section_to_block,
+    get_room_capacity_map(),
+)
+all_rooms = sorted({
+    room
+    for course in courses
+    for room in (course.rooms + course.back_up_rooms)
+})
+room_utilization = calculate_room_utilization(
+    master_timetable.sections,
+    master_timetable.section_to_block,
+    all_rooms,
+    get_room_capacity_map(),
+)
 block_distribution = calculate_block_distribution(master_timetable.section_to_block)
 block_courses = calculate_courses_per_block(master_timetable.course_to_sections, master_timetable.section_to_block)
 block_balance_difference = calculate_block_balance_difference(master_timetable.course_to_sections, master_timetable.section_to_block)
@@ -197,6 +216,33 @@ print(f"Active Enrollment Groups Below 50%: {under_half_sections}")
 
 print("\n--- Timetable Metrics ---")
 print(f"Room Conflicts: {room_conflicts}")
+print(f"Room Capacity Violations: {room_capacity_violations}")
+print(
+    "Room Block Utilization: "
+    f"{room_utilization['used_room_blocks']}/"
+    f"{room_utilization['total_room_blocks']} "
+    f"({room_utilization['utilization_percent']:.1f}%)"
+)
+print(
+    "Room Group Occupancies: "
+    f"{room_utilization['total_group_occupancies']} "
+    f"(shared excess {room_utilization['shared_group_occupancies']})"
+)
+print(
+    "Low-Use Rooms (<=2 blocks): "
+    + ", ".join(
+        f"{room}:{used}"
+        for room, used in room_utilization["low_used_rooms"][:12]
+    )
+)
+print(
+    "Busiest Rooms: "
+    + ", ".join(
+        f"{room}:{used_blocks} blocks/{group_occupancies} groups"
+        for room, used_blocks, group_occupancies, _shared
+        in room_utilization["busiest_rooms"][:8]
+    )
+)
 print(f"Student Conflicts: {student_conflicts}")
 print(f"Invalid Room Assignments: {invalid_room_assignments}")
 print(f"Section per block: {block_distribution}")

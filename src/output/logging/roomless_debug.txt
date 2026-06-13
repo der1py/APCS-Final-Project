@@ -1,6 +1,6 @@
 Roomless Debug Assignments
-Count: 2
-Unique groups: 2
+Count: 0
+Unique groups: 0
 
-group_id=sim_260 block=2 sections=XBA--09G--_1
-group_id=sim_352 block=7 sections=MMUGT10---_1
+Production room assignment is enabled.
+No roomless sections were present in the latest generated master timetable.

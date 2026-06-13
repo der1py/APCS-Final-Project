@@ -2,6 +2,7 @@ from collections import Counter, defaultdict
 
 from data.data_loader import load_rules, load_simultaneous_blocking_rules
 from models import rules
+from solver.room_config import DEFAULT_ROOM_CAPACITY
 
 
 def _get_assigned_blocks(value):
@@ -343,6 +344,145 @@ def calculate_room_conflicts(sections, section_to_block):
             conflicts += len(group_ids) - 1
 
     return conflicts
+
+
+def _get_section_room_blocks(section, section_to_block):
+    blocks = getattr(section, "occupied_blocks", None)
+    if blocks:
+        return list(blocks)
+
+    block = section_to_block.get(section.id)
+    if block is None:
+        return []
+
+    return [block]
+
+
+def build_room_block_usage(sections, section_to_block):
+    """Return room/block -> group ids using simultaneous groups as units."""
+
+    usage = defaultdict(set)
+
+    for group_id, grouped_sections in _build_enrollment_groups(sections).items():
+        room = None
+        group_blocks = set()
+
+        for sec in grouped_sections:
+            if room is None and getattr(sec, "room_id", None):
+                room = str(sec.room_id)
+
+            group_blocks.update(
+                _get_section_room_blocks(sec, section_to_block)
+            )
+
+        if not room:
+            room = "NO ROOM FOUND"
+
+        for block in group_blocks:
+            usage[(room, block)].add(group_id)
+
+    return usage
+
+
+def calculate_room_capacity_violations(
+    sections,
+    section_to_block,
+    room_capacity=None,
+    default_room_capacity=DEFAULT_ROOM_CAPACITY,
+):
+    """Count group assignments beyond configured room/block hard capacity."""
+
+    room_capacity = room_capacity or {}
+    violations = 0
+
+    for (room, _block), group_ids in build_room_block_usage(
+        sections,
+        section_to_block,
+    ).items():
+        capacity = room_capacity.get(room, default_room_capacity)
+        violations += max(0, len(group_ids) - capacity)
+
+    return violations
+
+
+def calculate_room_utilization(
+    sections,
+    section_to_block,
+    all_rooms,
+    room_capacity=None,
+    default_room_capacity=DEFAULT_ROOM_CAPACITY,
+    blocks=range(8),
+):
+    """Summarize room-block usage and crowding."""
+
+    room_capacity = room_capacity or {}
+    blocks = list(blocks)
+    usage = build_room_block_usage(sections, section_to_block)
+
+    rooms = sorted(str(room) for room in all_rooms)
+    used_room_blocks = len(usage)
+    total_room_blocks = len(rooms) * len(blocks)
+    total_group_occupancies = sum(len(group_ids) for group_ids in usage.values())
+
+    shared_group_occupancies = sum(
+        max(0, len(group_ids) - 1)
+        for group_ids in usage.values()
+    )
+
+    capacity_violations = sum(
+        max(
+            0,
+            len(group_ids)
+            - room_capacity.get(room, default_room_capacity),
+        )
+        for (room, _block), group_ids in usage.items()
+    )
+
+    room_used_blocks = Counter()
+    room_group_occupancies = Counter()
+    room_shared_occupancies = Counter()
+
+    for (room, _block), group_ids in usage.items():
+        room_used_blocks[room] += 1
+        room_group_occupancies[room] += len(group_ids)
+        room_shared_occupancies[room] += max(0, len(group_ids) - 1)
+
+    low_used_rooms = [
+        (room, room_used_blocks.get(room, 0))
+        for room in rooms
+        if room_used_blocks.get(room, 0) <= 2
+    ]
+
+    busiest_rooms = sorted(
+        (
+            (
+                room,
+                room_used_blocks.get(room, 0),
+                room_group_occupancies.get(room, 0),
+                room_shared_occupancies.get(room, 0),
+            )
+            for room in rooms
+        ),
+        key=lambda item: (-item[1], -item[2], item[0]),
+    )
+
+    utilization_percent = (
+        (used_room_blocks / total_room_blocks) * 100
+        if total_room_blocks
+        else 0.0
+    )
+
+    return {
+        "rooms": len(rooms),
+        "total_room_blocks": total_room_blocks,
+        "used_room_blocks": used_room_blocks,
+        "utilization_percent": utilization_percent,
+        "total_group_occupancies": total_group_occupancies,
+        "shared_group_occupancies": shared_group_occupancies,
+        "capacity_violations": capacity_violations,
+        "low_used_rooms": low_used_rooms,
+        "busiest_rooms": busiest_rooms,
+    }
 
 # =====================================================
 # STUDENT CONFLICTS

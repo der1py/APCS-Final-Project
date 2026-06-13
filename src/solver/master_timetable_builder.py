@@ -17,15 +17,19 @@ from data.data_loader import (
 
 from solver.constraints import (
     BackupRoomPenaltyConstraint,
+    BandRoomSharingConstraint,
     BalancePenaltyConstraint,
     ConflictPenaltyConstraint,
     GroupSyncConstraint,
     RoomAssignmentConstraint,
+    RoomSpreadPenaltyConstraint,
     SequencingConstraint,
     SectionAssignmentConstraint,
     SimultaneousBlockingConstraint,
-    
-    RoomAssignmentDebugSoftConstraint, # NOTE: debug
+)
+from solver.room_config import (
+    get_room_capacity_map,
+    get_room_spread_target_map,
 )
 from solver.solver_context import SolverContext
 
@@ -122,18 +126,8 @@ def build_master_timetable(students, courses):
         for room in (c.rooms + c.back_up_rooms)
     })
 
-    # Room capacity configuration.
-    # This maps room identifiers to how many groups may occupy the room in the
-    # same block simultaneously. Unspecified rooms default to capacity 1, which
-    # preserves the current behavior for most classrooms.
-    #
-    # Extend this dictionary for special spaces like gyms, labs, or auditoriums.
-    room_capacity = {
-        "Gym": 200,
-        "206": 400,
-        "108": 20,
-        "109": 20,
-    }
+    room_capacity = get_room_capacity_map()
+    room_spread_target = get_room_spread_target_map()
 
     # Build simultaneous groups: sections grouped into atomic room-units.
     # Each section will belong to exactly one group; groups created from
@@ -280,6 +274,7 @@ def build_master_timetable(students, courses):
         section_to_group=section_to_group,
         all_rooms=all_rooms,
         room_capacity=room_capacity,
+        room_spread_target=room_spread_target,
         enable_room_fallback=ENABLE_ROOM_FALLBACK,
         blocking_rules=blocking_rules,
         sequence_rules=sequence_rules,
@@ -294,12 +289,13 @@ def build_master_timetable(students, courses):
     constraints = [
         SectionAssignmentConstraint(),
         GroupSyncConstraint(),
-        # RoomAssignmentConstraint(),
-        RoomAssignmentDebugSoftConstraint(), # NOTE: debug
+        RoomAssignmentConstraint(),
+        BandRoomSharingConstraint(),
         SimultaneousBlockingConstraint(),
         ConflictPenaltyConstraint(),
         SequencingConstraint(),
         BalancePenaltyConstraint(),
+        RoomSpreadPenaltyConstraint(),
         BackupRoomPenaltyConstraint(),
     ]
 
@@ -323,7 +319,7 @@ def build_master_timetable(students, courses):
 
     solver = cp_model.CpSolver()
 
-    solver.parameters.max_time_in_seconds = 60
+    solver.parameters.max_time_in_seconds = 120
     solver.parameters.num_search_workers = 8
 
     status = solver.Solve(model)
@@ -351,18 +347,6 @@ def build_master_timetable(students, courses):
                         group_room_for_block[(gid, b)] = room
                         break
 
-        roomless_debug_assignments = (
-            RoomAssignmentDebugSoftConstraint.get_roomless_assignments(
-                ctx,
-                solver,
-            )
-        )
-
-        roomless_group_blocks = {
-            (item["group_id"], item["block"])
-            for item in roomless_debug_assignments
-        }
-
         for s in sections:
             occupied = [
                 b
@@ -377,22 +361,13 @@ def build_master_timetable(students, courses):
 
             gid = section_to_group.get(s.id)
             assigned = None
-            roomless_debug_blocks = [
-                b
-                for b in occupied
-                if (gid, b) in roomless_group_blocks
-            ]
+            for b in occupied:
+                room = group_room_for_block.get((gid, b))
+                if room is not None:
+                    assigned = room
+                    break
 
-            if not roomless_debug_blocks:
-                for b in occupied:
-                    room = group_room_for_block.get((gid, b))
-                    if room is not None:
-                        assigned = room
-                        break
-
-            if roomless_debug_blocks:
-                s.room_id = "NO ROOM FOUND"
-            elif assigned is None:
+            if assigned is None:
                 # No assigned room from z. If the group is roomless and
                 # fallback is enabled, label explicitly. Otherwise pick
                 # the first allowed room (existing behavior).
@@ -417,18 +392,6 @@ def build_master_timetable(students, courses):
         print(
             "\nTotal Conflict Cost:",
             solver.ObjectiveValue()
-        )
-
-        roomless_debug_assignments = (
-            RoomAssignmentDebugSoftConstraint.write_roomless_report(
-                ctx,
-                solver,
-            )
-        )
-
-        print(
-            "Roomless Debug Assignments:",
-            len(roomless_debug_assignments)
         )
 
     else:

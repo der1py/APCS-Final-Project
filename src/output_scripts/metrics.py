@@ -536,7 +536,7 @@ def calculate_invalid_room_assignments(
     return invalid
 
 # =====================================================
-# BLOCK DISTRIBUTION
+# BLOCK DISTRIBUTION - sections per block
 # =====================================================
 
 def calculate_block_distribution(section_to_block):
@@ -802,33 +802,39 @@ def calculate_3_to_8_unfulfilled_percent(students, all_schedules):
 # =====================================================
 # COURSES PER BLOCK
 # =====================================================
-def calculate_courses_per_block(course_to_sections, section_to_block):
-    block_courses = defaultdict(set)
-
-    for course_code, sections in course_to_sections.items():
-        for sec in sections:
-            block = section_to_block[sec.id]
-            block_courses[block].add(course_code)
-
-    return {
-        block: len(courses)
-        for block, courses in block_courses.items()
-    }
-def format_courses_per_block(block_courses):
+ 
+def calculate_courses_per_block(sections, section_to_block):
+    """Calculates the number of unique courses per block, handling simultaneous courses."""
+    enrollment_groups = _build_enrollment_groups(sections)
+    group_to_block = {}
+    for group_id, group_sections in enrollment_groups.items():
+        # All sections in an enrollment group should be in the same block
+        if not group_sections:
+            continue
+        block = section_to_block.get(group_sections[0].id)
+        if block is not None:
+            group_to_block[group_id] = block
+ 
+    courses_per_block = Counter(group_to_block.values())
+    return courses_per_block
+ 
+def format_courses_per_block(courses_per_block):
     return ", ".join(
         f"Block {block}: {courses}"
-        for block, courses in sorted(block_courses.items())
+        for block, courses in sorted(courses_per_block.items())
     )
 
 # =====================================================
 # BLOCK BALANCE DIFFERENCE
 # =====================================================
-def calculate_block_balance_difference(course_to_sections, section_to_block):
-    courses_per_block = calculate_courses_per_block(course_to_sections, section_to_block)
 
-    values = list(courses_per_block.values())
-
-    return max(values) - min(values) if values else 0
+def calculate_block_balance_difference(courses_per_block):
+    """Calculates the difference between the largest and smallest block."""
+    if not courses_per_block:
+        return 0
+    
+    counts = courses_per_block.values()
+    return max(counts) - min(counts)
 
 # =====================================================
 # FULL TIMETABLE % -- done in main

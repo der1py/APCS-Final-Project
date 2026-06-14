@@ -179,8 +179,8 @@ room_utilization = calculate_room_utilization(
     get_room_capacity_map(),
 )
 block_distribution = calculate_block_distribution(master_timetable.section_to_block)
-block_courses = calculate_courses_per_block(master_timetable.course_to_sections, master_timetable.section_to_block)
-block_balance_difference = calculate_block_balance_difference(master_timetable.course_to_sections, master_timetable.section_to_block)
+block_courses = calculate_courses_per_block(master_timetable.section_to_block)
+block_balance_difference = calculate_block_balance_difference(master_timetable.section_to_block)
 blocking_rule_violation = calculate_blocking_rule_violation_percent(master_timetable.course_to_sections, master_timetable.section_to_block)
 sequencing_rule_violation = calculate_sequencing_rule_violation_percent(students, master_timetable.course_to_sections, master_timetable.section_to_block)
 student_sequencing_violation = calculate_student_sequencing_violation_percent(students, all_schedules)

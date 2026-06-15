@@ -5,12 +5,12 @@ mirrors the production room assignment structure, but lets the solver choose a
 massively-penalized ``roomless`` variable when no valid room assignment can be
 made.
 """
-# NOTE: DOES NOT USE UPDATED ROOM CONFIG @room_config.py
 
 from pathlib import Path
 
 from analysis.data_analysis import analyze_room_assignment_risk
 from solver.constraints.base import SoftConstraint
+from solver.room_config import DEFAULT_ROOM_CAPACITY
 
 
 ROOMLESS_DEBUG_WEIGHT = 99999999
@@ -160,7 +160,7 @@ class RoomAssignmentDebugSoftConstraint(SoftConstraint):
                 if room_block_vars:
                     model.Add(
                         sum(room_block_vars)
-                        <= ctx.room_capacity.get(room, 1)
+                        <= ctx.room_capacity.get(room, DEFAULT_ROOM_CAPACITY)
                     )
 
         roomless_debug_penalty = sum(

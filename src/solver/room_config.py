@@ -1,6 +1,6 @@
 """Room capacity and utilization tuning defaults for master timetable solving."""
 
-DEFAULT_ROOM_CAPACITY = 3 # default number of groups per room
+DEFAULT_ROOM_CAPACITY = 1 # default number of groups per room
 DEFAULT_ROOM_SPREAD_TARGET = 1
 
 # Override room capacities for specific rooms as needed

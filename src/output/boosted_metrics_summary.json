@@ -1,0 +1,28 @@
+{
+  "source_files": {
+    "master_pickle_path": "C:\\Users\\derip\\LocalDocuments\\School\\AP CSA\\Final Project\\src\\output\\master_timetable.pkl",
+    "student_pickle_path": "C:\\Users\\derip\\LocalDocuments\\School\\AP CSA\\Final Project\\src\\output\\student_timetables.pkl",
+    "blocking_rules_path": "C:\\Users\\derip\\LocalDocuments\\School\\AP CSA\\Final Project\\src\\data\\cleaned data\\course_blocking_cleaned.csv"
+  },
+  "not_simultaneous_pair_count": 4,
+  "master_section_count": 499,
+  "metrics": {
+    "student_count": 954,
+    "boosted_total_requested": 7911,
+    "boosted_placed_requested": 5970,
+    "boosted_unassigned_requests": 1941,
+    "boosted_request_completion_percent": 75.46454304133485,
+    "boosted_7_to_8_requested_percent": 49.58071278825996,
+    "boosted_8_of_8_without_alternates_percent": 7.023060796645702,
+    "boosted_half_full_schedules_percent": 97.69392033542978,
+    "boosted_0_to_2_unfulfilled_percent": 66.56184486373165,
+    "boosted_3_to_8_unfulfilled_percent": 33.43815513626834,
+    "normal_total_requested": 7899,
+    "normal_placed_requested": 5959,
+    "normal_students_with_timetable_conflicts": 0
+  },
+  "output_files": {
+    "json": "C:\\Users\\derip\\LocalDocuments\\School\\AP CSA\\Final Project\\src\\output\\boosted_metrics_summary.json",
+    "csv": "C:\\Users\\derip\\LocalDocuments\\School\\AP CSA\\Final Project\\src\\output\\boosted_metrics.csv"
+  }
+}

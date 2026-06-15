@@ -1,0 +1,15 @@
+metric,value,notes
+student_count,954,boosted reporting hotfix
+boosted_total_requested,7911,boosted reporting hotfix
+boosted_placed_requested,5970,boosted reporting hotfix
+boosted_unassigned_requests,1941,boosted reporting hotfix
+boosted_request_completion_percent,75.46454304133485,boosted reporting hotfix
+boosted_7_to_8_requested_percent,49.58071278825996,boosted reporting hotfix
+boosted_8_of_8_without_alternates_percent,7.023060796645702,boosted reporting hotfix
+boosted_half_full_schedules_percent,97.69392033542978,boosted reporting hotfix
+boosted_0_to_2_unfulfilled_percent,66.56184486373165,boosted reporting hotfix
+boosted_3_to_8_unfulfilled_percent,33.43815513626834,boosted reporting hotfix
+normal_total_requested,7899,boosted reporting hotfix
+normal_placed_requested,5959,boosted reporting hotfix
+normal_students_with_timetable_conflicts,0,boosted reporting hotfix
+not_simultaneous_pair_count,4,deduped unordered pairs

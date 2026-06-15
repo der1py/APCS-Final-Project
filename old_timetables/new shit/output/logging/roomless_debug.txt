@@ -1,0 +1,6 @@
+Roomless Debug Assignments
+Count: 0
+Unique groups: 0
+
+Production room assignment is enabled.
+No roomless sections were present in the latest generated master timetable.

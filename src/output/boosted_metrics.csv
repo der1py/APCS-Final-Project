@@ -1,15 +1,18 @@
 metric,value,notes
-student_count,954,boosted reporting hotfix
-boosted_total_requested,7911,boosted reporting hotfix
-boosted_placed_requested,5970,boosted reporting hotfix
-boosted_unassigned_requests,1941,boosted reporting hotfix
-boosted_request_completion_percent,75.46454304133485,boosted reporting hotfix
-boosted_7_to_8_requested_percent,49.58071278825996,boosted reporting hotfix
-boosted_8_of_8_without_alternates_percent,7.023060796645702,boosted reporting hotfix
-boosted_half_full_schedules_percent,97.69392033542978,boosted reporting hotfix
-boosted_0_to_2_unfulfilled_percent,66.56184486373165,boosted reporting hotfix
-boosted_3_to_8_unfulfilled_percent,33.43815513626834,boosted reporting hotfix
-normal_total_requested,7899,boosted reporting hotfix
-normal_placed_requested,5959,boosted reporting hotfix
-normal_students_with_timetable_conflicts,0,boosted reporting hotfix
+student_count,954,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_total_requested,8045,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_placed_requested,6517,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_unassigned_requests,1528,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_request_completion_percent,81.00683654443755,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_7_to_8_requested_percent,69.60167714884696,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_8_of_8_without_alternates_percent,34.17190775681342,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_8_of_8_with_alternates_percent,63.41719077568134,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_half_full_schedules_percent,99.37106918238993,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_0_to_2_unfulfilled_percent,86.58280922431865,real boosted metrics; NotSimultaneous main requests add one slot
+boosted_3_to_8_unfulfilled_percent,13.417190775681343,real boosted metrics; NotSimultaneous main requests add one slot
+normal_total_requested,7899,real boosted metrics; NotSimultaneous main requests add one slot
+normal_placed_requested,6371,real boosted metrics; NotSimultaneous main requests add one slot
+normal_unassigned_requests,1528,real boosted metrics; NotSimultaneous main requests add one slot
+normal_students_with_timetable_conflicts,0,real boosted metrics; NotSimultaneous main requests add one slot
 not_simultaneous_pair_count,4,deduped unordered pairs
+not_simultaneous_course_count,6,unique courses appearing in NotSimultaneous pairs

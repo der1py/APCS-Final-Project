@@ -1,3 +1,5 @@
+# used by main to filter invalid courses and student requests, logging issues
+
 from datetime import datetime
 
 

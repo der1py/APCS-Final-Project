@@ -13,7 +13,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from data.data_loader import load_simultaneous_blocking_rules
-from export_timetable_runner import (
+from experiments.export_timetable_runner import (
     load_master_timetable,
     load_validated_data,
     validate_master_timetable,
@@ -21,7 +21,7 @@ from export_timetable_runner import (
 from solver.student_timetable_cpsat import build_student_timetables
 
 
-SRC_DIR = Path(__file__).resolve().parent
+SRC_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = SRC_DIR / "output"
 PICKLE_PATH = OUTPUT_DIR / "master_timetable.pkl"
 OUTPUT_PATH = OUTPUT_DIR / "view_groups.csv"

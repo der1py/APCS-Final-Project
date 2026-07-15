@@ -1,3 +1,6 @@
+# used by main to save student timetable results;
+# also provides compatible loading helpers for analysis tools
+
 import pickle
 from dataclasses import dataclass
 from pathlib import Path

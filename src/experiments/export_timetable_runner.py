@@ -20,7 +20,7 @@ from solver.student_timetable_cpsat import build_student_timetables
 from validator import validate_courses, validate_students
 
 
-SRC_DIR = Path(__file__).resolve().parent
+SRC_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = SRC_DIR / "output"
 PICKLE_PATH = OUTPUT_DIR / "master_timetable.pkl"
 BLOCKS = list(range(8))

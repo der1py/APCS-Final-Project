@@ -109,7 +109,7 @@ def main():
     print("="*70)
     
     # Load master timetable from JSON
-    json_path = Path(__file__).resolve().parent / "output" / "json" / "master_timetable.json"
+    json_path = Path(__file__).resolve().parent.parent / "output" / "json" / "master_timetable.json"
     print(f"\nLoading master timetable from: {json_path}")
     
     master_timetable = load_master_timetable_json(json_path)
@@ -290,7 +290,7 @@ def main():
     
     import csv
     blocks = list(range(8))
-    output_path = Path(__file__).resolve().parent / "output" / "student_schedules.csv"
+    output_path = Path(__file__).resolve().parent.parent / "output" / "student_schedules.csv"
     
     course_map = {c.code: c.name for c in courses}
     
